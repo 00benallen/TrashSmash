@@ -1,0 +1,103 @@
+package main;
+
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import listeners.ButtonListener;
+
+/**
+ * Main graphics class for Trash Smash, generates window, starts render thread, creates main menu
+ * @author Ben Pinhorn
+ *
+ */
+public class GraphicsMain {
+	private static JFrame window = new JFrame("Trash Smash");
+	public final static int WIDTH = 1024;
+	public final static int HEIGHT = 768;
+	private Graphics2D g;
+	private Thread renderThread;
+	private Render render;
+	private Main main;
+	private ButtonListener l;
+	
+	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
+	
+	public GraphicsMain(Main main) {
+		this.main = main;
+		l = new ButtonListener(main);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		window.setResizable(false);
+		window.pack();
+		window.setVisible(true);
+	}
+	
+	public void init() {
+		//load graphics resources
+		
+	}
+	
+	/**
+	 * Starts render thread 
+	 */
+	public synchronized void start() {
+		renderThread = new Thread(render, "Render Thread");
+		renderThread.start();
+	}
+	
+	/**
+	 * Returns current graphics object for game
+	 * @return graphics object from content pane
+	 */
+	public Graphics2D getGraphics() {
+		return g;
+	}
+
+	/**
+	 * Triggers render to resume drawing until it waits again
+	 */
+	public void resume() {
+		render.resume();
+	}
+	
+	/**
+	 * Generates the main menu
+	 */
+	public void createContentPane() {
+		
+		GridBagLayout grid = new GridBagLayout();
+		JPanel contentPane = new JPanel(grid);
+		GridBagConstraints c = new GridBagConstraints();
+		
+		JButton startButton = new JButton("Start");
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridx = 1;
+		c.gridy = 1;
+		startButton.addActionListener(l);
+		startButton.setActionCommand("start");
+		contentPane.add(startButton, c);
+		
+		//more buttons go here
+		
+		window.setContentPane(contentPane);
+	}
+	
+	/**
+	 * Changes the contentPane of the window to the game pane, repacks the window
+	 */
+	public void gameStart() {
+		window.remove(window.getContentPane());
+		JPanel gamePanel = new JPanel();
+		window.setContentPane(gamePanel);
+		window.pack();
+		render = new Render((Graphics2D) gamePanel.getGraphics());
+		
+	}
+}
