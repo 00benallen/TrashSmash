@@ -77,12 +77,27 @@ public class GraphicsMain {
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton startButton = new JButton("Start");
-		c.anchor = GridBagConstraints.CENTER;
-		c.gridx = 1;
+		JButton quitButton = new JButton("Quit");
+		
+		
+		
+		c.anchor = GridBagConstraints.LINE_START;
+		c.gridx = 2;
 		c.gridy = 1;
+		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
 		contentPane.add(startButton, c);
+		
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridx = 2;
+		c.gridy = 3;
+		
+		quitButton.addActionListener(l);
+		quitButton.setActionCommand("quit");
+		contentPane.add(quitButton, c);
+		
+		
 		
 		//more buttons go here
 		

@@ -2,7 +2,10 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Render class for Trash Smash, runs on render thread, contains draw methods
@@ -47,14 +50,21 @@ public class Render implements Runnable {
 	private void draw() {
 		//add methods for drawing screen
 		drawBackground();
+		drawCharacter();
 	}
 	
 	private void drawBackground() {
 		Rectangle2D background = new Rectangle2D.Double(0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT);
 		g.setColor(Color.cyan);
 		g.fill(background);
-		
 	}
+	
+	private void drawCharacter(){
+		Image ship = Toolkit.getDefaultToolkit().getImage("Assets/Blue/1.png");
+	    g.drawImage(ship, 100, 100, null);
+	}
+	
+	
 	
 
 }
