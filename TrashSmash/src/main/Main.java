@@ -9,7 +9,7 @@ public class Main implements Runnable {
 	//app resources
 	private Thread updateThread;
 	public static boolean running;
-	private Update update;
+	public static Update update;
 	private static GraphicsMain gMain;
 	private static int appState = 0;
 	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2;
@@ -23,6 +23,7 @@ public class Main implements Runnable {
 			main.start();
 		}
 		else if(appState == MENU_BUILD_STATE) {
+			update = new Update();
 			gMain = new GraphicsMain(main);
 			gMain.createContentPane();
 			appState = MENU_STATE;
@@ -30,7 +31,6 @@ public class Main implements Runnable {
 	}
 	
 	private void init() {
-		update = new Update();
 		gMain.init();
 		gMain.start();
 		//load non graphical resources

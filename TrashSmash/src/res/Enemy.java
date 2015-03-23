@@ -9,41 +9,43 @@ import javax.imageio.ImageIO;
 
 public class Enemy {
 	
-	private int x, y, health, typeCode, trashType;
+	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;
 	public final int APPLE_CORE = 0, BATTERY = 1, COFFEE_CUP = 2, EGG = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	private BufferedImage image;
+	private MovePattern movePat;
 	
 	public Enemy(int x, int y, int typeCode) throws IOException {
 		this.setX(x);
 		this.setY(y);
 		this.setHealth(1);
+		this.velocity = 1;
 		this.image = ImageIO.read(new File(this.getFileString()));
+		this.movePat = new MovePattern(typeCode);
 	}
 
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
-			case 0:	fileString = "applecore.png";
+			case APPLE_CORE:	fileString = "applecore.png";
 					break;
-			case 1:	fileString = "applecore.png";
+			case BATTERY:	fileString = "battery.png";
 					break;
-			case 2:	fileString = "applecore.png";
+			case COFFEE_CUP:	fileString = "coffeecup.png";
 					break;
-			case 3:	fileString = "applecore.png";
+			case EGG:	fileString = "egg.png";
 					break;
-			case 4:	fileString = "applecore.png";
+			case EGG_CARTON:	fileString = "eggcarton.png";
 					break;
-			case 5:	fileString = "applecore.png";
+			case NEWSPAPER:	fileString = "newspaper.png";
 					break;
-			case 6:	fileString = "applecore.png";
+			case TEABAG:	fileString = "teabag.png";
 					break;
-			case 7:	fileString = "applecore.png";
+			case WATER_BOTTLE:	fileString = "waterbottle.png";
 					break;
-			case 8:	fileString = "applecore.png";
+			case WINE_BOTTLE:	fileString = "winebottle.png";
 					break;
 		}
-		
 		return fileString;
 	}
 
@@ -89,6 +91,23 @@ public class Enemy {
 
 	public void setTrashType(int trashType) {
 		this.trashType = trashType;
+	}
+	
+	public void move() {
+		if(movePat.getMoveArray()[moveCnt] == MovePattern.STRAIGHT) {
+			moveCnt++;
+		}
+		else if(movePat.getMoveArray()[moveCnt] == MovePattern.RIGHT) {
+			this.x += velocity;
+			moveCnt++;
+		}
+		else if(movePat.getMoveArray()[moveCnt] == MovePattern.LEFT) {
+			this.x -= velocity;
+			moveCnt++;
+		}
+		if(moveCnt == 8) {
+			moveCnt = 0;
+		}
 	}
 
 }
