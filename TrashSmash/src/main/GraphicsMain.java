@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
@@ -24,14 +25,12 @@ public class GraphicsMain {
 	private Graphics2D g;
 	private Thread renderThread;
 	private Render render;
-	private Main main;
 	private ButtonListener l;
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
-	public GraphicsMain(Main main) {
-		this.main = main;
-		l = new ButtonListener(main);
+	public GraphicsMain() {
+		l = new ButtonListener();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		window.setResizable(false);
@@ -40,7 +39,6 @@ public class GraphicsMain {
 	}
 	
 	public void init() {
-		//load graphics resources
 		
 	}
 	
@@ -50,21 +48,6 @@ public class GraphicsMain {
 	public synchronized void start() {
 		renderThread = new Thread(render, "Render Thread");
 		renderThread.start();
-	}
-	
-	/**
-	 * Returns current graphics object for game
-	 * @return graphics object from content pane
-	 */
-	public Graphics2D getGraphics() {
-		return g;
-	}
-
-	/**
-	 * Triggers render to resume drawing until it waits again
-	 */
-	public void resume() {
-		render.resume();
 	}
 	
 	/**
@@ -112,7 +95,7 @@ public class GraphicsMain {
 		JPanel gamePanel = new JPanel();
 		window.setContentPane(gamePanel);
 		window.pack();
-		render = new Render((Graphics2D) gamePanel.getGraphics());
+		render = new Render((Graphics2D) window.getGraphics());
 		
 	}
 }

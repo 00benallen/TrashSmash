@@ -11,17 +11,12 @@ import main.Main;
  *
  */
 public class ButtonListener implements ActionListener {
-	private Main main;
-	
-	public ButtonListener(Main main) {
-		this.main = main;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//if more JSwing buttons are needed, add their methods here
 		if(e.getActionCommand().equals("start")) {
-			main.gameStart();
+			Main.gameStart();
 		}
 	}
 }

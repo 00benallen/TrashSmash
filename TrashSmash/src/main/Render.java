@@ -12,79 +12,58 @@ import res.Ship;
 /**
  * Render class for Trash Smash, runs on render thread, contains draw methods
  * @author Ben Pinhorn
- *
  */
 public class Render implements Runnable {
 	private Graphics2D g;
 	private Ship ship = new Ship(0, 0);
-	private Update update;
 	
 	public Render(Graphics2D g) {
 		this.g = g;
-		update = Main.update;
-	}
-	
-	/**
-	 * Resumes the draw thread when the game is ready for another frame
-	 */
-	public synchronized void resume() {
-		notify();
 	}
 
 	/**
 	 * Run method for render thread, triggers the draw list, waits until notified by update thread
 	 */
 	public void run() {
-		while(Main.running) {
-			update();
-			draw();
-			synchronized(this) 
-			{
-				try {
-					wait();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+		init();
+		long lastTime = System.nanoTime();
+		double nanoPerUpdate = 1000000000D/60D;
+		double delta = 0D;
+		
+		if(Main.appState == Main.GAME_STATE) {
+			while(Update.running) {
+				
+				long now = System.nanoTime();
+				delta += (now - lastTime) / nanoPerUpdate;
+				lastTime = now;
+				
+				while(delta >= 1) {
+					draw();
+					delta--;
 				}
 			}
 		}
 		
-		if(Main.running = false) {
+		if(Update.running = false) {
 			return;
 		}
 	}
 	
-	private void update() {
-		//add objects that need to be updated per cycle
-		if(update.shipUpdated) {
-			updateShip();
-		}
-	}
-	
-	private void updateShip() {
-		for(int i = 0; i < update.drawQueue.size(); i++) {
-			if(update.drawQueue.peek() instanceof Ship) {
-				this.ship = ship.clone();
-			}
-			else {
-				try {
-					update.drawQueue.add(update.drawQueue.take());
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	private void draw() {
-		//add methods for drawing screen
-		drawBackground();
-		drawHealth();
+	private void init() {
+		
 	}
 	
 	private void drawBackground() {
 		Rectangle2D background = new Rectangle2D.Double(0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT);
 		g.setColor(Color.cyan);
 		g.fill(background);
+	}
+	
+	private void draw() {
+		//add methods for drawing screen
+		drawBackground();
+		drawHealth();
+		
 	}
 	
 	private void drawHealth() {
