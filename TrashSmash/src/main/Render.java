@@ -8,12 +8,15 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
 
 import res.Drawable;
+import res.Enemy;
 import res.Ship;
 
 /**
@@ -72,15 +75,34 @@ public class Render implements Runnable {
 	private void draw() {
 		//add methods for drawing screen
 		drawBackground();
+		drawShip();
+		drawEnemies();
 		drawHealth();
 		drawGunSet();
-		drawShip();
+		
 	}
 	
 	private void drawBackground() {
 		Rectangle2D background = new Rectangle2D.Double(0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT);
 		g.setColor(Color.black);
 		g.fill(background);
+	}
+	
+	private void drawShip() {
+		lck.readLock().lock();
+		Ship ship = Main.update.ship;
+		lck.readLock().unlock();
+		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), null);
+	}
+	
+	private void drawEnemies() {
+		lck.readLock().lock();
+		LinkedList<Enemy> enemies = Main.update.enemies;
+		for(int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			g.drawImage(e.getImage(), e.getX(), e.getY(), null);
+		}
+		lck.readLock().unlock();	
 	}
 	
 	
@@ -106,11 +128,5 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		g.drawImage(gunSetIcons[Main.update.ship.getGunSet()], 16, GraphicsMain.HEIGHT - 80, 64, 64, null);
 		lck.readLock().unlock();
-	}
-	
-	private void drawShip() {
-		lck.readLock().lock();
-		Ship ship = Main.update.ship;
-		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), null);
 	}
 }

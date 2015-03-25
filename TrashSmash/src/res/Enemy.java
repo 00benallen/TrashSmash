@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.GraphicsMain;
+
 public class Enemy implements Drawable{
 	
 	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0, width = 128, height = 128;
@@ -15,35 +17,40 @@ public class Enemy implements Drawable{
 	private BufferedImage image;
 	private MovePattern movePat;
 	
-	public Enemy(int x, int y, int typeCode) throws IOException {
+	public Enemy(int x, int y, int typeCode) {
 		this.setX(x);
 		this.setY(y);
 		this.setHealth(1);
-		this.velocity = 1;
-		this.image = ImageIO.read(new File(this.getFileString()));
+		this.velocity = 3;
+		this.typeCode = typeCode;
+		try {
+			this.image = ImageIO.read(new File(this.getFileString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		this.movePat = new MovePattern(typeCode);
 	}
 
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
-			case APPLE_CORE:	fileString = "applecore.png";
+			case APPLE_CORE:	fileString = "Assets/Invaders/applecore.png";
 					break;
-			case BATTERY:	fileString = "battery.png";
+			case BATTERY:	fileString = "Assets/Invaders/battery.png";
 					break;
-			case COFFEE_CUP:	fileString = "coffeecup.png";
+			case COFFEE_CUP:	fileString = "Assets/Invaders/coffeecup.png";
 					break;
-			case EGG:	fileString = "egg.png";
+			case EGG:	fileString = "Assets/Invaders/egg.png";
 					break;
-			case EGG_CARTON:	fileString = "eggcarton.png";
+			case EGG_CARTON:	fileString = "Assets/Invaders/eggcarton.png";
 					break;
-			case NEWSPAPER:	fileString = "newspaper.png";
+			case NEWSPAPER:	fileString = "Assets/Invaders/newspaper.png";
 					break;
-			case TEABAG:	fileString = "teabag.png";
+			case TEABAG:	fileString = "Assets/Invaders/teabag.png";
 					break;
-			case WATER_BOTTLE:	fileString = "waterbottle.png";
+			case WATER_BOTTLE:	fileString = "Assets/Invaders/waterbottle.png";
 					break;
-			case WINE_BOTTLE:	fileString = "winebottle.png";
+			case WINE_BOTTLE:	fileString = "Assets/Invaders/winebottle.png";
 					break;
 		}
 		return fileString;
@@ -63,6 +70,10 @@ public class Enemy implements Drawable{
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getVelocity() {
+		return this.velocity;
 	}
 
 	public int getHealth() {
@@ -98,16 +109,21 @@ public class Enemy implements Drawable{
 			moveCnt++;
 		}
 		else if(movePat.getMoveArray()[moveCnt] == MovePattern.RIGHT) {
-			this.x += velocity;
+			if(this.x + this.width + this.velocity < GraphicsMain.WIDTH) {
+				this.x += velocity;
+			}
 			moveCnt++;
 		}
 		else if(movePat.getMoveArray()[moveCnt] == MovePattern.LEFT) {
-			this.x -= velocity;
+			if(this.x > 0) {
+				this.x -= velocity;
+			}
 			moveCnt++;
 		}
 		if(moveCnt == 8) {
 			moveCnt = 0;
 		}
+		this.y += 1;
 	}
 
 	@Override

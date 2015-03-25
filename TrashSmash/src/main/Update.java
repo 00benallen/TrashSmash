@@ -1,7 +1,10 @@
 package main;
 
-
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import res.Enemy;
 import res.Ship;
 
 /**
@@ -12,8 +15,10 @@ import res.Ship;
 public class Update implements Runnable {
 	private ReentrantReadWriteLock lck = Main.lck;
 	private Thread updateThread;
-	public static boolean running;
-	public Ship ship = new Ship(GraphicsMain.WIDTH/2 - 128, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 128);
+	public volatile static boolean running;
+	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
+	private long lastGenTime = 1000;
+	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>();
 	
 	
 	/**
@@ -61,13 +66,53 @@ public class Update implements Runnable {
 	public void update() {
 		//insert other update methods
 		moveShip();
+		generateEnemies();
+		moveEnemies();
+		removeEnemies();
 		
 	}
 	
-	public void moveShip() {
-		lck.writeLock().lock();
+	private void moveShip() {
+		//lck.writeLock().lock();
 		//insert movement operation
 		
+		//lck.writeLock().unlock();
+	}
+	
+	private void generateEnemies() {
+		long currentTime = System.currentTimeMillis();
+		double milliSecondsElapsed = currentTime - lastGenTime;
+		if(milliSecondsElapsed >= 2000) {
+			lastGenTime = System.currentTimeMillis();
+			Random r = new Random();
+			int x = r.nextInt(GraphicsMain.WIDTH-128);
+			int type = r.nextInt(9);
+			lck.writeLock().lock();
+			enemies.add(new Enemy(x, -128, type));
+			lck.writeLock().unlock();
+		}
+	}
+	
+	private void moveEnemies() {
+		lck.writeLock().lock();
+		for(int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			e.move();
+			
+		}
 		lck.writeLock().unlock();
 	}
+	
+	private void removeEnemies() {
+		lck.writeLock().lock();
+			for(int i = 0; i < enemies.size(); i++) {
+				Enemy e = enemies.get(i);
+				if(e.getY() > GraphicsMain.HEIGHT) {
+					enemies.remove(i);
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
+	
 }

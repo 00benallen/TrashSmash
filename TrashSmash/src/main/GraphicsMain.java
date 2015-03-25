@@ -96,6 +96,5 @@ public class GraphicsMain {
 		window.setContentPane(gamePanel);
 		window.pack();
 		render = new Render((Graphics2D) window.getGraphics());
-		
 	}
 }
