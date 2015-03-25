@@ -46,4 +46,8 @@ public class Main {
 		gMain.gameStart();
 		Main.main(null);
 	}
+	
+	public static void exit(){
+		System.exit(0);
+	}
 }

@@ -18,5 +18,9 @@ public class ButtonListener implements ActionListener {
 		if(e.getActionCommand().equals("start")) {
 			Main.gameStart();
 		}
+		
+		if(e.getActionCommand().equals("quit")) {
+			Main.exit();
+		}
 	}
 }
