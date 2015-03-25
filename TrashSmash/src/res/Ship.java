@@ -8,7 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Ship {
-	private int x, y, health, gunSet, velocity, width, height;
+	private int x, y, health, gunSet, velocity;
+	private final static int width = 128, height = 128;
 	private BufferedImage image;
 	
 	public Ship(int x, int y) {
@@ -22,8 +23,6 @@ public class Ship {
 		} catch(IOException e) {
 			System.out.println("Cannot find Assets/Blue/1.png");
 		}
-		this.setWidth(this.image.getWidth());
-		this.setHeight(this.image.getHeight());
 	}
 
 	public int getX() {
@@ -85,20 +84,12 @@ public class Ship {
 		}
 	}
 
-	public int getWidth() {
+	public static int getWidth() {
 		return width;
 	}
 
-	private void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
+	public static int getHeight() {
 		return height;
-	}
-
-	private void setHeight(int height) {
-		this.height = height;
 	}
 	
 	public Ship clone() {
