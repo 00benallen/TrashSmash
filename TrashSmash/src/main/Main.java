@@ -1,5 +1,9 @@
 package main;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import res.Ship;
+
 /**
  * Main class for Trash Smash, maintains the game state, initializes game start and game threads, keeps game running in standard time
  * @author Ben Pinhorn
@@ -11,6 +15,7 @@ public class Main {
 	private static GraphicsMain gMain;
 	public static int appState = 0;
 	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2;
+	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
 	
 	//game variables should not be stored here, for game logic and updates, go to Update.java
 	
@@ -40,5 +45,9 @@ public class Main {
 		appState = GAME_STATE;
 		gMain.gameStart();
 		Main.main(null);
+	}
+	
+	public static void exit(){
+		System.exit(0);
 	}
 }

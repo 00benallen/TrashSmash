@@ -1,6 +1,7 @@
 package main;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import res.Ship;
 
@@ -10,11 +11,11 @@ import res.Ship;
  *
  */
 public class Update implements Runnable {
-	private Ship ship = new Ship(GraphicsMain.WIDTH/2 - 63, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 88);
 	public volatile LinkedBlockingQueue<Object> drawQueue = new LinkedBlockingQueue<Object>();
-	public boolean shipUpdated = false;
+	private ReentrantReadWriteLock lck = Main.lck;
 	private Thread updateThread;
 	public static boolean running;
+	public Ship ship;
 	
 	
 	/**
@@ -24,17 +25,15 @@ public class Update implements Runnable {
 		running = true;
 		updateThread = new Thread(this, "Update Thread");
 		updateThread.start();
-		
+		init();
 	}
 	
 	public void run() { 
 		long lastTime = System.nanoTime();
 		double nanoPerUpdate = 1000000000D/60D;
 		double delta = 0D;
-		
 		if(Main.appState == Main.GAME_STATE) {
 			while(running) {
-				
 				long now = System.nanoTime();
 				delta += (now - lastTime) / nanoPerUpdate;
 				lastTime = now;
@@ -57,17 +56,23 @@ public class Update implements Runnable {
 	public synchronized void stop() { //quits app
 		running  = false;
 	}
+	
+	public void init() {
+		ship = new Ship(GraphicsMain.WIDTH/2 - Ship.getWidth()/2, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - Ship.getHeight()/2);
+	}
 
 	public void update() {
-		moveShip();
+		//insert other update methods
+		//moveShip();
 		
 	}
 	
 	public void moveShip() {
+		lck.writeLock().lock();
 		//insert movement operation
-		if(shipUpdated) {
-			queueObject(ship);
-		}
+		queueObject(ship);
+		
+		lck.writeLock().unlock();
 	}
 	
 	public void queueObject(Object object) {
@@ -77,5 +82,4 @@ public class Update implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
 }

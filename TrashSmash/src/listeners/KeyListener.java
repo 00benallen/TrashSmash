@@ -1,17 +1,22 @@
 package listeners;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-import main.Main;
+import main.Update;
 
 //in progress...
 
-public class KeyListener {
-	private Main main;
+public class KeyListener{
+	private Update update;
 	
-	public KeyListener(Main main){
-		this.main = main;
+	public KeyListener(Update update){
+		this.update = update;
+	}
+	
+	public void keyPressed(KeyEvent e){
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+			
+		}
 	}
 	
 }

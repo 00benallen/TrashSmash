@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import res.Ship;
 
@@ -15,7 +16,7 @@ import res.Ship;
  */
 public class Render implements Runnable {
 	private Graphics2D g;
-	private Ship ship = new Ship(0, 0);
+	private ReentrantReadWriteLock lck = Main.lck;
 	
 	public Render(Graphics2D g) {
 		this.g = g;
@@ -67,12 +68,20 @@ public class Render implements Runnable {
 	}
 	
 	private void drawHealth() {
-		Rectangle2D healthBar1 = new Rectangle2D.Double(GraphicsMain.WIDTH - 75, 0, 25, 25);
-		Rectangle2D healthBar2 = new Rectangle2D.Double(GraphicsMain.WIDTH - 50, 0, 25, 25);
-		Rectangle2D healthBar3 = new Rectangle2D.Double(GraphicsMain.WIDTH - 25, 0, 25, 25);
+		lck.readLock().lock();
+		Rectangle2D healthBar1 = new Rectangle2D.Double(GraphicsMain.WIDTH - 170, 40, 50, 50);
+		Rectangle2D healthBar2 = new Rectangle2D.Double(GraphicsMain.WIDTH - 119, 40, 50, 50);
+		Rectangle2D healthBar3 = new Rectangle2D.Double(GraphicsMain.WIDTH - 68, 40, 50, 50);
 		g.setColor(Color.red);
-		g.fill(healthBar1);
-		g.fill(healthBar2);
-		g.fill(healthBar3);
+		if(Main.update.ship.getHealth() >= 1) {
+			g.fill(healthBar1);
+			if(Main.update.ship.getHealth() >= 2) {
+				g.fill(healthBar2);
+				if(Main.update.ship.getHealth() == 3) {
+					g.fill(healthBar3);
+				}
+			}
+		}
+		lck.readLock().unlock();
 	}
 }
