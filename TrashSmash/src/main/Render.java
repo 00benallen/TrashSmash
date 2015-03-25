@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import res.Ship;
 
@@ -15,7 +16,7 @@ import res.Ship;
  */
 public class Render implements Runnable {
 	private Graphics2D g;
-	private Ship ship = new Ship(0, 0);
+	private ReentrantReadWriteLock lck = Main.lck;
 	
 	public Render(Graphics2D g) {
 		this.g = g;

@@ -1,6 +1,7 @@
 package main;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import res.Ship;
 
@@ -12,6 +13,7 @@ import res.Ship;
 public class Update implements Runnable {
 	private Ship ship = new Ship(GraphicsMain.WIDTH/2 - 63, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 88);
 	public volatile LinkedBlockingQueue<Object> drawQueue = new LinkedBlockingQueue<Object>();
+	private ReentrantReadWriteLock lck = Main.lck;
 	public boolean shipUpdated = false;
 	private Thread updateThread;
 	public static boolean running;
