@@ -7,16 +7,16 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Ship {
+public class Ship implements Drawable{
 	private int x, y, health, gunSet, velocity;
-	private final static int width = 128, height = 128;
+	private int width = 128, height = 128;
 	private BufferedImage image;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
 		this.setY(y);
 		this.setHealth(3);
-		this.setGunSet(1);
+		this.setGunSet(0);
 		this.velocity = 1;
 		try {
 			this.image = ImageIO.read(new File("Assets/Blue/1.png"));
@@ -79,29 +79,22 @@ public class Ship {
 	
 	public void cycleGun() {
 		this.gunSet++;
-		if(gunSet == 3) {
+		if(gunSet == 2) {
 			gunSet = 0;
 		}
 	}
 
-	public static int getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
-	public static int getHeight() {
+	public int getHeight() {
 		return height;
 	}
 	
-	public Ship clone() {
-		Ship newShip = new Ship(this.x, this.y);
-		while(newShip.getHealth() != this.getHealth()) {
-			newShip.damage();
-		}
-		while(newShip.getGunSet() != this.getGunSet()) {
-			newShip.cycleGun();
-		}
-		return newShip;
-		
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 }

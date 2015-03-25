@@ -1,8 +1,7 @@
 package main;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import res.Ship;
 
 /**
@@ -11,11 +10,10 @@ import res.Ship;
  *
  */
 public class Update implements Runnable {
-	public volatile LinkedBlockingQueue<Object> drawQueue = new LinkedBlockingQueue<Object>();
 	private ReentrantReadWriteLock lck = Main.lck;
 	private Thread updateThread;
 	public static boolean running;
-	public Ship ship;
+	public Ship ship = new Ship(GraphicsMain.WIDTH/2 - 128, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 128);
 	
 	
 	/**
@@ -58,28 +56,18 @@ public class Update implements Runnable {
 	}
 	
 	public void init() {
-		ship = new Ship(GraphicsMain.WIDTH/2 - Ship.getWidth()/2, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - Ship.getHeight()/2);
 	}
 
 	public void update() {
 		//insert other update methods
-		//moveShip();
+		moveShip();
 		
 	}
 	
 	public void moveShip() {
 		lck.writeLock().lock();
 		//insert movement operation
-		queueObject(ship);
 		
 		lck.writeLock().unlock();
-	}
-	
-	public void queueObject(Object object) {
-		try {
-			drawQueue.put(object);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 }

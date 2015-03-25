@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Enemy {
+public class Enemy implements Drawable{
 	
-	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;
+	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0, width = 128, height = 128;
 	public final int APPLE_CORE = 0, BATTERY = 1, COFFEE_CUP = 2, EGG = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	private BufferedImage image;
@@ -108,6 +108,21 @@ public class Enemy {
 		if(moveCnt == 8) {
 			moveCnt = 0;
 		}
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	@Override
+	public int getHeight() {
+	 return height;
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 
 }
