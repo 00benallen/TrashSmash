@@ -19,7 +19,7 @@ public class Update implements Runnable {
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastGenTime = 1000;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>();
-	
+	private int dir;
 	
 	/**
 	 * Starts update thread
@@ -63,7 +63,7 @@ public class Update implements Runnable {
 	public void init() {
 	}
 
-	public void update() {
+	private void update() {
 		//insert other update methods
 		moveShip();
 		generateEnemies();
@@ -72,11 +72,10 @@ public class Update implements Runnable {
 		
 	}
 	
-	private void moveShip() {
-		//lck.writeLock().lock();
-		//insert movement operation
-		
-		//lck.writeLock().unlock();
+	public void moveShip() {
+		lck.writeLock().lock();
+		ship.move(dir);
+		lck.writeLock().unlock();
 	}
 	
 	private void generateEnemies() {
@@ -101,6 +100,10 @@ public class Update implements Runnable {
 			
 		}
 		lck.writeLock().unlock();
+	}
+	
+	public void setShipDirection(int newDir){
+		dir = newDir;
 	}
 	
 	private void removeEnemies() {

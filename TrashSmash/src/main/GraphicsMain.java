@@ -1,17 +1,16 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import listeners.ButtonListener;
+import listeners.keyListener;
 
 /**
  * Main graphics class for Trash Smash, generates window, starts render thread, creates main menu
@@ -26,16 +25,20 @@ public class GraphicsMain {
 	private Thread renderThread;
 	private Render render;
 	private ButtonListener l;
+	private keyListener kl;
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
-	public GraphicsMain() {
+	public GraphicsMain(keyListener k) {
 		l = new ButtonListener();
+		kl = k;
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		window.setResizable(false);
 		window.pack();
 		window.setVisible(true);
+		window.setFocusable(true);
+		window.addKeyListener(kl);
 	}
 	
 	public void init() {
@@ -79,8 +82,6 @@ public class GraphicsMain {
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
 		contentPane.add(quitButton, c);
-		
-		
 		
 		//more buttons go here
 		
