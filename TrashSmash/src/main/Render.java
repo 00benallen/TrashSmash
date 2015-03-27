@@ -27,6 +27,7 @@ public class Render implements Runnable {
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage[] rankIcons;
 	private BufferedImage hpBar;
+	private BufferedImage background;
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
 	public Render(Graphics2D g) {
@@ -68,6 +69,7 @@ public class Render implements Runnable {
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
+			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -90,9 +92,7 @@ public class Render implements Runnable {
 	}
 	
 	private void drawBackground(Graphics2D g) {
-		Rectangle2D background = new Rectangle2D.Double(0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT);
-		g.setColor(Color.black);
-		g.fill(background);
+		g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}
 	
 	private void drawShip(Graphics2D g) {
