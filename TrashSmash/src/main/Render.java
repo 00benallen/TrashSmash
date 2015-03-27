@@ -71,7 +71,6 @@ public class Render implements Runnable {
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

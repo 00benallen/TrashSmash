@@ -28,11 +28,11 @@ public class MovePattern {
 			return moveArray;
 		}
 		else if(typeCode > 5 && typeCode < 8) {
-			int[] moveArray = {RIGHT, RIGHT, RIGHT, STRAIGHT, LEFT, LEFT, STRAIGHT, RIGHT};
+			int[] moveArray = {RIGHT, RIGHT, RIGHT, STRAIGHT, LEFT, LEFT, STRAIGHT, LEFT};
 			return moveArray;
 		}
 		else if(typeCode == 8) {
-			int[] moveArray = {RIGHT, LEFT, STRAIGHT, RIGHT, RIGHT, LEFT, LEFT, RIGHT};
+			int[] moveArray = {RIGHT, LEFT, LEFT, RIGHT, RIGHT, LEFT, LEFT, RIGHT};
 			return moveArray;
 		}
 		else {
