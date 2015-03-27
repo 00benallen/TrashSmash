@@ -106,22 +106,22 @@ public class Enemy implements Drawable{
 	}
 	
 	public void move() {
-		if(movePat.getMoveArray()[moveCnt] == MovePattern.STRAIGHT) {
+		if(movePat.getMoveArray()[moveCnt/8] == MovePattern.STRAIGHT) {
 			moveCnt++;
 		}
-		else if(movePat.getMoveArray()[moveCnt] == MovePattern.RIGHT) {
-			if(this.x + this.width + this.velocity < GraphicsMain.WIDTH) {
+		else if(movePat.getMoveArray()[moveCnt/8] == MovePattern.RIGHT) {
+			if(this.x + Enemy.width + this.velocity < GraphicsMain.WIDTH) {
 				this.x += velocity;
 			}
 			moveCnt++;
 		}
-		else if(movePat.getMoveArray()[moveCnt] == MovePattern.LEFT) {
+		else if(movePat.getMoveArray()[moveCnt/8] == MovePattern.LEFT) {
 			if(this.x > 0) {
 				this.x -= velocity;
 			}
 			moveCnt++;
 		}
-		if(moveCnt == 8) {
+		if(moveCnt == 64) {
 			moveCnt = 0;
 		}
 		this.y += 1;

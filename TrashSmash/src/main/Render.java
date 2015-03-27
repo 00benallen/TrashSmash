@@ -69,7 +69,6 @@ public class Render implements Runnable {
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
