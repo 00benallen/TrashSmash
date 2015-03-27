@@ -2,13 +2,17 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import javax.imageio.ImageIO;
+
 import res.Enemy;
 import res.Ship;
 
@@ -20,6 +24,8 @@ public class Render implements Runnable {
 	private Graphics2D g;
 	private ReentrantReadWriteLock lck = Main.lck;
 	private BufferedImage[] gunSetIcons;
+	private BufferedImage[] rankIcons;
+	private BufferedImage hpBar;
 	
 	public Render(Graphics2D g) {
 		this.g = g;
@@ -59,6 +65,7 @@ public class Render implements Runnable {
 			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
+			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -100,22 +107,29 @@ public class Render implements Runnable {
 	
 	
 	private void drawHealth() {
-		Rectangle2D healthBar1 = new Rectangle2D.Double(GraphicsMain.WIDTH - 170, 40, 50, 50);
-		Rectangle2D healthBar2 = new Rectangle2D.Double(GraphicsMain.WIDTH - 119, 40, 50, 50);
-		Rectangle2D healthBar3 = new Rectangle2D.Double(GraphicsMain.WIDTH - 68, 40, 50, 50);
-		g.setColor(Color.red);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		Ellipse2D.Double healthBar1 = new Ellipse2D.Double(GraphicsMain.WIDTH -135, 33, 20, 20);
+		Ellipse2D.Double healthBar2 = new Ellipse2D.Double(GraphicsMain.WIDTH -110, 33, 20, 20);
+		Ellipse2D.Double healthBar3 = new Ellipse2D.Double(GraphicsMain.WIDTH -85, 33, 20, 20);
 		lck.readLock().lock();
+		//Draws the HP Bar image
+		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
+		//Fills in healthbar info as necessary
 		if(Main.update.ship.getHealth() >= 1) {
+			g.setColor(Color.red);
 			g.fill(healthBar1);
 			if(Main.update.ship.getHealth() >= 2) {
+				g.setColor(Color.orange);
 				g.fill(healthBar2);
 				if(Main.update.ship.getHealth() == 3) {
+					g.setColor(Color.green);
 					g.fill(healthBar3);
 				}
 			}
 		}
 		lck.readLock().unlock();
 	}
+
 	
 	private void drawGunSet() {
 		lck.readLock().lock();
