@@ -8,8 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Ship implements Drawable{
-	private int x, y, health, gunSet, velocity, score;
-	private static final int width = 128, height = 128;
+	private int x, y, health, gunSet, score;
+	private static final int width = 128, height = 128, velocity = 3;
 	private BufferedImage image;
 	
 	public Ship(int x, int y) {
@@ -17,7 +17,6 @@ public class Ship implements Drawable{
 		this.setY(y);
 		this.setHealth(3);
 		this.setGunSet(0);
-		this.velocity = 3;
 		try {
 			this.image = ImageIO.read(new File("Assets/Blue/1.png"));
 		} catch(IOException e) {
@@ -65,6 +64,10 @@ public class Ship implements Drawable{
 		this.gunSet = gunSet;
 	}
 	
+	public static int getVelocity() {
+		return velocity;
+	}
+	
 	public void draw(Graphics2D g) {
 		g.drawImage(image, null, x, y);
 	}
@@ -92,11 +95,11 @@ public class Ship implements Drawable{
 		}
 	}
 
-	public int getWidth() {
+	public static int getWidth() {
 		return width;
 	}
 
-	public int getHeight() {
+	public static int getHeight() {
 		return height;
 	}
 	

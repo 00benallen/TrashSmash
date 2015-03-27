@@ -12,7 +12,7 @@ import main.Main;
 
 public class KeyboardListener implements KeyListener {
 	public static boolean left = false, right = false;
-	public static boolean up = false, down = false;
+	public static boolean up = false, down = false, shoot = false;
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			right = true;
@@ -25,6 +25,9 @@ public class KeyboardListener implements KeyListener {
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_DOWN){
 			down = true;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			shoot = true;
 		}
 	}
 
@@ -41,6 +44,9 @@ public class KeyboardListener implements KeyListener {
 		}
 		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
 			down = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			shoot = false;
 		}
 	}
 

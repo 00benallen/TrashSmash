@@ -8,30 +8,38 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Bullet implements Drawable{
-	private int x, y, typeCode, trashType, velocity;
+	private int x, y, typeCode, velocity;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
-	private final static int width = 128, height = 128;
+	public final static int width = 10, height = 10;
 	private BufferedImage image;
 	
 	public Bullet(int x, int y, int type){
-		setVelocity(3);
+		setVelocity(6);
 		setType(type);
 		setX(x);
 		setY(y);
 		try {
-			this.image = ImageIO.read(new File("Assets/Other/Button.png"));
+			if(this.typeCode == GARBAGE) {
+				this.image = ImageIO.read(new File("Assets/Other/redBullet.png"));
+			}
+			else if(this.typeCode == RECYCLING) {
+				this.image = ImageIO.read(new File("Assets/Other/blueBullet.png"));
+			}
+			else if(this.typeCode == COMPOST) {
+				this.image = ImageIO.read(new File("Assets/Other/greenBullet.png"));
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public boolean checkCollision(Enemy enemy){
-		if(/*collision*/ false) return true;
 		return false;
 	}
 	
-	public void setType(int type){
-		trashType = type;
+	public void setType(int typeCode){
+		this.typeCode = typeCode;
 	}
 	
 	public void setVelocity(int newV){
@@ -39,14 +47,13 @@ public class Bullet implements Drawable{
 	}
 	
 	public void move(){
-		this.y+=velocity;
+		this.y -= velocity;
 	}
 	
 	public int getWidth() {
 		return width;
 	}
 
-	@Override
 	public int getHeight() {
 		return height;
 	}
@@ -67,11 +74,6 @@ public class Bullet implements Drawable{
 
 	public void setY(int newy){
 		y = newy;
-	}
-	
-	
-	public void draw(Graphics2D g) {
-		g.drawImage(image, null, x, y);
 	}
 	
 	@Override

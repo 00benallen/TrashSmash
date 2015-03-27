@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import listeners.KeyboardListener;
+import res.Bullet;
 import res.Enemy;
 import res.Ship;
 
@@ -18,8 +19,9 @@ public class Update implements Runnable {
 	private Thread updateThread;
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
-	private long lastGenTime = 1000;
-	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>();
+	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
+	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
+	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	private int dir;
 	
 	/**
@@ -48,7 +50,6 @@ public class Update implements Runnable {
 				}
 			}
 		}
-		
 		if(running = false) {
 			return;
 		}
@@ -70,16 +71,19 @@ public class Update implements Runnable {
 		generateEnemies();
 		moveEnemies();
 		removeEnemies();
+		createBullets();
+		moveBullets();
+		removeBullets();
 		
 	}
 	
 	public void moveShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
-			ship.setY(ship.getY() - 3);
+			ship.setY(ship.getY() - Ship.getVelocity());
 		}
 		if(KeyboardListener.down) {
-			ship.setY(ship.getY() + 3);
+			ship.setY(ship.getY() + Ship.getVelocity());
 		}
 		if(KeyboardListener.left) {
 			ship.move(2);
@@ -87,15 +91,14 @@ public class Update implements Runnable {
 		if(KeyboardListener.right) {
 			ship.move(1);
 		}
-		
 		lck.writeLock().unlock();
 	}
 	
 	private void generateEnemies() {
 		long currentTime = System.currentTimeMillis();
-		double milliSecondsElapsed = currentTime - lastGenTime;
+		double milliSecondsElapsed = currentTime - lastEnemyGenTime;
 		if(milliSecondsElapsed >= 2000) {
-			lastGenTime = System.currentTimeMillis();
+			lastEnemyGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
 			int type = r.nextInt(9);
@@ -126,5 +129,32 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	private void createBullets() {
+		if(KeyboardListener.shoot) {
+			if(System.currentTimeMillis() - lastBulletGenTime >= 500) {
+				lastBulletGenTime = System.currentTimeMillis();
+				lck.writeLock().lock();
+				bullets.add(new Bullet(ship.getX() + Ship.getWidth()/4 - Bullet.width/2, ship.getY(), ship.getGunSet()));
+				lck.writeLock().unlock();
+			}
+		}
+	}
 	
+	private void moveBullets() {
+		lck.writeLock().lock();
+		for(int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).move();
+		}
+		lck.writeLock().unlock();
+	}
+	
+	private void removeBullets() {
+		lck.writeLock().lock();
+		for(int i = 0; i < bullets.size(); i++) {
+			if(bullets.get(i).getY() < 10) {
+				bullets.remove(i);
+			}
+		}
+		lck.writeLock().unlock();
+	}
 }

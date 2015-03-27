@@ -126,13 +126,11 @@ public class Enemy implements Drawable{
 		}
 		this.y += 1;
 	}
-
-	@Override
+	
 	public int getWidth() {
 		return width;
 	}
 
-	@Override
 	public int getHeight() {
 	 return height;
 	}

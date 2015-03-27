@@ -14,6 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
 
+import res.Bullet;
 import res.Enemy;
 import res.Ship;
 
@@ -85,6 +86,7 @@ public class Render implements Runnable {
 		drawEnemies(g);
 		drawHealth(g);
 		drawGunSet(g);
+		drawBullets(g);
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
@@ -143,5 +145,16 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		g.drawImage(gunSetIcons[Main.update.ship.getGunSet()], 16, GraphicsMain.HEIGHT - 80, 64, 64, null);
 		lck.readLock().unlock();
+	}
+	
+	private void drawBullets(Graphics2D g) {
+		lck.readLock().lock();
+		LinkedList<Bullet> bullets = Main.update.bullets;
+		for(int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			g.drawImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight(), null);
+		}
+		lck.readLock().unlock();
+		
 	}
 }
