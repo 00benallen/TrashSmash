@@ -85,7 +85,7 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		Ship ship = Main.update.ship;
 		lck.readLock().unlock();
-		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), null);
+		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), ship.getWidth()/2, ship.getHeight()/2, null);
 	}
 	
 	private void drawEnemies() {
@@ -93,7 +93,7 @@ public class Render implements Runnable {
 		LinkedList<Enemy> enemies = Main.update.enemies;
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			g.drawImage(e.getImage(), e.getX(), e.getY(), null);
+			g.drawImage(e.getImage(), e.getX(), e.getY(), e.getWidth()/2, e.getHeight()/2, null);
 		}
 		lck.readLock().unlock();	
 	}

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Ship implements Drawable{
 	private int x, y, health, gunSet, velocity;
-	private int width = 128, height = 128;
+	private static final int width = 128, height = 128;
 	private BufferedImage image;
 	
 	public Ship(int x, int y) {
