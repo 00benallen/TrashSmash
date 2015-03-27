@@ -62,10 +62,10 @@ public class Ship implements Drawable{
 	}
 	
 	public void move(int direction) {
-		if(direction == MovePattern.RIGHT) {
+		if(direction == MovePattern.RIGHT && getX()+getWidth()/2+velocity < 1024) {
 			this.x += velocity;
 		}
-		if(direction == MovePattern.LEFT) {
+		if(direction == MovePattern.LEFT && getX()-velocity > 0) {
 			this.x -= velocity;
 		}
 	}
