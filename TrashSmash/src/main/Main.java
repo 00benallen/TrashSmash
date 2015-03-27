@@ -11,6 +11,7 @@ import listeners.keyListener;
  */
 public class Main {
 	//app resources
+	//test
 	public static Update update;
 	private static GraphicsMain gMain;
 	public static int appState = 0;
