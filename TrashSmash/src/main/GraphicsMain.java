@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -26,6 +27,8 @@ public class GraphicsMain {
 	private Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
+	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stButton.png");
+	ImageIcon qbutton = new ImageIcon("Assets/Menu and UI/qButton.png");
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -62,11 +65,13 @@ public class GraphicsMain {
 		JPanel contentPane = new JPanel(grid);
 		GridBagConstraints c = new GridBagConstraints();
 		
-		JButton startButton = new JButton("Start");
-		JButton quitButton = new JButton("Quit");
+		JButton startButton = new JButton();
+		JButton quitButton = new JButton();
 		
-		
-		
+		startButton.setIcon(sbutton);
+		quitButton.setIcon(qbutton);
+		startButton.setBorder(null);
+		quitButton.setBorder(null);
 		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 2;
 		c.gridy = 1;
