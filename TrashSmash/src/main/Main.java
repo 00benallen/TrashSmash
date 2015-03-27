@@ -2,7 +2,7 @@ package main;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import listeners.keyListener;
+import listeners.KeyboardListener;
 
 /**
  * Main class for Trash Smash, maintains the game state, initializes game start and game threads, keeps game running in standard time
@@ -17,12 +17,12 @@ public class Main {
 	public static int appState = 0;
 	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
-	private static keyListener kl;
+	private static KeyboardListener kl;
 	
 	//game variables should not be stored here, for game logic and updates, go to Update.java
 	
 	public static void main(String[] args) {
-		kl = new keyListener();
+		kl = new KeyboardListener();
 		if(appState == GAME_STATE) {
 			update = new Update();
 			update.start();

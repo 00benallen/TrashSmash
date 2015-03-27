@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import listeners.ButtonListener;
-import listeners.keyListener;
+import listeners.KeyboardListener;
 
 /**
  * Main graphics class for Trash Smash, generates window, starts render thread, creates main menu
@@ -25,11 +25,11 @@ public class GraphicsMain {
 	private Thread renderThread;
 	private Render render;
 	private ButtonListener l;
-	private keyListener kl;
+	private KeyboardListener kl;
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
-	public GraphicsMain(keyListener k) {
+	public GraphicsMain(KeyboardListener k) {
 		l = new ButtonListener();
 		kl = k;
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

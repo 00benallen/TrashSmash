@@ -10,23 +10,27 @@ import main.Main;
  * @author- Tristan Monger
  */
 
-public class keyListener implements KeyListener{
-	
-	public keyListener(){
-	}
+public class KeyboardListener implements KeyListener {
+	public static boolean left = false, right = false;
 	
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-			Main.update.setShipDirection(1);
+			right = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-			Main.update.setShipDirection(2);
+			left = true;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		Main.update.setShipDirection(0);
+		if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			right = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+			left = false;
+		}
+		
 	}
 
 	@Override

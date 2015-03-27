@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import listeners.KeyboardListener;
 import res.Enemy;
 import res.Ship;
 
@@ -74,7 +75,13 @@ public class Update implements Runnable {
 	
 	public void moveShip() {
 		lck.writeLock().lock();
-		ship.move(dir);
+		if(KeyboardListener.left) {
+			ship.move(2);
+		}
+		if(KeyboardListener.right) {
+			ship.move(1);
+		}
+		
 		lck.writeLock().unlock();
 	}
 	
@@ -100,10 +107,6 @@ public class Update implements Runnable {
 			
 		}
 		lck.writeLock().unlock();
-	}
-	
-	public void setShipDirection(int newDir){
-		dir = newDir;
 	}
 	
 	private void removeEnemies() {
