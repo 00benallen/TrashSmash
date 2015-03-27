@@ -12,13 +12,19 @@ import main.Main;
 
 public class KeyboardListener implements KeyListener {
 	public static boolean left = false, right = false;
-	
+	public static boolean up = false, down = false;
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			right = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT){
 			left = true;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_UP){
+			up = true;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+			down = true;
 		}
 	}
 
@@ -30,7 +36,12 @@ public class KeyboardListener implements KeyListener {
 		if(e.getKeyCode() == KeyEvent.VK_LEFT) {
 			left = false;
 		}
-		
+		if(e.getKeyCode() == KeyEvent.VK_UP) {
+			up = false;
+		}
+		if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			down = false;
+		}
 	}
 
 	@Override

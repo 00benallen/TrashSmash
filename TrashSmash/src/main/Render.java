@@ -68,6 +68,7 @@ public class Render implements Runnable {
 			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
+			
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
 		} catch (IOException e) {
@@ -132,6 +133,7 @@ public class Render implements Runnable {
 					g.fill(healthBar3);
 				}
 			}
+			
 		}
 		lck.readLock().unlock();
 	}

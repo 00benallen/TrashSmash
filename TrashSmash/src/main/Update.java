@@ -75,6 +75,12 @@ public class Update implements Runnable {
 	
 	public void moveShip() {
 		lck.writeLock().lock();
+		if(KeyboardListener.up) {
+			ship.setY(ship.getY() - 3);
+		}
+		if(KeyboardListener.down) {
+			ship.setY(ship.getY() + 3);
+		}
 		if(KeyboardListener.left) {
 			ship.move(2);
 		}

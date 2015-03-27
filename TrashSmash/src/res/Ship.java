@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Ship implements Drawable{
-	private int x, y, health, gunSet, velocity;
+	private int x, y, health, gunSet, velocity, score;
 	private static final int width = 128, height = 128;
 	private BufferedImage image;
 	
@@ -37,7 +37,7 @@ public class Ship implements Drawable{
 		return y;
 	}
 
-	private void setY(int y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -47,6 +47,14 @@ public class Ship implements Drawable{
 
 	private void setHealth(int health) {
 		this.health = health;
+	}
+	
+	public int getScore() {
+		return health;
+	}
+
+	private void setScore(int score) {
+		this.score = score;
 	}
 
 	public int getGunSet() {
