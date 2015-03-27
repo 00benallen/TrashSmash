@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
@@ -26,6 +27,7 @@ public class Render implements Runnable {
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage[] rankIcons;
 	private BufferedImage hpBar;
+	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
 	public Render(Graphics2D g) {
 		this.g = g;
@@ -74,28 +76,33 @@ public class Render implements Runnable {
 	
 	private void draw() {
 		//add methods for drawing screen
-		drawBackground();
-		drawShip();
-		drawEnemies();
-		drawHealth();
-		drawGunSet();
-		
+		BufferedImage screen = new BufferedImage(GraphicsMain.WIDTH, GraphicsMain.HEIGHT, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D) screen.getGraphics();
+		drawBackground(g);
+		drawShip(g);
+		drawEnemies(g);
+		drawHealth(g);
+		drawGunSet(g);
+		dblBuffer.add(screen);
+		if(dblBuffer.size() == 2) {
+			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
+		}
 	}
 	
-	private void drawBackground() {
+	private void drawBackground(Graphics2D g) {
 		Rectangle2D background = new Rectangle2D.Double(0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT);
 		g.setColor(Color.black);
 		g.fill(background);
 	}
 	
-	private void drawShip() {
+	private void drawShip(Graphics2D g) {
 		lck.readLock().lock();
 		Ship ship = Main.update.ship;
 		lck.readLock().unlock();
 		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), ship.getWidth()/2, ship.getHeight()/2, null);
 	}
 	
-	private void drawEnemies() {
+	private void drawEnemies(Graphics2D g) {
 		lck.readLock().lock();
 		LinkedList<Enemy> enemies = Main.update.enemies;
 		for(int i = 0; i < enemies.size(); i++) {
@@ -106,7 +113,7 @@ public class Render implements Runnable {
 	}
 	
 	
-	private void drawHealth() {
+	private void drawHealth(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		Ellipse2D.Double healthBar1 = new Ellipse2D.Double(GraphicsMain.WIDTH -135, 33, 20, 20);
 		Ellipse2D.Double healthBar2 = new Ellipse2D.Double(GraphicsMain.WIDTH -110, 33, 20, 20);
@@ -131,7 +138,7 @@ public class Render implements Runnable {
 	}
 
 	
-	private void drawGunSet() {
+	private void drawGunSet(Graphics2D g) {
 		lck.readLock().lock();
 		g.drawImage(gunSetIcons[Main.update.ship.getGunSet()], 16, GraphicsMain.HEIGHT - 80, 64, 64, null);
 		lck.readLock().unlock();
