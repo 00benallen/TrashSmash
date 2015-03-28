@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
@@ -29,6 +30,10 @@ public class Render implements Runnable {
 	private BufferedImage[] rankIcons;
 	private BufferedImage hpBar;
 	private BufferedImage bronze;
+	private BufferedImage silv;
+	private BufferedImage gold;
+	private BufferedImage diam;
+	private BufferedImage mstr;
 	private BufferedImage background;
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
@@ -70,9 +75,17 @@ public class Render implements Runnable {
 			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
-			bronze = ImageIO.read(new File("Assets/Menu and UI/bronzeRank.png"));
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			bronze = ImageIO.read(new File("Assets/Menu and UI/bronzeRank.png"));
+			silv = ImageIO.read(new File("Assets/Menu and UI/silverRank.png"));
+			gold = ImageIO.read(new File("Assets/Menu and UI/goldRank.png"));
+			diam = ImageIO.read(new File("Assets/Menu and UI/diamondRank.png"));
+			mstr = ImageIO.read(new File("Assets/Menu and UI/masterRank.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,7 +137,22 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		//Draws the HP Bar image
 		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
-		g.drawImage(bronze, 954, 78, 40, 32, null);
+		//g.drawImage(bronze, 954, 78, 40, 32, null);
+		g.setFont(new Font("Georgia", Font.BOLD, 14)); 
+		g.drawString("SCORE: ", 870, 92);
+		g.setFont(new Font("Georgia", Font.PLAIN, 11));
+		g.drawString("" + Main.update.ship.getScore(), 875, 102);
+		if(Main.update.ship.getScore() < 1000)
+			g.drawImage(bronze, 954, 78, 40, 32, null);
+		else if(Main.update.ship.getScore() < 10000)
+			g.drawImage(silv, 954, 74, 40, 35, null);
+		else if(Main.update.ship.getScore() < 50000)
+			g.drawImage(gold, 954, 74, 40, 35, null);
+		else if(Main.update.ship.getScore() < 100000)
+			g.drawImage(diam, 954, 74, 40, 35, null);
+		else if(Main.update.ship.getScore() < 200000)
+			g.drawImage(mstr, 954, 72, 40, 40, null);
+		
 		//Fills in healthbar info as necessary
 		if(Main.update.ship.getHealth() >= 1) {
 			g.setColor(Color.red);
