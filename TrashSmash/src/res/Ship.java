@@ -17,6 +17,7 @@ public class Ship implements Drawable{
 		this.setY(y);
 		this.setHealth(3);
 		this.setGunSet(0);
+		this.setScore(0);
 		try {
 			this.image = ImageIO.read(new File("Assets/Blue/1.png"));
 		} catch(IOException e) {

@@ -28,6 +28,7 @@ public class Render implements Runnable {
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage[] rankIcons;
 	private BufferedImage hpBar;
+	private BufferedImage bronze;
 	private BufferedImage background;
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
@@ -69,7 +70,7 @@ public class Render implements Runnable {
 			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
-			
+			bronze = ImageIO.read(new File("Assets/Menu and UI/bronzeRank.png"));
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
 		} catch (IOException e) {
@@ -92,7 +93,7 @@ public class Render implements Runnable {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 		}
 	}
-	
+
 	private void drawBackground(Graphics2D g) {
 		g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}
@@ -123,6 +124,7 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		//Draws the HP Bar image
 		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
+		g.drawImage(bronze, 954, 78, 40, 32, null);
 		//Fills in healthbar info as necessary
 		if(Main.update.ship.getHealth() >= 1) {
 			g.setColor(Color.red);

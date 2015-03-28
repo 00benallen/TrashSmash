@@ -15,7 +15,7 @@ public class Main {
 	public static Update update;
 	private static GraphicsMain gMain;
 	public static int appState = 0;
-	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2;
+	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2, INFO_STATE = 3;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
 	private static KeyboardListener kl;
 	
@@ -32,6 +32,9 @@ public class Main {
 			gMain = new GraphicsMain(kl);
 			gMain.createContentPane();
 			appState = MENU_STATE;
+		}
+		else if(appState == INFO_STATE){
+			
 		}
 	}
 	

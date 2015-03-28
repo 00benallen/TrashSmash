@@ -1,10 +1,15 @@
 package main;
 
 import java.awt.Dimension;
+
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,8 +32,8 @@ public class GraphicsMain {
 	private Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
-	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stButton.png");
-	ImageIcon qbutton = new ImageIcon("Assets/Menu and UI/qButton.png");
+	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stbutton.png");
+	ImageIcon qbutton = new ImageIcon("Assets/Menu and UI/qbutton.png");
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -47,7 +52,6 @@ public class GraphicsMain {
 	public void init() {
 		
 	}
-	
 	/**
 	 * Starts render thread 
 	 */
@@ -63,6 +67,7 @@ public class GraphicsMain {
 		
 		GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel(grid);
+
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton startButton = new JButton();
