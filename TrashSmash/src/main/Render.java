@@ -27,7 +27,6 @@ public class Render implements Runnable {
 	private Graphics2D g;
 	private ReentrantReadWriteLock lck = Main.lck;
 	private BufferedImage[] gunSetIcons;
-	private BufferedImage[] rankIcons;
 	private BufferedImage hpBar;
 	private BufferedImage bronze;
 	private BufferedImage silv;
@@ -35,6 +34,7 @@ public class Render implements Runnable {
 	private BufferedImage diam;
 	private BufferedImage mstr;
 	private BufferedImage background;
+	private BufferedImage[] buffIcons;
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
 	public Render(Graphics2D g) {
@@ -89,6 +89,15 @@ public class Render implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		buffIcons = new BufferedImage[4];
+		try {
+			buffIcons[0] = ImageIO.read(new File("Assets/BuffIcons/hpBuff.png"));
+			buffIcons[1] = ImageIO.read(new File("Assets/BuffIcons/invinciBuff.png"));
+			buffIcons[2] = ImageIO.read(new File("Assets/BuffIcons/reinforceBuff.png"));
+			buffIcons[3] = ImageIO.read(new File("Assets/BuffIcons/speedBuff.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void draw() {
@@ -101,10 +110,18 @@ public class Render implements Runnable {
 		drawHealth(g);
 		drawGunSet(g);
 		drawBullets(g);
+		drawBuffs(g);
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 		}
+	}
+
+	private void drawBuffs(Graphics2D g) {
+		g.drawImage(buffIcons[0], 500, 300, 29, 29, null);
+		g.drawImage(buffIcons[1], 400, 400, 29, 29, null);
+		g.drawImage(buffIcons[2], 300, 500, 29, 29, null);
+		g.drawImage(buffIcons[3], 200, 600, 29, 29, null);
 	}
 
 	private void drawBackground(Graphics2D g) {
