@@ -12,7 +12,7 @@ import main.GraphicsMain;
 public class Enemy implements Drawable{
 	
 	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;
-	public final int APPLE_CORE = 0, BATTERY = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8;
+	public final int APPLE_CORE = 0, PEN = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	private final static int width = 128, height = 128;
 	private BufferedImage image;
@@ -37,7 +37,7 @@ public class Enemy implements Drawable{
 		switch(typeCode) {
 			case APPLE_CORE:	fileString = "Assets/Invaders/applecore.png";
 					break;
-			case BATTERY:	fileString = "Assets/Invaders/battery.png";
+			case PEN:	fileString = "Assets/Invaders/pen.png";
 					break;
 			case COFFEE_CUP:	fileString = "Assets/Invaders/coffeecup.png";
 					break;
