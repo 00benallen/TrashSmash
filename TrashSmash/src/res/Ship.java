@@ -17,11 +17,11 @@ public class Ship implements Drawable{
 		this.setY(y);
 		this.setHealth(3);
 		this.setGunSet(0);
-		this.setScore(999);
+		//this.setScore(999);
 		//this.setScore(9999);
 		//this.setScore(49999);
 		//this.setScore(99999);
-		//this.setScore(200000);
+		this.setScore(200000);
 		try {
 			this.image = ImageIO.read(new File("Assets/Blue/1.png"));
 		} catch(IOException e) {

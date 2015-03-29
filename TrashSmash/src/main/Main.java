@@ -1,6 +1,13 @@
 package main;
 
+import java.io.File;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.print.attribute.standard.Media;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import listeners.KeyboardListener;
 
@@ -21,7 +28,7 @@ public class Main {
 	
 	//game variables should not be stored here, for game logic and updates, go to Update.java
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		kl = new KeyboardListener();
 		if(appState == GAME_STATE) {
 			update = new Update();
@@ -50,7 +57,16 @@ public class Main {
 	public static void gameStart() { 
 		appState = GAME_STATE;
 		gMain.gameStart();
-		Main.main(null);
+		try {
+			Main.main(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void music(){
+		
 	}
 	
 	public static void exit(){

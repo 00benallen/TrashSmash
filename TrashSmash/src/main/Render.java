@@ -138,10 +138,9 @@ public class Render implements Runnable {
 		//Draws the HP Bar image
 		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
 		//g.drawImage(bronze, 954, 78, 40, 32, null);
-		g.setFont(new Font("Georgia", Font.BOLD, 14)); 
-		g.drawString("SCORE: ", 870, 92);
-		g.setFont(new Font("Georgia", Font.PLAIN, 11));
-		g.drawString("" + Main.update.ship.getScore(), 875, 102);
+		g.setColor(Color.CYAN);
+		g.setFont(new Font("OCR A Extended", Font.BOLD, 16));
+		g.drawString("" + Main.update.ship.getScore(), 865, 102);
 		if(Main.update.ship.getScore() < 1000)
 			g.drawImage(bronze, 954, 78, 40, 32, null);
 		else if(Main.update.ship.getScore() < 10000)
@@ -150,7 +149,7 @@ public class Render implements Runnable {
 			g.drawImage(gold, 954, 74, 40, 35, null);
 		else if(Main.update.ship.getScore() < 100000)
 			g.drawImage(diam, 954, 74, 40, 35, null);
-		else if(Main.update.ship.getScore() < 200000)
+		else
 			g.drawImage(mstr, 954, 72, 40, 40, null);
 		
 		//Fills in healthbar info as necessary

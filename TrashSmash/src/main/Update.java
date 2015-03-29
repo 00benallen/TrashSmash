@@ -24,6 +24,8 @@ public class Update implements Runnable {
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	private int dir;
 	
+	
+	
 	/**
 	 * Starts update thread
 	 */
@@ -128,6 +130,7 @@ public class Update implements Runnable {
 		}
 		lck.writeLock().unlock();
 	}
+	
 	
 	private void createBullets() {
 		if(KeyboardListener.shoot) {
