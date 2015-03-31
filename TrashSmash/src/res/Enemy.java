@@ -147,4 +147,22 @@ public class Enemy implements Drawable{
 	public Rectangle2D getBoundBox() {
 		return boundBox;
 	}
+	
+	public boolean checkCollision(Bullet bullet) {
+		if(bullet.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean checkCollision(Ship ship) {
+		if(ship.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

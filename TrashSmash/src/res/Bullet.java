@@ -36,8 +36,22 @@ public class Bullet implements Drawable{
 		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
-	public boolean checkCollision(Enemy enemy){
-		return false;
+	public boolean checkCollision(Enemy enemy) {
+		if(enemy.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean checkCollision(Ship ship) {
+		if(ship.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void setType(int typeCode){

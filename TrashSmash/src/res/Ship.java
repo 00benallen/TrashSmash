@@ -120,4 +120,22 @@ public class Ship implements Drawable{
 	public Rectangle2D getBoundBox() {
 		return boundBox;
 	}
+	
+	public boolean checkCollision(Bullet bullet) {
+		if(bullet.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean checkCollision(Enemy enemy) {
+		if(enemy.getBoundBox().intersects(this.boundBox)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
