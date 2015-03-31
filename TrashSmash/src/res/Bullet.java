@@ -7,14 +7,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Bullet implements Drawable{
+public class Bullet implements Drawable {
 	private int x, y, typeCode, velocity;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	public final static int width = 10, height = 10;
 	private BufferedImage image;
-	private Rectangle2D boundBox;
+	private boolean isShip;
 	
-	public Bullet(int x, int y, int type){
+	public Bullet(int x, int y, int type, boolean isShip){
 		setVelocity(6);
 		setType(type);
 		setX(x);
@@ -33,12 +33,17 @@ public class Bullet implements Drawable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
+		this.isShip = isShip;
 	}
 	
 	public boolean checkCollision(Enemy enemy) {
-		if(enemy.getBoundBox().intersects(this.boundBox)) {
-			return true;
+		if(this.x >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()) {
+			if(this.y >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
@@ -46,8 +51,13 @@ public class Bullet implements Drawable{
 	}
 	
 	public boolean checkCollision(Ship ship) {
-		if(ship.getBoundBox().intersects(this.boundBox)) {
-			return true;
+		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()) {
+			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
@@ -64,7 +74,6 @@ public class Bullet implements Drawable{
 	
 	public void move(){
 		this.y -= velocity;
-		this.boundBox.setRect(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
 	public int getWidth() {
@@ -98,7 +107,7 @@ public class Bullet implements Drawable{
 		return y;
 	}
 
-	public Rectangle2D getBoundBox() {
-		return boundBox;
+	public boolean isShip() {
+		return isShip;
 	}
 }

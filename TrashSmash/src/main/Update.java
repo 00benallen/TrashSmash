@@ -75,7 +75,7 @@ public class Update implements Runnable {
 		createBullets();
 		moveBullets();
 		removeBullets();
-		
+		checkCollisions();
 	}
 	
 	public void moveShip() {
@@ -136,7 +136,7 @@ public class Update implements Runnable {
 			if(System.currentTimeMillis() - lastBulletGenTime >= 500) {
 				lastBulletGenTime = System.currentTimeMillis();
 				lck.writeLock().lock();
-				bullets.add(new Bullet(ship.getX() + Ship.getWidth()/4 - Bullet.width/2, ship.getY(), ship.getGunSet()));
+				bullets.add(new Bullet(ship.getX() + Ship.getWidth()/4 - Bullet.width/2, ship.getY(), ship.getGunSet(), true));
 				lck.writeLock().unlock();
 			}
 		}
@@ -155,6 +155,51 @@ public class Update implements Runnable {
 		for(int i = 0; i < bullets.size(); i++) {
 			if(bullets.get(i).getY() < 10) {
 				bullets.remove(i);
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
+	private void checkCollisions() {
+		checkBulletsWithEnemies();
+		checkBulletsWithShip();
+		checkEnemiesWithShip();
+	}
+	
+	private void checkBulletsWithEnemies() {
+		lck.writeLock().lock();
+		for(int i = 0; i < bullets.size(); i++) {
+			for(int j = 0; j < enemies.size(); j++) {
+				if(bullets.get(i).isShip()) {
+					if(bullets.get(i).checkCollision(enemies.get(j))) {
+						bullets.remove(i);
+						enemies.get(j).explode();
+					}
+				}
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
+	private void checkBulletsWithShip() {
+		lck.writeLock().lock();
+		for(int i = 0; i < bullets.size(); i++) {
+			if(!bullets.get(i).isShip()) {
+				if(bullets.get(i).checkCollision(ship)) {
+					bullets.remove(i);
+					ship.damage();
+				}
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
+	private void checkEnemiesWithShip() {
+		lck.writeLock().lock();
+		for(int i = 0; i < enemies.size(); i++) {
+			if(enemies.get(i).checkCollision(ship)) {
+				enemies.get(i).explode();
+				ship.damage();
 			}
 		}
 		lck.writeLock().unlock();

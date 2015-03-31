@@ -148,14 +148,14 @@ public class Enemy implements Drawable{
 		return boundBox;
 	}
 	
-	public boolean checkCollision(Bullet bullet) {
-		if(bullet.getBoundBox().intersects(this.boundBox)) {
+	/*public boolean checkCollision(Bullet bullet) {
+		if(this.getBoundBox().contains(bullet.getBoundBox())) {
 			return true;
 		}
 		else {
 			return false;
 		}
-	}
+	}*/
 	
 	public boolean checkCollision(Ship ship) {
 		if(ship.getBoundBox().intersects(this.boundBox)) {
@@ -164,5 +164,10 @@ public class Enemy implements Drawable{
 		else {
 			return false;
 		}
+	}
+
+	public void explode() {
+		// TODO Auto-generated method stub
+		
 	}
 }
