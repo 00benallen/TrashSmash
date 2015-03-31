@@ -22,7 +22,6 @@ public class Update implements Runnable {
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
-	private int dir;
 	
 	
 	
