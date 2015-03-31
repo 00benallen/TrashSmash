@@ -35,6 +35,10 @@ public class MovePattern {
 			int[] moveArray = {RIGHT, LEFT, LEFT, RIGHT, RIGHT, LEFT, LEFT, RIGHT};
 			return moveArray;
 		}
+		else if(typeCode > 8) {
+			int[] moveArray = {STRAIGHT,STRAIGHT,STRAIGHT,STRAIGHT,STRAIGHT,STRAIGHT,STRAIGHT,STRAIGHT,};
+			return moveArray;
+		}
 		else {
 			return null;
 		}
