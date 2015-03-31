@@ -74,7 +74,7 @@ public class Render implements Runnable {
 		try {
 			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
-			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
+			gunSetIcons[2] = ImageIO.read(new File("Assets/Other/CompostIcon.png"));
 			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
 			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
 		} catch (IOException e) {
