@@ -1,6 +1,7 @@
 package res;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class Enemy implements Drawable{
 	private final static int width = 128, height = 128;
 	private BufferedImage image;
 	private MovePattern movePat;
+	private Rectangle2D boundBox;
 	
 	public Enemy(int x, int y, int typeCode) {
 		this.setX(x);
@@ -30,6 +32,7 @@ public class Enemy implements Drawable{
 			e.printStackTrace();
 		}
 		this.movePat = new MovePattern(typeCode);
+		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
 	private String getFileString() {
@@ -125,6 +128,7 @@ public class Enemy implements Drawable{
 			moveCnt = 0;
 		}
 		this.y += 1;
+		this.boundBox.setRect(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
 	public int getWidth() {
@@ -140,4 +144,7 @@ public class Enemy implements Drawable{
 		return image;
 	}
 
+	public Rectangle2D getBoundBox() {
+		return boundBox;
+	}
 }

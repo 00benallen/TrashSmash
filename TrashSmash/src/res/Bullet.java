@@ -1,6 +1,6 @@
 package res;
 
-import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ public class Bullet implements Drawable{
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	public final static int width = 10, height = 10;
 	private BufferedImage image;
+	private Rectangle2D boundBox;
 	
 	public Bullet(int x, int y, int type){
 		setVelocity(6);
@@ -32,6 +33,7 @@ public class Bullet implements Drawable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
 	public boolean checkCollision(Enemy enemy){
@@ -48,6 +50,7 @@ public class Bullet implements Drawable{
 	
 	public void move(){
 		this.y -= velocity;
+		this.boundBox.setRect(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
 	public int getWidth() {
@@ -81,4 +84,7 @@ public class Bullet implements Drawable{
 		return y;
 	}
 
+	public Rectangle2D getBoundBox() {
+		return boundBox;
+	}
 }

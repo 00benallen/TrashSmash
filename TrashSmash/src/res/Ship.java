@@ -1,6 +1,7 @@
 package res;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ public class Ship implements Drawable{
 	private int x, y, health, gunSet, score;
 	private static final int width = 128, height = 128, velocity = 3;
 	private BufferedImage image;
+	private Rectangle2D boundBox;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
@@ -27,6 +29,7 @@ public class Ship implements Drawable{
 		} catch(IOException e) {
 			System.out.println("Cannot find Assets/Blue/1.png");
 		}
+		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
 	public int getX() {
@@ -84,6 +87,7 @@ public class Ship implements Drawable{
 		if(direction == MovePattern.LEFT && getX()-velocity > 0) {
 			this.x -= velocity;
 		}
+		this.boundBox.setRect(this.x, this.y, Bullet.width, Bullet.height);
 	}
 	
 	public void damage() {
@@ -112,5 +116,8 @@ public class Ship implements Drawable{
 	public BufferedImage getImage() {
 		return image;
 	}
-	
+
+	public Rectangle2D getBoundBox() {
+		return boundBox;
+	}
 }
