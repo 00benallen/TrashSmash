@@ -13,7 +13,7 @@ import main.GraphicsMain;
 public class Enemy implements Drawable{
 	
 	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;
-	public final int APPLE_CORE = 0, PEN = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8, PEAR = 9, TP = 10, SYRINGE = 11, TRUCK = 12;
+	public final int APPLE_CORE = 0, PEN = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8, PEAR = 9, TP = 10, SYRINGE = 11, TRUCK = 12, CHERRY = 13, JUICE = 14;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	private final static int width = 128, height = 128;
 	private BufferedImage image;
@@ -63,6 +63,10 @@ public class Enemy implements Drawable{
 			case SYRINGE:	fileString = "Assets/Invaders/syringe.png";
 				break;
 			case TRUCK:	fileString = "Assets/Invaders/truck.png";
+				break;
+			case CHERRY:	fileString = "Assets/Invaders/cherry.png";
+				break;
+			case JUICE:	fileString = "Assets/Invaders/juice.png";
 				break;
 		}
 		return fileString;
