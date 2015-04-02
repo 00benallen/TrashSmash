@@ -25,7 +25,7 @@ public class Enemy implements Drawable{
 	private long aniChange = 0, frameLength = 300;
 	private int frame = 0;
 	private ReentrantReadWriteLock lck;
-	private boolean isExplode = false;
+	private boolean isExplode = false, isDead = false;;
 	
 	public Enemy(int x, int y, int typeCode) {
 		this.setX(x);
@@ -182,8 +182,8 @@ public class Enemy implements Drawable{
 	}
 	
 	public boolean checkCollision(Ship ship) {
-		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
-			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
+		if(this.x + this.getWidth()/2 >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
+			if(this.y + this.getHeight()/2 >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
 				return true;
 			}
 			else {
@@ -197,6 +197,7 @@ public class Enemy implements Drawable{
 
 	public void explode() {
 		lck = Main.gMain.render.lck;
+		isExplode = true;
 		lck.readLock().lock();
 		if(aniChange == 0) {
 			aniChange = System.currentTimeMillis();
@@ -206,20 +207,25 @@ public class Enemy implements Drawable{
 		if(System.currentTimeMillis() - aniChange > frameLength) {
 			aniChange = System.currentTimeMillis();
 			frame++;
-			this.image = Render.explosion[frame];
-			
-		}
-		if(frame < 10) {
-			explode();
-		}
-		else {
-			isExplode = true;
+			if(frame == 10) {
+				this.setDead(true);
+				lck.readLock().unlock();
+				return;
+			}
+			this.image = Render.explosion[frame];	
 		}
 		lck.readLock().unlock();
-		
 	}
 
 	public boolean isExplode() {
 		return isExplode;
+	}
+
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 }

@@ -76,7 +76,6 @@ public class Update implements Runnable {
 		moveBullets();
 		removeBullets();
 		checkCollisions();
-		removeExplode();
 	}
 	
 	public void moveShip() {
@@ -114,10 +113,9 @@ public class Update implements Runnable {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			if(e.isExplode()) {
-				break;
+			if(!e.isExplode()) {
+				e.move();
 			}
-			e.move();
 			
 		}
 		lck.writeLock().unlock();
@@ -130,7 +128,7 @@ public class Update implements Runnable {
 			if(e.getY() > GraphicsMain.HEIGHT) {
 				enemies.remove(i);
 			}
-			if(e.isExplode()) {
+			if(e.isDead()) {
 				enemies.remove(i);
 			}
 		}
@@ -178,15 +176,12 @@ public class Update implements Runnable {
 		for(int i = 0; i < bullets.size(); i++) {
 			for(int j = 0; j < enemies.size(); j++) {
 				if(bullets.get(i).isShip()) {
-					if(!enemies.get(j).isExplode()) {
+					if(!enemies.get(j).isDead() && !enemies.get(j).isExplode()) {
 						if(bullets.get(i).checkCollision(enemies.get(j))) {
 							bullets.get(i).explode();
 							enemies.get(j).explode();
 							break;
 						}
-					}
-					else {
-						break;
 					}
 				}
 			}
@@ -210,16 +205,13 @@ public class Update implements Runnable {
 	private void checkEnemiesWithShip() {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
-			if(enemies.get(i).isExplode()) {
-				break;
-			}
-			if(enemies.get(i).checkCollision(ship)) {
-				enemies.get(i).explode();
-				ship.damage();
+			if(!enemies.get(i).isDead() && !enemies.get(i).isExplode()) {
+				if(enemies.get(i).checkCollision(ship)) {
+					enemies.get(i).explode();
+					ship.damage();
+				}
 			}
 		}
 		lck.writeLock().unlock();
 	}
-	
-	
 }
