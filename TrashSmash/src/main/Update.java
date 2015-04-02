@@ -172,8 +172,9 @@ public class Update implements Runnable {
 			for(int j = 0; j < enemies.size(); j++) {
 				if(bullets.get(i).isShip()) {
 					if(bullets.get(i).checkCollision(enemies.get(j))) {
-						bullets.remove(i);
+						bullets.remove((i));
 						enemies.get(j).explode();
+						break;
 					}
 				}
 			}

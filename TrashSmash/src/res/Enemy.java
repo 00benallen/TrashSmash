@@ -58,7 +58,7 @@ public class Enemy implements Drawable{
 					break;
 			case PEAR:	fileString = "Assets/Invaders/pear.png";
 				break;
-			case TP:	fileString = "Assets/Invaders/toilerPaper.png";
+			case TP:	fileString = "Assets/Invaders/toiletPaper.png";
 				break;
 			case SYRINGE:	fileString = "Assets/Invaders/syringe.png";
 				break;
@@ -66,7 +66,7 @@ public class Enemy implements Drawable{
 				break;
 			case CHERRY:	fileString = "Assets/Invaders/cherry.png";
 				break;
-			case JUICE:	fileString = "Assets/Invaders/juice.png";
+			case JUICE:	fileString = "Assets/Invaders/juicebox.png";
 				break;
 		}
 		return fileString;
@@ -180,6 +180,6 @@ public class Enemy implements Drawable{
 
 	public void explode() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("OUCH!");
 	}
 }

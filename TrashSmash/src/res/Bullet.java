@@ -37,8 +37,8 @@ public class Bullet implements Drawable {
 	}
 	
 	public boolean checkCollision(Enemy enemy) {
-		if(this.x >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()) {
-			if(this.y >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()) {
+		if(this.x+this.getWidth()/2 >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()/2) {
+			if(this.y+this.getHeight()/2 >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()/2) {
 				return true;
 			}
 			else {
