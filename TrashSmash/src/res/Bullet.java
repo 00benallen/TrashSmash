@@ -51,8 +51,8 @@ public class Bullet implements Drawable {
 	}
 	
 	public boolean checkCollision(Ship ship) {
-		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()) {
-			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()) {
+		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
+			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
 				return true;
 			}
 			else {
@@ -109,5 +109,10 @@ public class Bullet implements Drawable {
 
 	public boolean isShip() {
 		return isShip;
+	}
+
+	public void explode() {
+		// TODO Auto-generated method stub
+		
 	}
 }

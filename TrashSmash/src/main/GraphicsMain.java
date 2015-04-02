@@ -29,7 +29,7 @@ public class GraphicsMain {
 	public final static int HEIGHT = 768;
 	private Graphics2D g;
 	private Thread renderThread;
-	private Render render;
+	public Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
 	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stbutton.png");

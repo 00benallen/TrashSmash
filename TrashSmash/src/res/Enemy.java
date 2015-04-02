@@ -5,10 +5,13 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
 
 import main.GraphicsMain;
+import main.Main;
+import main.Render;
 
 public class Enemy implements Drawable{
 	
@@ -19,6 +22,10 @@ public class Enemy implements Drawable{
 	private BufferedImage image;
 	private MovePattern movePat;
 	private Rectangle2D boundBox;
+	private long aniChange = 0, frameLength = 300;
+	private int frame = 0;
+	private ReentrantReadWriteLock lck;
+	private boolean isExplode = false;
 	
 	public Enemy(int x, int y, int typeCode) {
 		this.setX(x);
@@ -160,18 +167,28 @@ public class Enemy implements Drawable{
 		return boundBox;
 	}
 	
-	/*public boolean checkCollision(Bullet bullet) {
-		if(this.getBoundBox().contains(bullet.getBoundBox())) {
-			return true;
+	public boolean checkCollision(Bullet bullet) {
+		if(this.x >= bullet.getX() && this.x <= bullet.getX() + bullet.getWidth()/2) {
+			if(this.y >= bullet.getY() && this.y <= bullet.getY() + bullet.getHeight()/2) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
 		}
-	}*/
+	}
 	
 	public boolean checkCollision(Ship ship) {
-		if(ship.getBoundBox().intersects(this.boundBox)) {
-			return true;
+		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
+			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
@@ -179,7 +196,30 @@ public class Enemy implements Drawable{
 	}
 
 	public void explode() {
-		// TODO Auto-generated method stub
-		System.out.println("OUCH!");
+		lck = Main.gMain.render.lck;
+		lck.readLock().lock();
+		if(aniChange == 0) {
+			aniChange = System.currentTimeMillis();
+		}
+		this.image = Render.explosion[0];
+		
+		if(System.currentTimeMillis() - aniChange > frameLength) {
+			aniChange = System.currentTimeMillis();
+			frame++;
+			this.image = Render.explosion[frame];
+			
+		}
+		if(frame < 10) {
+			explode();
+		}
+		else {
+			isExplode = true;
+		}
+		lck.readLock().unlock();
+		
+	}
+
+	public boolean isExplode() {
+		return isExplode;
 	}
 }

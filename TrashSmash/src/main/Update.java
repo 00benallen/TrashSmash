@@ -15,7 +15,7 @@ import res.Ship;
  *
  */
 public class Update implements Runnable {
-	private ReentrantReadWriteLock lck = Main.lck;
+	public volatile ReentrantReadWriteLock lck = Main.lck;
 	private Thread updateThread;
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
@@ -76,6 +76,7 @@ public class Update implements Runnable {
 		moveBullets();
 		removeBullets();
 		checkCollisions();
+		removeExplode();
 	}
 	
 	public void moveShip() {
@@ -113,6 +114,9 @@ public class Update implements Runnable {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
+			if(e.isExplode()) {
+				break;
+			}
 			e.move();
 			
 		}
@@ -121,10 +125,13 @@ public class Update implements Runnable {
 	
 	private void removeEnemies() {
 		lck.writeLock().lock();
-			for(int i = 0; i < enemies.size(); i++) {
-				Enemy e = enemies.get(i);
-				if(e.getY() > GraphicsMain.HEIGHT) {
-					enemies.remove(i);
+		for(int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			if(e.getY() > GraphicsMain.HEIGHT) {
+				enemies.remove(i);
+			}
+			if(e.isExplode()) {
+				enemies.remove(i);
 			}
 		}
 		lck.writeLock().unlock();
@@ -171,9 +178,14 @@ public class Update implements Runnable {
 		for(int i = 0; i < bullets.size(); i++) {
 			for(int j = 0; j < enemies.size(); j++) {
 				if(bullets.get(i).isShip()) {
-					if(bullets.get(i).checkCollision(enemies.get(j))) {
-						bullets.remove((i));
-						enemies.get(j).explode();
+					if(!enemies.get(j).isExplode()) {
+						if(bullets.get(i).checkCollision(enemies.get(j))) {
+							bullets.get(i).explode();
+							enemies.get(j).explode();
+							break;
+						}
+					}
+					else {
 						break;
 					}
 				}
@@ -187,7 +199,7 @@ public class Update implements Runnable {
 		for(int i = 0; i < bullets.size(); i++) {
 			if(!bullets.get(i).isShip()) {
 				if(bullets.get(i).checkCollision(ship)) {
-					bullets.remove(i);
+					bullets.get(i).explode();
 					ship.damage();
 				}
 			}
@@ -198,6 +210,9 @@ public class Update implements Runnable {
 	private void checkEnemiesWithShip() {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
+			if(enemies.get(i).isExplode()) {
+				break;
+			}
 			if(enemies.get(i).checkCollision(ship)) {
 				enemies.get(i).explode();
 				ship.damage();
@@ -205,4 +220,6 @@ public class Update implements Runnable {
 		}
 		lck.writeLock().unlock();
 	}
+	
+	
 }

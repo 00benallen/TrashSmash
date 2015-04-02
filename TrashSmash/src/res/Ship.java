@@ -121,18 +121,28 @@ public class Ship implements Drawable{
 		return boundBox;
 	}
 	
-	/*public boolean checkCollision(Bullet bullet) {
-		if(this.getBoundBox().contains(bullet.getBoundBox())) {
-			return true;
+	public boolean checkCollision(Bullet bullet) {
+		if(this.x >= bullet.getX() && this.x <= bullet.getX() + bullet.getWidth()/2) {
+			if(this.y >= bullet.getY() && this.y <= bullet.getY() + bullet.getHeight()/2) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;
 		}
-	}*/
+	}
 	
 	public boolean checkCollision(Enemy enemy) {
-		if(enemy.getBoundBox().intersects(this.boundBox)) {
-			return true;
+		if(this.x >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()/2) {
+			if(this.y >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()/2) {
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			return false;

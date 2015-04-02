@@ -25,7 +25,7 @@ import res.Ship;
  */
 public class Render implements Runnable {
 	private Graphics2D g;
-	private ReentrantReadWriteLock lck = Main.lck;
+	public volatile ReentrantReadWriteLock lck = Main.lck;
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage hpBar;
 	private BufferedImage bronze;
@@ -35,6 +35,7 @@ public class Render implements Runnable {
 	private BufferedImage mstr;
 	private BufferedImage background;
 	private BufferedImage[] buffIcons;
+	public static BufferedImage[] explosion = new BufferedImage[10];
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
 	public Render(Graphics2D g) {
@@ -96,6 +97,20 @@ public class Render implements Runnable {
 			buffIcons[2] = ImageIO.read(new File("Assets/BuffIcons/reinforceBuff.png"));
 			buffIcons[3] = ImageIO.read(new File("Assets/BuffIcons/speedBuff.png"));
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			explosion[0] = ImageIO.read(new File("Assets/explosion GIF/1.png"));
+			explosion[1] = ImageIO.read(new File("Assets/explosion GIF/2.png"));
+			explosion[2] = ImageIO.read(new File("Assets/explosion GIF/3.png"));
+			explosion[3] = ImageIO.read(new File("Assets/explosion GIF/4.png"));
+			explosion[4] = ImageIO.read(new File("Assets/explosion GIF/5.png"));
+			explosion[5] = ImageIO.read(new File("Assets/explosion GIF/6.png"));
+			explosion[6] = ImageIO.read(new File("Assets/explosion GIF/7.png"));
+			explosion[7] = ImageIO.read(new File("Assets/explosion GIF/8.png"));
+			explosion[8] = ImageIO.read(new File("Assets/explosion GIF/9.png"));
+			explosion[9] = ImageIO.read(new File("Assets/explosion GIF/final.png"));
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}

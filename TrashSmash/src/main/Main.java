@@ -20,7 +20,7 @@ public class Main {
 	//app resources
 	//test
 	public static Update update;
-	private static GraphicsMain gMain;
+	public static GraphicsMain gMain;
 	public static int appState = 0;
 	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2, INFO_STATE = 3;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
