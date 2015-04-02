@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Dimension;
-
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import res.ImagePanel;
 import listeners.ButtonListener;
 import listeners.KeyboardListener;
 
@@ -44,7 +44,6 @@ public class GraphicsMain {
 		window.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		window.setResizable(false);
 		window.pack();
-		window.setVisible(true);
 		window.setFocusable(true);
 		window.addKeyListener(kl);
 	}
@@ -65,9 +64,14 @@ public class GraphicsMain {
 	 */
 	public void createContentPane() {
 		
-		GridBagLayout grid = new GridBagLayout();
-		JPanel contentPane = new JPanel(grid);
 
+		ImagePanel imgPanel = new ImagePanel("Assets/Menu and UI/MenuMockup.png");
+		
+		//GridBagLayout grid = new GridBagLayout();
+		JPanel contentPane = new JPanel();
+		
+		//window.setContentPane(contentPane);		
+		
 		GridBagConstraints c = new GridBagConstraints();
 		
 		JButton startButton = new JButton();
@@ -77,25 +81,28 @@ public class GraphicsMain {
 		quitButton.setIcon(qbutton);
 		startButton.setBorder(null);
 		quitButton.setBorder(null);
-		c.anchor = GridBagConstraints.LINE_START;
-		c.gridx = 2;
-		c.gridy = 1;
+		
+		//c.anchor = GridBagConstraints.LINE_START;
+		//c.gridx = 2;
+		//c.gridy = 1;
 		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
-		contentPane.add(startButton, c);
+		contentPane.add(startButton);
 		
-		c.anchor = GridBagConstraints.CENTER;
-		c.gridx = 2;
-		c.gridy = 3;
+		//c.anchor = GridBagConstraints.CENTER;
+		//c.gridx = 2;
+		//c.gridy = 3;
 		
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
-		contentPane.add(quitButton, c);
+		contentPane.add(quitButton);
 		
 		//more buttons go here
-		
+		contentPane.add(imgPanel);
+		//window.pack();
 		window.setContentPane(contentPane);
+		window.setVisible(true);
 	}
 	
 	/**
