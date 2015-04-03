@@ -25,7 +25,7 @@ public class Update implements Runnable {
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
-	private long lastBuffGenTime = 18000;
+	private long lastBuffGenTime = 16000, bulletGenSpeed = 500;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
@@ -131,7 +131,7 @@ public class Update implements Runnable {
 	private void generateBuffs(){
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 18000) {
+		if(milliSecondsElapsed >= 16000) {
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
@@ -172,7 +172,7 @@ public class Update implements Runnable {
 	
 	private void createBullets() {
 		if(KeyboardListener.shoot) {
-			if(System.currentTimeMillis() - lastBulletGenTime >= 500) {
+			if(System.currentTimeMillis() - lastBulletGenTime >= bulletGenSpeed) {
 				lastBulletGenTime = System.currentTimeMillis();
 				lck.writeLock().lock();
 				bullets.add(new Bullet(ship.getX() + Ship.getWidth()/4 - Bullet.width/2, ship.getY(), ship.getGunSet(), true));
@@ -213,16 +213,16 @@ public class Update implements Runnable {
 				if(buffs.get(i).checkCollision(ship)) {
 					buffs.get(i).setDead(true);
 					ship.setScore(ship.getScore() + 150);
-					if(buffs.get(i).getTypeCode() == 0){
+					if(buffs.get(i).getTypeCode() == 0){ //HP
 						ship.heal(1);
 					}
-					if(buffs.get(i).getTypeCode() == 1){
+					if(buffs.get(i).getTypeCode() == 1){ //SPD
+						bulletGenSpeed = (long) Math.floor(bulletGenSpeed * 0.97);
+					}
+					if(buffs.get(i).getTypeCode() == 2){ //INV
 						ship.heal(1);
 					}
-					if(buffs.get(i).getTypeCode() == 2){
-						ship.heal(1);
-					}
-					if(buffs.get(i).getTypeCode() == 3){
+					if(buffs.get(i).getTypeCode() == 3){ //HELP
 						ship.heal(1);
 					}
 				}
