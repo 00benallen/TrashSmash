@@ -81,7 +81,8 @@ public class GraphicsMain {
 		quitButton.setIcon(qbutton);
 		startButton.setBorder(null);
 		quitButton.setBorder(null);
-		
+		startButton.setLocation(650, 100);
+		quitButton.setLocation(650, 100);
 		//c.anchor = GridBagConstraints.LINE_START;
 		//c.gridx = 2;
 		//c.gridy = 1;

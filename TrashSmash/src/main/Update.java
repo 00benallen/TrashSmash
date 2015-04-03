@@ -3,11 +3,16 @@ package main;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import listeners.KeyboardListener;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  * Update class for Trash Smash, updates at 60 ups, runs game logic
@@ -64,6 +69,7 @@ public class Update implements Runnable {
 	}
 	
 	public void init() {
+		playMusic();
 	}
 
 	private void update() {
@@ -78,6 +84,17 @@ public class Update implements Runnable {
 		checkCollisions();
 	}
 	
+	public void playMusic() {
+		File battle;
+		battle = new File("Assets/Music/Battle.mp3");
+		BasicPlayer player = new BasicPlayer();
+		try {
+		    player.open(battle);
+		    player.play();
+		} catch (BasicPlayerException e) {
+		    e.printStackTrace();
+		}
+	}
 	public void moveShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
