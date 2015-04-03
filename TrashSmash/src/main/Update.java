@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import listeners.KeyboardListener;
+import res.Buff;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
@@ -24,9 +25,10 @@ public class Update implements Runnable {
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
+	private long lastBuffGenTime = 12000;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
-	
+	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
 	
 	
 	/**
@@ -75,9 +77,10 @@ public class Update implements Runnable {
 		//insert other update methods
 		moveShip();
 		generateEnemies();
+		generateBuffs();
+		createBullets();
 		moveEnemies();
 		removeEnemies();
-		createBullets();
 		moveBullets();
 		removeBullets();
 		checkCollisions();
@@ -121,6 +124,21 @@ public class Update implements Runnable {
 			int type = r.nextInt(15);
 			lck.writeLock().lock();
 			enemies.add(new Enemy(x, -128, type));
+			lck.writeLock().unlock();
+		}
+	}
+	
+	private void generateBuffs(){
+		long currentTime = System.currentTimeMillis();
+		double milliSecondsElapsed = currentTime - lastBuffGenTime;
+		if(milliSecondsElapsed >= 12000) {
+			lastBuffGenTime = System.currentTimeMillis();
+			Random r = new Random();
+			int x = r.nextInt(GraphicsMain.WIDTH-128);
+			int y = r.nextInt(GraphicsMain.HEIGHT-128);
+			int type = r.nextInt(4);
+			lck.writeLock().lock();
+			buffs.add(new Buff(x, y, type));
 			lck.writeLock().unlock();
 		}
 	}
@@ -185,8 +203,33 @@ public class Update implements Runnable {
 		checkBulletsWithEnemies();
 		checkBulletsWithShip();
 		checkEnemiesWithShip();
+		checkBuffsWithShip();
 	}
 	
+	private void checkBuffsWithShip() {
+		lck.writeLock().lock();
+		for(int i = 0; i < buffs.size(); i++) {
+			if(!buffs.get(i).isDead()) {
+				if(buffs.get(i).checkCollision(ship)) {
+					buffs.get(i).setDead(true);
+					if(buffs.get(i).getTypeCode() == 0){
+						ship.heal(1);
+					}
+					if(buffs.get(i).getTypeCode() == 1){
+						ship.heal(1);
+					}
+					if(buffs.get(i).getTypeCode() == 2){
+						ship.heal(1);
+					}
+					if(buffs.get(i).getTypeCode() == 3){
+						ship.heal(1);
+					}
+				}
+			}
+		}
+		lck.writeLock().unlock();
+	}
+
 	private void checkBulletsWithEnemies() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {

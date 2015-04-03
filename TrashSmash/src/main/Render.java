@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
 
+import res.Buff;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
@@ -132,13 +133,6 @@ public class Render implements Runnable {
 		}
 	}
 
-	private void drawBuffs(Graphics2D g) {
-		g.drawImage(buffIcons[0], 500, 300, 29, 29, null);
-		g.drawImage(buffIcons[1], 400, 400, 29, 29, null);
-		g.drawImage(buffIcons[2], 300, 500, 29, 29, null);
-		g.drawImage(buffIcons[3], 200, 600, 29, 29, null);
-	}
-
 	private void drawBackground(Graphics2D g) {
 		g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}
@@ -148,6 +142,18 @@ public class Render implements Runnable {
 		Ship ship = Main.update.ship;
 		lck.readLock().unlock();
 		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), ship.getWidth()/2, ship.getHeight()/2, null);
+	}
+	
+	private void drawBuffs(Graphics2D g){
+		lck.readLock().lock();
+		LinkedList<Buff> buffs = Main.update.buffs;
+		for(int i = 0; i < buffs.size(); i++) {
+			Buff e = buffs.get(i);
+			if(buffs.get(i).isDead() == false){
+				g.drawImage(e.getImage(), e.getX(), e.getY(), e.getWidth(), e.getHeight(), null);
+			}
+		}
+		lck.readLock().unlock();	
 	}
 	
 	private void drawEnemies(Graphics2D g) {

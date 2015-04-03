@@ -121,6 +121,11 @@ public class Ship implements Drawable{
 		return boundBox;
 	}
 	
+	public void heal(int i){
+		if(health + i <= 3)
+			this.health += i;
+	}
+	
 	public boolean checkCollision(Bullet bullet) {
 		if(this.x >= bullet.getX() && this.x <= bullet.getX() + bullet.getWidth()/2) {
 			if(this.y >= bullet.getY() && this.y <= bullet.getY() + bullet.getHeight()/2) {
