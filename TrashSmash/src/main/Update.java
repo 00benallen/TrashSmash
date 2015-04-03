@@ -7,7 +7,6 @@ import listeners.KeyboardListener;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
-
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;

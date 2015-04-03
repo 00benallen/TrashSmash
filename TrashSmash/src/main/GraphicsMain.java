@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Dimension;
+
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +14,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 import res.ImagePanel;
 import listeners.ButtonListener;
@@ -27,6 +33,7 @@ public class GraphicsMain {
 	private static JFrame window = new JFrame("Trash Smash");
 	public final static int WIDTH = 1024;
 	public final static int HEIGHT = 768;
+	public BasicPlayer player = new BasicPlayer();
 	private Graphics2D g;
 	private Thread renderThread;
 	public Render render;
@@ -51,20 +58,37 @@ public class GraphicsMain {
 	public void init() {
 		
 	}
+	
+
 	/**
 	 * Starts render thread 
 	 */
 	public synchronized void start() {
 		renderThread = new Thread(render, "Render Thread");
 		renderThread.start();
+		try {
+			player.stop();
+		} catch (BasicPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Generates the main menu
 	 */
+	public void playMusic() {
+		File battle;
+		battle = new File("Assets/Music/Menu.mp3");
+		try {
+		    player.open(battle);
+		    player.play();
+		} catch (BasicPlayerException e) {
+		    e.printStackTrace();
+		}
+	}
 	public void createContentPane() {
-		
-
+		playMusic();
 		ImagePanel imgPanel = new ImagePanel("Assets/Menu and UI/MenuMockup.png");
 		
 		//GridBagLayout grid = new GridBagLayout();
