@@ -44,7 +44,7 @@ public class Buff implements Drawable{
 					break;
 			case SPD:	fileString = "Assets/BuffIcons/speedBuff.png";
 					break;
-			case INV:	fileString = "Assets/BuffIcons/inviciBuff.png";
+			case INV:	fileString = "Assets/BuffIcons/invinciBuff.png";
 					break;
 			case HLP:	fileString = "Assets/BuffIcons/reinforceBuff.png";
 					break;
