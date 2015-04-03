@@ -131,7 +131,7 @@ public class Update implements Runnable {
 	private void generateBuffs(){
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 16000) {
+		if(milliSecondsElapsed >= 15000) {
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
@@ -150,7 +150,6 @@ public class Update implements Runnable {
 			if(!e.isExplode()) {
 				e.move();
 			}
-			
 		}
 		lck.writeLock().unlock();
 	}
@@ -220,7 +219,9 @@ public class Update implements Runnable {
 						bulletGenSpeed = (long) Math.floor(bulletGenSpeed * 0.97);
 					}
 					if(buffs.get(i).getTypeCode() == 2){ //INV
-						ship.heal(1);
+						for(int j = 0; j < enemies.size(); j++) {
+							enemies.get(j).explode();
+						}
 					}
 					if(buffs.get(i).getTypeCode() == 3){ //HELP
 						ship.heal(1);

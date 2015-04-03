@@ -94,7 +94,7 @@ public class Render implements Runnable {
 		buffIcons = new BufferedImage[4];
 		try {
 			buffIcons[0] = ImageIO.read(new File("Assets/BuffIcons/hpBuff.png"));
-			buffIcons[1] = ImageIO.read(new File("Assets/BuffIcons/invinciBuff.png"));
+			buffIcons[1] = ImageIO.read(new File("Assets/BuffIcons/shockwaveBuff.png"));
 			buffIcons[2] = ImageIO.read(new File("Assets/BuffIcons/reinforceBuff.png"));
 			buffIcons[3] = ImageIO.read(new File("Assets/BuffIcons/speedBuff.png"));
 		} catch (IOException e) {

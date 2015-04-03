@@ -17,7 +17,7 @@ public class Buff implements Drawable{
 	
 	private int x, y, typeCode;
 	private final static int width = 29, height = 29;
-	private final static int HP = 0, SPD = 1, INV = 2, HLP = 3;
+	private final static int HP = 0, SPD = 1, SHK = 2, HLP = 3;
 	private BufferedImage image;
 	private Rectangle2D boundBox;
 	private long aniChange = 0, frameLength = 300;
@@ -44,7 +44,7 @@ public class Buff implements Drawable{
 					break;
 			case SPD:	fileString = "Assets/BuffIcons/speedBuff.png";
 					break;
-			case INV:	fileString = "Assets/BuffIcons/invinciBuff.png";
+			case SHK:	fileString = "Assets/BuffIcons/shockwaveBuff.png";
 					break;
 			case HLP:	fileString = "Assets/BuffIcons/reinforceBuff.png";
 					break;

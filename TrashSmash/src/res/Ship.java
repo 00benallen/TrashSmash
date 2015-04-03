@@ -12,6 +12,10 @@ public class Ship implements Drawable{
 	private int x, y, health, gunSet, score;
 	private static final int width = 128, height = 128, velocity = 3;
 	private BufferedImage image;
+	private BufferedImage blue;
+	private BufferedImage red;
+	private BufferedImage green;
+	private BufferedImage invin;
 	private Rectangle2D boundBox;
 	
 	public Ship(int x, int y) {
@@ -20,15 +24,15 @@ public class Ship implements Drawable{
 		this.setHealth(3);
 		this.setGunSet(0);
 		this.setScore(0);
-		//this.setScore(9999);
-		//this.setScore(49999);
-		//this.setScore(99999);
-		//this.setScore(200000);
 		try {
-			this.image = ImageIO.read(new File("Assets/Blue/1.png"));
+			this.blue = ImageIO.read(new File("Assets/Ships/Blue.png"));
+			this.green = ImageIO.read(new File("Assets/Ships/Green.png"));
+			this.red = ImageIO.read(new File("Assets/Ships/Red.png"));
+			this.invin = ImageIO.read(new File("Assets/Ships/Invinci.png"));
 		} catch(IOException e) {
 			System.out.println("Cannot find Assets/Blue/1.png");
 		}
+		this.setImage(red);
 		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
@@ -116,7 +120,10 @@ public class Ship implements Drawable{
 	public BufferedImage getImage() {
 		return image;
 	}
-
+	
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
 	public Rectangle2D getBoundBox() {
 		return boundBox;
 	}
