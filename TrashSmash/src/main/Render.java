@@ -152,6 +152,9 @@ public class Render implements Runnable {
 			if(buffs.get(i).isDead() == false){
 				g.drawImage(e.getImage(), e.getX(), e.getY(), e.getWidth(), e.getHeight(), null);
 			}
+			else{
+				buffs.remove(buffs.get(i));
+			}
 		}
 		lck.readLock().unlock();	
 	}
