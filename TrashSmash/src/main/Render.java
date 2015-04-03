@@ -169,7 +169,6 @@ public class Render implements Runnable {
 		lck.readLock().unlock();	
 	}
 	
-	
 	private void drawHealth(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		Ellipse2D.Double healthBar1 = new Ellipse2D.Double(GraphicsMain.WIDTH -135, 33, 20, 20);
@@ -182,13 +181,13 @@ public class Render implements Runnable {
 		g.setColor(Color.CYAN);
 		g.setFont(new Font("OCR A Extended", Font.BOLD, 16));
 		g.drawString("" + Main.update.ship.getScore(), 865, 102);
-		if(Main.update.ship.getScore() < 1000)
+		if(Main.update.ship.getScore() < 10000)
 			g.drawImage(bronze, 954, 78, 40, 32, null);
-		else if(Main.update.ship.getScore() < 10000)
+		else if(Main.update.ship.getScore() < 25000)
 			g.drawImage(silv, 954, 74, 40, 35, null);
-		else if(Main.update.ship.getScore() < 50000)
-			g.drawImage(gold, 954, 74, 40, 35, null);
 		else if(Main.update.ship.getScore() < 100000)
+			g.drawImage(gold, 954, 74, 40, 35, null);
+		else if(Main.update.ship.getScore() < 200000)
 			g.drawImage(diam, 954, 74, 40, 35, null);
 		else
 			g.drawImage(mstr, 954, 72, 40, 40, null);

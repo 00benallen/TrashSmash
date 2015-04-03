@@ -25,7 +25,7 @@ public class Update implements Runnable {
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
-	private long lastBuffGenTime = 12000;
+	private long lastBuffGenTime = 18000;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
@@ -131,7 +131,7 @@ public class Update implements Runnable {
 	private void generateBuffs(){
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 12000) {
+		if(milliSecondsElapsed >= 18000) {
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
@@ -212,6 +212,7 @@ public class Update implements Runnable {
 			if(!buffs.get(i).isDead()) {
 				if(buffs.get(i).checkCollision(ship)) {
 					buffs.get(i).setDead(true);
+					ship.setScore(ship.getScore() + 150);
 					if(buffs.get(i).getTypeCode() == 0){
 						ship.heal(1);
 					}
@@ -237,6 +238,7 @@ public class Update implements Runnable {
 				if(bullets.get(i).isShip()) {
 					if(!enemies.get(j).isDead() && !enemies.get(j).isExplode()) {
 						if(bullets.get(i).checkCollision(enemies.get(j))) {
+							ship.setScore(ship.getScore() + 1000);
 							bullets.get(i).explode();
 							enemies.get(j).explode();
 							break;
@@ -266,6 +268,7 @@ public class Update implements Runnable {
 		for(int i = 0; i < enemies.size(); i++) {
 			if(!enemies.get(i).isDead() && !enemies.get(i).isExplode()) {
 				if(enemies.get(i).checkCollision(ship)) {
+					ship.setScore(ship.getScore() - 150);
 					enemies.get(i).explode();
 					ship.damage();
 				}
