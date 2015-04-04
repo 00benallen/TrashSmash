@@ -131,7 +131,6 @@ public class Render implements Runnable {
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 		}
-		//test
 	}
 
 	private void drawBackground(Graphics2D g) {
