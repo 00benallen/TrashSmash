@@ -31,6 +31,7 @@ public class Update implements Runnable {
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
+	private static BasicPlayer player;
 	public Graphics2D g;
 	
 	/**
@@ -86,12 +87,13 @@ public class Update implements Runnable {
 		moveBullets();
 		removeBullets();
 		checkCollisions();
+		toggleMusic();
 	}
 	
 	public void playMusic() {
 		File battle;
 		battle = new File("Assets/Music/Battle.mp3");
-		BasicPlayer player = new BasicPlayer();
+		player = new BasicPlayer();
 		try {
 		    player.open(battle);
 		    player.play();
@@ -99,6 +101,29 @@ public class Update implements Runnable {
 		    e.printStackTrace();
 		}
 	}
+	
+	public void toggleMusic(){
+		if(!KeyboardListener.toggle) return; 
+		else KeyboardListener.toggle = false;
+		lck.writeLock().lock(); //not sure if necessary
+		if(player.getStatus() != player.PAUSED){
+			try {
+				player.pause();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			try {
+				player.resume();
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
 	public void changeShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {

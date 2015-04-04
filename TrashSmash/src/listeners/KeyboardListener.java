@@ -14,6 +14,8 @@ public class KeyboardListener implements KeyListener {
 	public static boolean left = false, right = false;
 	public static boolean up = false, down = false, shoot = false;
 	public static boolean E = false, Q = false;
+	public static boolean toggle = false;
+	
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			right = true;
@@ -35,6 +37,9 @@ public class KeyboardListener implements KeyListener {
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_Q){
 			Q = true;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_C){
+			toggle = true;
 		}
 	}
 

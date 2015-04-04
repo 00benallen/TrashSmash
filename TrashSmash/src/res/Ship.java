@@ -73,6 +73,8 @@ public class Ship implements Drawable{
 	}
 
 	public void setGunSet(int gunSet) {
+		if(gunSet < 0) gunSet = 2;
+		gunSet %= 3;
 		if(gunSet >= 0 && gunSet < 3){
 			this.gunSet = gunSet;
 			if(this.gunSet == 0){
