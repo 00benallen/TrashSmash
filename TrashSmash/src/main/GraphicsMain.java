@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -97,6 +99,8 @@ public class GraphicsMain {
 		//GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel();
 		JPanel controlPane = new JPanel();
+		JPanel animatePane = new JPanel();
+		JPanel buttonsPane = new JPanel();
 		//window.setContentPane(contentPane);		
 		contentPane.setLayout(new OverlayLayout(contentPane));
 		GridBagConstraints c = new GridBagConstraints();
@@ -107,31 +111,27 @@ public class GraphicsMain {
 		
 		JButton startButton = new JButton();
 		JButton quitButton = new JButton();
-		
 		startButton.setIcon(sbutton);
 		quitButton.setIcon(qbutton);
 		startButton.setBorder(null);
-		quitButton.setBorder(null);
-		startButton.setLocation(650, 100);
-		quitButton.setLocation(650, 100);
-		//c.anchor = GridBagConstraints.LINE_START;
-		//c.gridx = 2;
-		//c.gridy = 1;
-		
-		startButton.setLocation(400, 500);
-		quitButton.setLocation(500, 600);
-		
+		quitButton.setBorder(null);		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
+		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
+		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
+		controlPane.add(Box.createRigidArea(new Dimension(20, 80)));
 		controlPane.add(startButton);
+		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
 		controlPane.add(quitButton);
-		controlPane.add(label);
+		buttonsPane.add(controlPane);
+		buttonsPane.add(Box.createRigidArea(new Dimension(670, 0)));
+		animatePane.add(label);
 		controlPane.setOpaque(false);
-		contentPane.add(controlPane);
-		//c.anchor = GridBagConstraints.CENTER;
-		//c.gridx = 2;
-		//c.gridy = 3;
-		
+		animatePane.setOpaque(false);
+		buttonsPane.setOpaque(false);
+		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
+		contentPane.add(buttonsPane);
+		contentPane.add(animatePane);
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
 		
