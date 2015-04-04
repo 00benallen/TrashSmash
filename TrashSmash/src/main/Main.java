@@ -9,6 +9,8 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+import javazoom.jlgui.basicplayer.BasicPlayerException;
+
 import listeners.KeyboardListener;
 
 /**
@@ -73,6 +75,12 @@ public class Main {
 	}
 	
 	public static void exit(){
-		System.exit(0);
+		Main.update.running = false;
+		try {
+			gMain.player.stop();
+		} catch (BasicPlayerException e) {
+			e.printStackTrace();
+		}
+		gMain.window.dispose();
 	}
 }

@@ -35,7 +35,7 @@ import listeners.KeyboardListener;
  *
  */
 public class GraphicsMain {
-	private static JFrame window = new JFrame("Trash Smash");
+	public JFrame window = new JFrame("Trash Smash");
 	public final static int WIDTH = 1024;
 	public final static int HEIGHT = 768;
 	public BasicPlayer player = new BasicPlayer();
@@ -79,9 +79,7 @@ public class GraphicsMain {
 		}
 	}
 	
-	/**
-	 * Generates the main menu
-	 */
+	
 	public void playMusic() {
 		File battle;
 		battle = new File("Assets/Music/Menu.mp3");
@@ -92,6 +90,10 @@ public class GraphicsMain {
 		    e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Generates the main menu
+	 */
 	public void createContentPane() {
 		playMusic();
 		ImagePanel imgPanel = new ImagePanel("Assets/Menu and UI/MenuMockup.png");
@@ -102,6 +104,7 @@ public class GraphicsMain {
 		JPanel animatePane = new JPanel();
 		JPanel buttonsPane = new JPanel();
 		//window.setContentPane(contentPane);		
+		
 		contentPane.setLayout(new OverlayLayout(contentPane));
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -111,32 +114,45 @@ public class GraphicsMain {
 		
 		JButton startButton = new JButton();
 		JButton quitButton = new JButton();
+		
 		startButton.setIcon(sbutton);
-		quitButton.setIcon(qbutton);
 		startButton.setBorder(null);
-		quitButton.setBorder(null);		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
-		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
-		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
-		controlPane.add(Box.createRigidArea(new Dimension(20, 80)));
-		controlPane.add(startButton);
-		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
-		controlPane.add(quitButton);
-		buttonsPane.add(controlPane);
-		buttonsPane.add(Box.createRigidArea(new Dimension(670, 0)));
-		animatePane.add(label);
-		controlPane.setOpaque(false);
-		animatePane.setOpaque(false);
-		buttonsPane.setOpaque(false);
-		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
-		contentPane.add(buttonsPane);
-		contentPane.add(animatePane);
+		
+		
+		quitButton.setIcon(qbutton);
+		quitButton.setBorder(null);		
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
 		
+		
+		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
+		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
+		
+		controlPane.add(Box.createRigidArea(new Dimension(20, 80)));
+		controlPane.add(startButton);
+		
+		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
+		controlPane.add(quitButton);
+		
+		buttonsPane.add(controlPane);
+		buttonsPane.add(Box.createRigidArea(new Dimension(670, 0)));
+		animatePane.add(label);
+		
+		controlPane.setOpaque(false);
+		animatePane.setOpaque(false);
+		buttonsPane.setOpaque(false);
+		
+		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
+		contentPane.add(buttonsPane);
+		contentPane.add(animatePane);
+		
+		
+		
 		//more buttons go here
 		contentPane.add(imgPanel);
+		
 		//window.pack();
 		window.setContentPane(contentPane);
 		window.setVisible(true);
