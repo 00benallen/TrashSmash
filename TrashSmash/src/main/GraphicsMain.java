@@ -46,6 +46,7 @@ public class GraphicsMain {
 	private KeyboardListener kl;
 	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stbutton.png");
 	ImageIcon qbutton = new ImageIcon("Assets/Menu and UI/qbutton.png");
+	ImageIcon ibutton = new ImageIcon("Assets/Menu and UI/infoButton.png");
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -114,12 +115,18 @@ public class GraphicsMain {
 		
 		JButton startButton = new JButton();
 		JButton quitButton = new JButton();
+		JButton infoButton = new JButton();
+		
 		
 		startButton.setIcon(sbutton);
 		startButton.setBorder(null);
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
 		
+		infoButton.setIcon(ibutton);
+		infoButton.setBorder(null);
+		infoButton.addActionListener(l);
+		infoButton.setActionCommand("info");
 		
 		quitButton.setIcon(qbutton);
 		quitButton.setBorder(null);		
@@ -130,8 +137,11 @@ public class GraphicsMain {
 		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
 		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
 		
-		controlPane.add(Box.createRigidArea(new Dimension(20, 80)));
+		controlPane.add(Box.createRigidArea(new Dimension(20, 170)));
 		controlPane.add(startButton);
+		
+		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
+		controlPane.add(infoButton);
 		
 		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
 		controlPane.add(quitButton);
