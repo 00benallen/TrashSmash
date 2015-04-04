@@ -96,6 +96,7 @@ public class GraphicsMain {
 		
 		//GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel();
+		JPanel controlPane = new JPanel();
 		//window.setContentPane(contentPane);		
 		contentPane.setLayout(new OverlayLayout(contentPane));
 		GridBagConstraints c = new GridBagConstraints();
@@ -122,16 +123,17 @@ public class GraphicsMain {
 		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
-		contentPane.add(startButton);
-		contentPane.add(label);
-
+		controlPane.add(startButton);
+		controlPane.add(quitButton);
+		controlPane.add(label);
+		controlPane.setOpaque(false);
+		contentPane.add(controlPane);
 		//c.anchor = GridBagConstraints.CENTER;
 		//c.gridx = 2;
 		//c.gridy = 3;
 		
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
-		contentPane.add(quitButton);
 		
 		//more buttons go here
 		contentPane.add(imgPanel);
