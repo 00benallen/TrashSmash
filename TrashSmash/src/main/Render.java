@@ -123,10 +123,10 @@ public class Render implements Runnable {
 		drawBackground(g);
 		drawShip(g);
 		drawEnemies(g);
-		drawHealth(g);
 		drawGunSet(g);
 		drawBullets(g);
 		drawBuffs(g);
+		drawHealth(g);
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
