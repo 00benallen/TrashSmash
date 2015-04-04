@@ -208,7 +208,6 @@ public class Render implements Runnable {
 		}
 		lck.readLock().unlock();
 	}
-
 	
 	private void drawGunSet(Graphics2D g) {
 		lck.readLock().lock();

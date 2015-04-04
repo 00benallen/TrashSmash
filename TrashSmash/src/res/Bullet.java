@@ -12,7 +12,7 @@ public class Bullet implements Drawable {
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	public final static int width = 10, height = 10;
 	private BufferedImage image;
-	private boolean isShip;
+	private boolean isShip, dead = false;
 	
 	public Bullet(int x, int y, int type, boolean isShip){
 		setVelocity(6);
@@ -64,6 +64,10 @@ public class Bullet implements Drawable {
 		}
 	}
 	
+	public int getType(){
+		return this.typeCode;
+	}
+	
 	public void setType(int typeCode){
 		this.typeCode = typeCode;
 	}
@@ -110,9 +114,17 @@ public class Bullet implements Drawable {
 	public boolean isShip() {
 		return isShip;
 	}
+	
+	public boolean isDead(){
+		return this.dead;
+	}
+	
+	private void setDead(boolean isDead){
+		this.dead = isDead;
+	}
 
 	public void explode() {
-		// TODO Auto-generated method stub
-		
+		this.setDead(true);
+		//addAnimationHere
 	}
 }

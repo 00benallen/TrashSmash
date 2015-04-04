@@ -8,6 +8,8 @@ import res.Buff;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
+
+import java.awt.Graphics2D;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,7 +31,7 @@ public class Update implements Runnable {
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
-	
+	public Graphics2D g;
 	
 	/**
 	 * Starts update thread
@@ -194,6 +196,9 @@ public class Update implements Runnable {
 			if(bullets.get(i).getY() < 10) {
 				bullets.remove(i);
 			}
+			else if(bullets.get(i).isDead()){
+				bullets.remove(i);
+			}
 		}
 		lck.writeLock().unlock();
 	}
@@ -212,18 +217,20 @@ public class Update implements Runnable {
 				if(buffs.get(i).checkCollision(ship)) {
 					buffs.get(i).setDead(true);
 					ship.setScore(ship.getScore() + 150);
-					if(buffs.get(i).getTypeCode() == 0){ //HP
+					if(buffs.get(i).getTypeCode() == 0){ //HP Restore
+						ship.heal(2);
+					}
+					if(buffs.get(i).getTypeCode() == 1){ //Attack Speed Buff
 						ship.heal(1);
+						bulletGenSpeed = (long) Math.floor(bulletGenSpeed * 0.95);
 					}
-					if(buffs.get(i).getTypeCode() == 1){ //SPD
-						bulletGenSpeed = (long) Math.floor(bulletGenSpeed * 0.97);
-					}
-					if(buffs.get(i).getTypeCode() == 2){ //INV
+					if(buffs.get(i).getTypeCode() == 2){ //Shockwave
+						ship.heal(1);
 						for(int j = 0; j < enemies.size(); j++) {
 							enemies.get(j).explode();
 						}
 					}
-					if(buffs.get(i).getTypeCode() == 3){ //HELP
+					if(buffs.get(i).getTypeCode() == 3){ //Dunno. Make something up.
 						ship.heal(1);
 					}
 				}
@@ -239,10 +246,16 @@ public class Update implements Runnable {
 				if(bullets.get(i).isShip()) {
 					if(!enemies.get(j).isDead() && !enemies.get(j).isExplode()) {
 						if(bullets.get(i).checkCollision(enemies.get(j))) {
-							ship.setScore(ship.getScore() + 1000);
-							bullets.get(i).explode();
-							enemies.get(j).explode();
-							break;
+							if(bullets.get(i).getType() == enemies.get(j).getTrashType()){
+								ship.setScore(ship.getScore() + 1000);
+								bullets.get(i).explode();
+								enemies.get(j).explode();
+								break;
+							}
+							else{
+								ship.setScore(ship.getScore() - 20);
+								bullets.get(i).explode();
+							}
 						}
 					}
 				}
