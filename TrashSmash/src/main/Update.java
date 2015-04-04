@@ -77,7 +77,7 @@ public class Update implements Runnable {
 
 	private void update() {
 		//insert other update methods
-		moveShip();
+		changeShip();
 		generateEnemies();
 		generateBuffs();
 		createBullets();
@@ -99,7 +99,7 @@ public class Update implements Runnable {
 		    e.printStackTrace();
 		}
 	}
-	public void moveShip() {
+	public void changeShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
 			ship.setY(ship.getY() - Ship.getVelocity());
@@ -112,6 +112,14 @@ public class Update implements Runnable {
 		}
 		if(KeyboardListener.right) {
 			ship.move(1);
+		}
+		if(KeyboardListener.Q){
+			KeyboardListener.Q = false;
+			ship.setGunSet(ship.getGunSet() - 1);
+		}
+		if(KeyboardListener.E){
+			KeyboardListener.E = false;
+			ship.setGunSet(ship.getGunSet() + 1);
 		}
 		lck.writeLock().unlock();
 	}

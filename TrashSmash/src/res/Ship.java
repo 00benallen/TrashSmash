@@ -72,8 +72,19 @@ public class Ship implements Drawable{
 		return gunSet;
 	}
 
-	private void setGunSet(int gunSet) {
-		this.gunSet = gunSet;
+	public void setGunSet(int gunSet) {
+		if(gunSet >= 0 && gunSet < 3){
+			this.gunSet = gunSet;
+			if(this.gunSet == 0){
+				this.setImage(red);
+			}
+			else if(this.gunSet == 1){
+				this.setImage(blue);
+			}
+			else if(this.gunSet == 2){
+				this.setImage(green);
+			}
+		}
 	}
 	
 	public static int getVelocity() {
