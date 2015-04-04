@@ -121,7 +121,7 @@ public class Update implements Runnable {
 			lastEnemyGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
-			int type = r.nextInt(15);
+			int type = r.nextInt(20);
 			lck.writeLock().lock();
 			enemies.add(new Enemy(x, -128, type));
 			lck.writeLock().unlock();
