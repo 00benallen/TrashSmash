@@ -10,10 +10,13 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -93,10 +96,13 @@ public class GraphicsMain {
 		
 		//GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel();
-		
 		//window.setContentPane(contentPane);		
-		
+		contentPane.setLayout(new OverlayLayout(contentPane));
 		GridBagConstraints c = new GridBagConstraints();
+
+		URL url = GraphicsMain.class.getResource("SpinningEarth.gif");
+		ImageIcon imageIcon = new ImageIcon(url);
+		JLabel label = new JLabel(imageIcon);
 		
 		JButton startButton = new JButton();
 		JButton quitButton = new JButton();
@@ -111,10 +117,14 @@ public class GraphicsMain {
 		//c.gridx = 2;
 		//c.gridy = 1;
 		
+		startButton.setLocation(400, 500);
+		quitButton.setLocation(500, 600);
+		
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
 		contentPane.add(startButton);
-		
+		contentPane.add(label);
+
 		//c.anchor = GridBagConstraints.CENTER;
 		//c.gridx = 2;
 		//c.gridy = 3;
@@ -128,6 +138,7 @@ public class GraphicsMain {
 		//window.pack();
 		window.setContentPane(contentPane);
 		window.setVisible(true);
+
 	}
 	
 	/**
