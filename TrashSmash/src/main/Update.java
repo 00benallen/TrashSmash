@@ -88,6 +88,7 @@ public class Update implements Runnable {
 		removeBullets();
 		checkCollisions();
 		toggleMusic();
+		repeatMusic();
 	}
 	
 	public void playMusic() {
@@ -122,6 +123,17 @@ public class Update implements Runnable {
 			}
 		}
 		lck.writeLock().unlock();
+	}
+	
+	public void repeatMusic(){
+		if(player.getStatus() == 2){
+			try {
+				player.play();
+			} catch (BasicPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void changeShip() {

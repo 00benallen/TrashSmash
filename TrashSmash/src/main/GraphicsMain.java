@@ -83,7 +83,7 @@ public class GraphicsMain {
 	
 	public void playMusic() {
 		File battle;
-		battle = new File("Assets/Music/Menu.mp3");
+		battle = new File("Assets/Music/Menu2.mp3");
 		try {
 		    player.open(battle);
 		    player.play();
