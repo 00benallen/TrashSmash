@@ -1,18 +1,25 @@
 package res;
 
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
+
+import main.Main;
+import main.Render;
 
 public class Bullet implements Drawable {
 	private int x, y, typeCode, velocity;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	public final static int width = 10, height = 10;
 	private BufferedImage image;
-	private boolean isShip, dead = false;
+	public boolean isShip, isDead = false, isExplode = false;
+	private ReentrantReadWriteLock lck;
+	private long aniChange = 0, frameLength = 25;
+	private int frame = 0;
+	private BufferedImage[] animation;
 	
 	public Bullet(int x, int y, int type, boolean isShip){
 		setVelocity(6);
@@ -22,12 +29,15 @@ public class Bullet implements Drawable {
 		try {
 			if(this.typeCode == GARBAGE) {
 				this.image = ImageIO.read(new File("Assets/Other/redBullet.png"));
+				this.animation = Render.redBulletExplosion;
 			}
 			else if(this.typeCode == RECYCLING) {
 				this.image = ImageIO.read(new File("Assets/Other/blueBullet.png"));
+				this.animation = Render.blueBulletExplosion;
 			}
 			else if(this.typeCode == COMPOST) {
 				this.image = ImageIO.read(new File("Assets/Other/greenBullet.png"));
+				this.animation = Render.greenBulletExplosion;
 			}
 			
 		} catch (IOException e) {
@@ -116,15 +126,35 @@ public class Bullet implements Drawable {
 	}
 	
 	public boolean isDead(){
-		return this.dead;
+		return this.isDead;
 	}
 	
 	private void setDead(boolean isDead){
-		this.dead = isDead;
+		this.isDead = isDead;
 	}
 
 	public void explode() {
-		this.setDead(true);
-		//addAnimationHere
+		lck = Main.gMain.render.lck;
+		if(!isExplode) {
+			isExplode = true;
+			this.image = animation[0];
+		}
+		
+		lck.readLock().lock();
+		if(aniChange == 0) {
+			aniChange = System.currentTimeMillis();
+		}
+		
+		if(System.currentTimeMillis() - aniChange > frameLength) {
+			aniChange = System.currentTimeMillis();
+			frame++;
+			if(frame == 5) {
+				this.setDead(true);
+				lck.readLock().unlock();
+				return;
+			}
+			this.image = animation[frame];	
+		}
+		lck.readLock().unlock();
 	}
 }

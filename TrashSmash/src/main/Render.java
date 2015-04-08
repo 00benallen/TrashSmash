@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +36,9 @@ public class Render implements Runnable {
 	private BufferedImage background;
 	private BufferedImage[] buffIcons;
 	public static BufferedImage[] explosion = new BufferedImage[10];
+	public static BufferedImage[] redBulletExplosion = new BufferedImage[6];
+	public static BufferedImage[] blueBulletExplosion = new BufferedImage[6];
+	public static BufferedImage[] greenBulletExplosion = new BufferedImage[6];
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
 	public Render(Graphics2D g) {
@@ -114,6 +116,36 @@ public class Render implements Runnable {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			redBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode1.png"));
+			redBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode2.png"));
+			redBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode3.png"));
+			redBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode4.png"));
+			redBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode5.png"));
+			redBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode6.png"));
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			blueBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode1.png"));
+			blueBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode2.png"));
+			blueBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode3.png"));
+			blueBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode4.png"));
+			blueBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode5.png"));
+			blueBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode6.png"));
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			greenBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode1.png"));
+			greenBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode2.png"));
+			greenBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode3.png"));
+			greenBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode4.png"));
+			greenBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode5.png"));
+			greenBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode6.png"));
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void draw() {
@@ -127,6 +159,7 @@ public class Render implements Runnable {
 		drawBullets(g);
 		drawBuffs(g);
 		drawHealth(g);
+		runExplosions();
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
@@ -222,7 +255,25 @@ public class Render implements Runnable {
 			Bullet b = bullets.get(i);
 			g.drawImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight(), null);
 		}
+		lck.readLock().unlock();	
+	}
+	
+	private void runExplosions() {
+		lck.readLock().lock();
+		LinkedList<Enemy> enemies = Main.update.enemies;
+		LinkedList<Bullet> bullets = Main.update.bullets;
+		for(int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			if(e.isExplode() && !e.isDead()) {
+				e.explode();
+			}
+		}
+		for(int i = 0; i < bullets.size(); i++) {
+			Bullet b = bullets.get(i);
+			if(b.isExplode && !b.isDead) {
+				b.explode();
+			}
+		}
 		lck.readLock().unlock();
-		
 	}
 }

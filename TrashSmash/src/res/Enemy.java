@@ -23,7 +23,7 @@ public class Enemy implements Drawable{
 	private BufferedImage image;
 	private MovePattern movePat;
 	private Rectangle2D boundBox;
-	private long aniChange = 0, frameLength = 300;
+	private long aniChange = 0, frameLength = 45;
 	private int frame = 0;
 	private ReentrantReadWriteLock lck;
 	private boolean isExplode = false, isDead = false;;
@@ -228,12 +228,15 @@ public class Enemy implements Drawable{
 
 	public void explode() {
 		lck = Main.gMain.render.lck;
-		isExplode = true;
+		if(!isExplode) {
+			isExplode = true;
+			this.image = Render.explosion[0];
+		}
+		
 		lck.readLock().lock();
 		if(aniChange == 0) {
 			aniChange = System.currentTimeMillis();
 		}
-		this.image = Render.explosion[0];
 		
 		if(System.currentTimeMillis() - aniChange > frameLength) {
 			aniChange = System.currentTimeMillis();
@@ -244,10 +247,6 @@ public class Enemy implements Drawable{
 				return;
 			}
 			this.image = Render.explosion[frame];	
-		}
-		if(explosionCounter < 10){
-			explosionCounter++;
-			explode();
 		}
 		lck.readLock().unlock();
 	}

@@ -230,7 +230,10 @@ public class Update implements Runnable {
 	private void moveBullets() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).move();
+			if(!bullets.get(i).isExplode) {
+				bullets.get(i).move();
+			}
+			
 		}
 		lck.writeLock().unlock();
 	}
