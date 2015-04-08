@@ -105,7 +105,7 @@ public class BasicPlayerEvent
 
     public String toString()
     {
-        if (code == OPENED) return "OPENED:" + position;
+        /*if (code == OPENED) return "OPENED:" + position;
         else if (code == OPENING) return "OPENING:" + position + ":" + description;
         else if (code == PLAYING) return "PLAYING:" + position;
         else if (code == STOPPED) return "STOPPED:" + position;
@@ -116,6 +116,6 @@ public class BasicPlayerEvent
         else if (code == EOM) return "EOM:" + position;
         else if (code == PAN) return "PAN:" + value;
         else if (code == GAIN) return "GAIN:" + value;
-        else return "UNKNOWN:" + position;
+        else return "UNKNOWN:" + position; */
     }
 }

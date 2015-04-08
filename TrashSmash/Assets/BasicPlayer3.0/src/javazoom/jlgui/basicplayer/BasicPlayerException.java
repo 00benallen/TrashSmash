@@ -87,16 +87,16 @@ public class BasicPlayerException extends Exception
 
     public void printStackTrace()
     {
-        printStackTrace(System.err);
+        //printStackTrace(System.err);
     }
 
     public void printStackTrace(PrintStream out)
     {
         synchronized (out)
         {
-            PrintWriter pw = new PrintWriter(out, false);
-            printStackTrace(pw);
-            pw.flush();
+           // PrintWriter pw = new PrintWriter(out, false);
+           // printStackTrace(pw);
+           // pw.flush();
         }
     }
 
