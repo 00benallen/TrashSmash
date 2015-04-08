@@ -10,7 +10,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import javazoom.jlgui.basicplayer.BasicPlayerException;
-
 import listeners.KeyboardListener;
 
 /**
@@ -27,6 +26,7 @@ public class Main {
 	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2, INFO_STATE = 3, DEAD_STATE = 4;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
 	private static KeyboardListener kl;
+	private static boolean isNew = true;
 	
 	//game variables should not be stored here, for game logic and updates, go to Update.java
 	
@@ -38,7 +38,11 @@ public class Main {
 			init();
 		}
 		else if(appState == MENU_BUILD_STATE) {
-			gMain = new GraphicsMain(kl);
+			if(isNew) {
+				gMain = new GraphicsMain(kl);
+				isNew = false;
+			}
+			
 			gMain.createContentPane();
 			appState = MENU_STATE;
 		}
@@ -70,17 +74,25 @@ public class Main {
 		}
 	}
 	
-	public static void music(){
-		
+	public static void menuStart() {
+		appState = MENU_BUILD_STATE;
+		Update.running = false;
+		gMain.menuStart();
+		try {
+			Main.main(null);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void exit(){
-		Main.update.running = false;
+		Update.running = false;
 		try {
 			gMain.player.stop();
 		} catch (BasicPlayerException e) {
 			e.printStackTrace();
 		}
 		gMain.window.dispose();
+		
 	}
 }

@@ -82,10 +82,11 @@ public class GraphicsMain {
 	
 	
 	public void playMusic() {
-		File battle;
-		battle = new File("Assets/Music/Menu2.mp3");
+		File menu;
+		menu = new File("Assets/Music/Menu2.mp3");
 		try {
-		    player.open(battle);
+			player.stop();
+		    player.open(menu);
 		    player.play();
 		} catch (BasicPlayerException e) {
 		    e.printStackTrace();
@@ -95,7 +96,7 @@ public class GraphicsMain {
 	/**
 	 * Generates the main menu
 	 */
-	public void createContentPane() {
+	public JPanel createContentPane() {
 		playMusic();
 		ImagePanel imgPanel = new ImagePanel("Assets/Menu and UI/MenuMockup.png");
 		
@@ -166,6 +167,7 @@ public class GraphicsMain {
 		//window.pack();
 		window.setContentPane(contentPane);
 		window.setVisible(true);
+		return contentPane;
 
 	}
 	
@@ -178,5 +180,9 @@ public class GraphicsMain {
 		window.setContentPane(gamePanel);
 		window.pack();
 		render = new Render((Graphics2D) window.getGraphics());
+	}
+	
+	public void menuStart() {
+		window.remove(window.getContentPane());
 	}
 }

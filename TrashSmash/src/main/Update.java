@@ -89,6 +89,7 @@ public class Update implements Runnable {
 		checkCollisions();
 		toggleMusic();
 		repeatMusic();
+		removeShip();
 	}
 	
 	public void playMusic() {
@@ -336,6 +337,21 @@ public class Update implements Runnable {
 				}
 			}
 		}
+		lck.writeLock().unlock();
+	}
+	
+	private void removeShip() {
+		lck.writeLock().lock();
+		
+		if(ship.getHealth() <= 0) {
+			Main.menuStart();
+			try {
+				player.stop();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		lck.writeLock().unlock();
 	}
 }
