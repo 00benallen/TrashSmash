@@ -20,11 +20,12 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package javazoom.jlgui.basicplayer;
 
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  * This interface defines player controls available.  

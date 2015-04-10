@@ -1,7 +1,6 @@
 package res;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -28,15 +27,15 @@ public class Bullet implements Drawable {
 		setY(y);
 		try {
 			if(this.typeCode == GARBAGE) {
-				this.image = ImageIO.read(new File("Assets/Other/redBullet.png"));
+				this.image = ImageIO.read(getClass().getResource("Other/redBullet.png"));
 				this.animation = Render.redBulletExplosion;
 			}
 			else if(this.typeCode == RECYCLING) {
-				this.image = ImageIO.read(new File("Assets/Other/blueBullet.png"));
+				this.image = ImageIO.read(getClass().getResource("Other/blueBullet.png"));
 				this.animation = Render.blueBulletExplosion;
 			}
 			else if(this.typeCode == COMPOST) {
-				this.image = ImageIO.read(new File("Assets/Other/greenBullet.png"));
+				this.image = ImageIO.read(getClass().getResource("Other/greenBullet.png"));
 				this.animation = Render.greenBulletExplosion;
 			}
 			

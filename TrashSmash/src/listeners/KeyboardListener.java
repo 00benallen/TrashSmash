@@ -3,8 +3,6 @@ package listeners;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import main.Main;
-
 /**
  * key listening class for Trash Smash. Reads key input,sends info to Update thread.
  * @author- Tristan Monger
@@ -16,6 +14,7 @@ public class KeyboardListener implements KeyListener {
 	public static boolean E = false, Q = false;
 	public static boolean toggle = false;
 	
+	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){
 			right = true;

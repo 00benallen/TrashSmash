@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -48,6 +47,7 @@ public class Render implements Runnable {
 	/**
 	 * Run method for render thread, triggers the draw list, waits until notified by update thread
 	 */
+	@Override
 	public void run() {
 		init();
 		long lastTime = System.nanoTime();
@@ -76,73 +76,73 @@ public class Render implements Runnable {
 	private void init() {
 		gunSetIcons = new BufferedImage[3];
 		try {
-			gunSetIcons[0] = ImageIO.read(new File("Assets/Other/GarbageIcon.png"));
-			gunSetIcons[1] = ImageIO.read(new File("Assets/Other/RecycleIcon.png"));
-			gunSetIcons[2] = ImageIO.read(new File("Assets/Other/CompostIcon.png"));
-			hpBar = ImageIO.read(new File("Assets/Menu and UI/smallerhpInfoBar.png"));
-			background = ImageIO.read(new File("Assets/Other/backGround Game.png"));
+			gunSetIcons[0] = ImageIO.read(getClass().getResource("Other/GarbageIcon.png"));
+			gunSetIcons[1] = ImageIO.read(getClass().getResource("Other/RecycleIcon.png"));
+			gunSetIcons[2] = ImageIO.read(getClass().getResource("Other/CompostIcon.png"));
+			hpBar = ImageIO.read(getClass().getResource("Menu and UI/smallerhpInfoBar.png"));
+			background = ImageIO.read(getClass().getResource("Other/backGround Game.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			bronze = ImageIO.read(new File("Assets/Menu and UI/bronzeRank.png"));
-			silv = ImageIO.read(new File("Assets/Menu and UI/silverRank.png"));
-			gold = ImageIO.read(new File("Assets/Menu and UI/goldRank.png"));
-			diam = ImageIO.read(new File("Assets/Menu and UI/diamondRank.png"));
-			mstr = ImageIO.read(new File("Assets/Menu and UI/masterRank.png"));
+			bronze = ImageIO.read(getClass().getResource("Menu and UI/bronzeRank.png"));
+			silv = ImageIO.read(getClass().getResource("Menu and UI/silverRank.png"));
+			gold = ImageIO.read(getClass().getResource("Menu and UI/goldRank.png"));
+			diam = ImageIO.read(getClass().getResource("Menu and UI/diamondRank.png"));
+			mstr = ImageIO.read(getClass().getResource("Menu and UI/masterRank.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		buffIcons = new BufferedImage[4];
 		try {
-			buffIcons[0] = ImageIO.read(new File("Assets/BuffIcons/hpBuff.png"));
-			buffIcons[1] = ImageIO.read(new File("Assets/BuffIcons/shockwaveBuff.png"));
-			buffIcons[2] = ImageIO.read(new File("Assets/BuffIcons/reinforceBuff.png"));
-			buffIcons[3] = ImageIO.read(new File("Assets/BuffIcons/speedBuff.png"));
+			buffIcons[0] = ImageIO.read(getClass().getResource("BuffIcons/hpBuff.png"));
+			buffIcons[1] = ImageIO.read(getClass().getResource("BuffIcons/shockwaveBuff.png"));
+			buffIcons[2] = ImageIO.read(getClass().getResource("BuffIcons/reinforceBuff.png"));
+			buffIcons[3] = ImageIO.read(getClass().getResource("BuffIcons/speedBuff.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			explosion[0] = ImageIO.read(new File("Assets/explosion GIF/1.png"));
-			explosion[1] = ImageIO.read(new File("Assets/explosion GIF/2.png"));
-			explosion[2] = ImageIO.read(new File("Assets/explosion GIF/3.png"));
-			explosion[3] = ImageIO.read(new File("Assets/explosion GIF/4.png"));
-			explosion[4] = ImageIO.read(new File("Assets/explosion GIF/5.png"));
-			explosion[5] = ImageIO.read(new File("Assets/explosion GIF/6.png"));
-			explosion[6] = ImageIO.read(new File("Assets/explosion GIF/7.png"));
-			explosion[7] = ImageIO.read(new File("Assets/explosion GIF/8.png"));
-			explosion[8] = ImageIO.read(new File("Assets/explosion GIF/9.png"));
-			explosion[9] = ImageIO.read(new File("Assets/explosion GIF/final.png"));
+			explosion[0] = ImageIO.read(getClass().getResource("explosion GIF/1.png"));
+			explosion[1] = ImageIO.read(getClass().getResource("explosion GIF/2.png"));
+			explosion[2] = ImageIO.read(getClass().getResource("explosion GIF/3.png"));
+			explosion[3] = ImageIO.read(getClass().getResource("explosion GIF/4.png"));
+			explosion[4] = ImageIO.read(getClass().getResource("explosion GIF/5.png"));
+			explosion[5] = ImageIO.read(getClass().getResource("explosion GIF/6.png"));
+			explosion[6] = ImageIO.read(getClass().getResource("explosion GIF/7.png"));
+			explosion[7] = ImageIO.read(getClass().getResource("explosion GIF/8.png"));
+			explosion[8] = ImageIO.read(getClass().getResource("explosion GIF/9.png"));
+			explosion[9] = ImageIO.read(getClass().getResource("explosion GIF/final.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			redBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode1.png"));
-			redBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode2.png"));
-			redBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode3.png"));
-			redBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode4.png"));
-			redBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode5.png"));
-			redBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/redBulletExplode6.png"));
+			redBulletExplosion[0] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode1.png"));
+			redBulletExplosion[1] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode2.png"));
+			redBulletExplosion[2] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode3.png"));
+			redBulletExplosion[3] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode4.png"));
+			redBulletExplosion[4] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode5.png"));
+			redBulletExplosion[5] = ImageIO.read(getClass().getResource("bulletExplosion/redBulletExplode6.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			blueBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode1.png"));
-			blueBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode2.png"));
-			blueBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode3.png"));
-			blueBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode4.png"));
-			blueBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode5.png"));
-			blueBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/blueBulletExplode6.png"));
+			blueBulletExplosion[0] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode1.png"));
+			blueBulletExplosion[1] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode2.png"));
+			blueBulletExplosion[2] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode3.png"));
+			blueBulletExplosion[3] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode4.png"));
+			blueBulletExplosion[4] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode5.png"));
+			blueBulletExplosion[5] = ImageIO.read(getClass().getResource("bulletExplosion/blueBulletExplode6.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			greenBulletExplosion[0] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode1.png"));
-			greenBulletExplosion[1] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode2.png"));
-			greenBulletExplosion[2] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode3.png"));
-			greenBulletExplosion[3] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode4.png"));
-			greenBulletExplosion[4] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode5.png"));
-			greenBulletExplosion[5] = ImageIO.read(new File("Assets/bulletExplosion/greenBulletExplode6.png"));
+			greenBulletExplosion[0] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode1.png"));
+			greenBulletExplosion[1] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode2.png"));
+			greenBulletExplosion[2] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode3.png"));
+			greenBulletExplosion[3] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode4.png"));
+			greenBulletExplosion[4] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode5.png"));
+			greenBulletExplosion[5] = ImageIO.read(getClass().getResource("bulletExplosion/greenBulletExplode6.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -174,7 +174,7 @@ public class Render implements Runnable {
 		lck.readLock().lock();
 		Ship ship = Main.update.ship;
 		lck.readLock().unlock();
-		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), ship.getWidth()/2, ship.getHeight()/2, null);
+		g.drawImage(ship.getImage(), ship.getX(), ship.getY(), Ship.getWidth()/2, Ship.getHeight()/2, null);
 	}
 	
 	private void drawBuffs(Graphics2D g){

@@ -1,13 +1,6 @@
 package main;
 
-import java.io.File;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.print.attribute.standard.Media;
-import javax.sound.sampled.AudioFileFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import javazoom.jlgui.basicplayer.BasicPlayerException;
 import listeners.KeyboardListener;

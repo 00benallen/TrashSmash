@@ -1,20 +1,22 @@
 package main;
 
+import java.awt.Graphics2D;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javazoom.jlgui.basicplayer.BasicPlayer;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
 import listeners.KeyboardListener;
 import res.Buff;
 import res.Bullet;
 import res.Enemy;
 import res.Ship;
-
-import java.awt.Graphics2D;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import javazoom.jlgui.basicplayer.BasicPlayer;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  * Update class for Trash Smash, updates at 60 ups, runs game logic
@@ -26,7 +28,7 @@ public class Update implements Runnable {
 	private Thread updateThread;
 	public volatile static boolean running;
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
-	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500;
+	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000, enemiesGenerated = 0;
 	private long lastBuffGenTime = 16000, bulletGenSpeed = 500;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
@@ -44,6 +46,7 @@ public class Update implements Runnable {
 		init();
 	}
 	
+	@Override
 	public void run() { 
 		long lastTime = System.nanoTime();
 		double nanoPerUpdate = 1000000000D/60D;
@@ -93,8 +96,20 @@ public class Update implements Runnable {
 	}
 	
 	public void playMusic() {
-		File battle;
-		battle = new File("Assets/Music/Battle.mp3");
+		InputStream in = getClass().getResourceAsStream("Music/Battle.mp3");
+		File battle = null;
+		try {
+			OutputStream out = new FileOutputStream(battle);
+			byte[] buffer = new byte[1024];
+			int len = in.read(buffer);
+			while (len != -1) {
+			    out.write(buffer, 0, len);
+			    len = in.read(buffer);
+			}
+			out.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		player = new BasicPlayer();
 		try {
 		    player.open(battle);
@@ -108,7 +123,7 @@ public class Update implements Runnable {
 		if(!KeyboardListener.toggle) return; 
 		else KeyboardListener.toggle = false;
 		lck.writeLock().lock(); //not sure if necessary
-		if(player.getStatus() != player.PAUSED){
+		if(player.getStatus() != BasicPlayer.PAUSED){
 			try {
 				player.pause();
 			} catch (BasicPlayerException e) {
@@ -140,10 +155,14 @@ public class Update implements Runnable {
 	public void changeShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
-			ship.setY(ship.getY() - Ship.getVelocity());
+			if(ship.getY() - Ship.getVelocity() > 0) {
+				ship.setY(ship.getY() - Ship.getVelocity());
+			}	
 		}
 		if(KeyboardListener.down) {
-			ship.setY(ship.getY() + Ship.getVelocity());
+			if(ship.getY() + Ship.getWidth()/2 + Ship.getVelocity() < GraphicsMain.HEIGHT) {
+				ship.setY(ship.getY() + Ship.getVelocity());
+			}	
 		}
 		if(KeyboardListener.left) {
 			ship.move(2);
@@ -165,7 +184,7 @@ public class Update implements Runnable {
 	private void generateEnemies() {
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastEnemyGenTime;
-		if(milliSecondsElapsed >= 2000) {
+		if(milliSecondsElapsed >= enemyFrequency) {
 			lastEnemyGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = r.nextInt(GraphicsMain.WIDTH-128);
@@ -173,6 +192,10 @@ public class Update implements Runnable {
 			lck.writeLock().lock();
 			enemies.add(new Enemy(x, -128, type));
 			lck.writeLock().unlock();
+			enemiesGenerated++;
+			if(enemiesGenerated%20 == 0) {
+				enemyFrequency -= 500;
+			}
 		}
 	}
 	

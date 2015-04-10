@@ -3,15 +3,10 @@ package res;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
-
-import main.GraphicsMain;
-import main.Main;
-import main.Render;
 
 public class Buff implements Drawable{
 	
@@ -30,7 +25,7 @@ public class Buff implements Drawable{
 		this.setY(y);
 		this.typeCode = typeCode;
 		try {
-			this.image = ImageIO.read(new File(this.getFileString()));
+			this.image = ImageIO.read(getClass().getResource(this.getFileString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,18 +35,19 @@ public class Buff implements Drawable{
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
-			case HP:	fileString = "Assets/BuffIcons/hpBuff.png";
+			case HP:	fileString = "BuffIcons/hpBuff.png";
 					break;
-			case SPD:	fileString = "Assets/BuffIcons/speedBuff.png";
+			case SPD:	fileString = "BuffIcons/speedBuff.png";
 					break;
-			case SHK:	fileString = "Assets/BuffIcons/shockwaveBuff.png";
+			case SHK:	fileString = "BuffIcons/shockwaveBuff.png";
 					break;
-			case HLP:	fileString = "Assets/BuffIcons/reinforceBuff.png";
+			case HLP:	fileString = "BuffIcons/reinforceBuff.png";
 					break;
 		}
 		return fileString;
 	}
 
+	@Override
 	public int getX() {
 		return x;
 	}
@@ -60,6 +56,7 @@ public class Buff implements Drawable{
 		this.x = x;
 	}
 
+	@Override
 	public int getY() {
 		return y;
 	}

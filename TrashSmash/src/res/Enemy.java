@@ -3,7 +3,6 @@ package res;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -35,7 +34,7 @@ public class Enemy implements Drawable{
 		this.velocity = 3;
 		this.typeCode = typeCode;
 		try {
-			this.image = ImageIO.read(new File(this.getFileString()));
+			this.image = ImageIO.read(getClass().getResource(this.getFileString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,70 +45,71 @@ public class Enemy implements Drawable{
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
-			case APPLE_CORE:	fileString = "Assets/Invaders/applecore.png";
+			case APPLE_CORE:	fileString = "Invaders/applecore.png";
 								this.setTrashType(COMPOST);
 					break;
-			case PEN:	fileString = "Assets/Invaders/pen.png";
+			case PEN:	fileString = "Invaders/pen.png";
 								this.setTrashType(GARBAGE);
 					break;
-			case COFFEE_CUP:	fileString = "Assets/Invaders/coffeecup.png";
+			case COFFEE_CUP:	fileString = "Invaders/coffeecup.png";
 								this.setTrashType(RECYCLING);
 					break;
-			case BULB:	fileString = "Assets/Invaders/lightbulb.png";
+			case BULB:	fileString = "Invaders/lightbulb.png";
 								this.setTrashType(GARBAGE);
 					break;
-			case EGG_CARTON:	fileString = "Assets/Invaders/eggcarton.png";
+			case EGG_CARTON:	fileString = "Invaders/eggcarton.png";
 								this.setTrashType(RECYCLING);
 					break;
-			case NEWSPAPER:	fileString = "Assets/Invaders/newspaper.png";
+			case NEWSPAPER:	fileString = "Invaders/newspaper.png";
 								this.setTrashType(RECYCLING);
 					break;
-			case TEABAG:	fileString = "Assets/Invaders/teabag.png";
+			case TEABAG:	fileString = "Invaders/teabag.png";
 								this.setTrashType(COMPOST);
 					break;
-			case WATER_BOTTLE:	fileString = "Assets/Invaders/waterbottle.png";
+			case WATER_BOTTLE:	fileString = "Invaders/waterbottle.png";
 								this.setTrashType(RECYCLING);
 					break;
-			case WINE_BOTTLE:	fileString = "Assets/Invaders/winebottle.png";
+			case WINE_BOTTLE:	fileString = "Invaders/winebottle.png";
 								this.setTrashType(RECYCLING);
 					break;
-			case PEAR:	fileString = "Assets/Invaders/pear.png";
+			case PEAR:	fileString = "Invaders/pear.png";
 								this.setTrashType(COMPOST);
 				break;
-			case TP:	fileString = "Assets/Invaders/toiletPaper.png";
+			case TP:	fileString = "Invaders/toiletPaper.png";
 								this.setTrashType(RECYCLING);
 				break;
-			case MILK:	fileString = "Assets/Invaders/milkbag.png";
+			case MILK:	fileString = "Invaders/milkbag.png";
 								this.setTrashType(GARBAGE);
 				break;
-			case TRUCK:	fileString = "Assets/Invaders/truck.png";
+			case TRUCK:	fileString = "Invaders/truck.png";
 								this.setTrashType(GARBAGE);
 				break;
-			case CHERRY:	fileString = "Assets/Invaders/cherry.png";
+			case CHERRY:	fileString = "Invaders/cherry.png";
 								this.setTrashType(COMPOST);
 				break;
-			case YOGURT:	fileString = "Assets/Invaders/yogurtcup.png";
+			case YOGURT:	fileString = "Invaders/yogurtcup.png";
 								this.setTrashType(RECYCLING);
 				break;
-			case CHIPCAN:	fileString = "Assets/Invaders/pringlesCan.png";
+			case CHIPCAN:	fileString = "Invaders/pringlesCan.png";
 								this.setTrashType(RECYCLING);
 								break;
-			case COLA:	fileString = "Assets/Invaders/colaCan.png";
+			case COLA:	fileString = "Invaders/colaCan.png";
 								this.setTrashType(RECYCLING);
 								break;
-			case CHIPBAG:	fileString = "Assets/Invaders/chipbag.png";
+			case CHIPBAG:	fileString = "Invaders/chipbag.png";
 								this.setTrashType(GARBAGE);
 								break;
-			case DVD:	fileString = "Assets/Invaders/dvd.png";
+			case DVD:	fileString = "Invaders/dvd.png";
 								this.setTrashType(GARBAGE);
 								break;
-			case JUICE:	fileString = "Assets/Invaders/juicebox.png";
+			case JUICE:	fileString = "Invaders/juicebox.png";
 								this.setTrashType(RECYCLING);
 								break;
 		}
 		return fileString;
 	}
 
+	@Override
 	public int getX() {
 		return x;
 	}
@@ -118,6 +118,7 @@ public class Enemy implements Drawable{
 		this.x = x;
 	}
 
+	@Override
 	public int getY() {
 		return y;
 	}

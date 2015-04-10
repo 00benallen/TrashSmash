@@ -20,7 +20,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package javazoom.jlgui.basicplayer;
+
 
 /**
  * This class implements player events. 

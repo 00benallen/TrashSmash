@@ -1,18 +1,16 @@
 package main;
 
 import java.awt.Dimension;
-
 import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,11 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 
-import java.net.MalformedURLException;
 import java.net.URL;
+
 import javazoom.jlgui.basicplayer.BasicPlayer;
 import javazoom.jlgui.basicplayer.BasicPlayerException;
-
 import res.ImagePanel;
 import listeners.ButtonListener;
 import listeners.KeyboardListener;
@@ -44,9 +41,9 @@ public class GraphicsMain {
 	public Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
-	ImageIcon sbutton = new ImageIcon("Assets/Menu and UI/stbutton.png");
-	ImageIcon qbutton = new ImageIcon("Assets/Menu and UI/qbutton.png");
-	ImageIcon ibutton = new ImageIcon("Assets/Menu and UI/infoButton.png");
+	ImageIcon sbutton = new ImageIcon(getClass().getResource("Menu and UI/stbutton.png"));
+	ImageIcon qbutton = new ImageIcon(getClass().getResource("Menu and UI/qbutton.png"));
+	ImageIcon ibutton = new ImageIcon(getClass().getResource("Menu and UI/infoButton.png"));
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -82,8 +79,19 @@ public class GraphicsMain {
 	
 	
 	public void playMusic() {
-		File menu;
-		menu = new File("Assets/Music/Menu2.mp3");
+		InputStream in = getClass().getResourceAsStream("Music/Menu.mp3");
+		File menu = null;
+		try {
+			OutputStream out = new FileOutputStream(menu);
+			byte[] buffer = new byte[1024];
+			int len;
+			while ((len = in.read(buffer)) != -1) {
+			    out.write(buffer, 0, len);
+			}
+			out.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 		try {
 			player.stop();
 		    player.open(menu);
@@ -98,7 +106,7 @@ public class GraphicsMain {
 	 */
 	public JPanel createContentPane() {
 		playMusic();
-		ImagePanel imgPanel = new ImagePanel("Assets/Menu and UI/MenuMockup.png");
+		ImagePanel imgPanel = new ImagePanel("Menu and UI/MenuMockup.png");
 		
 		//GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel();

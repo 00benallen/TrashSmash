@@ -3,10 +3,11 @@ package res;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import main.GraphicsMain;
 
 public class Ship implements Drawable{
 	private int x, y, health, gunSet, score;
@@ -25,17 +26,18 @@ public class Ship implements Drawable{
 		this.setGunSet(0);
 		this.setScore(0);
 		try {
-			this.blue = ImageIO.read(new File("Assets/Ships/Blue.png"));
-			this.green = ImageIO.read(new File("Assets/Ships/Green.png"));
-			this.red = ImageIO.read(new File("Assets/Ships/Red.png"));
-			this.invin = ImageIO.read(new File("Assets/Ships/Invinci.png"));
+			this.blue = ImageIO.read(getClass().getResource("Ships/Blue.png"));
+			this.green = ImageIO.read(getClass().getResource("Ships/Green.png"));
+			this.red = ImageIO.read(getClass().getResource("Ships/Red.png"));
+			this.invin = ImageIO.read(getClass().getResource("Ships/Invinci.png"));
 		} catch(IOException e) {
-			System.out.println("Cannot find Assets/Blue/1.png");
+			System.out.println("Cannot find Blue/1.png");
 		}
 		this.setImage(red);
 		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
+	@Override
 	public int getX() {
 		return x;
 	}
@@ -44,6 +46,7 @@ public class Ship implements Drawable{
 		this.x = x;
 	}
 
+	@Override
 	public int getY() {
 		return y;
 	}
@@ -98,7 +101,7 @@ public class Ship implements Drawable{
 	}
 	
 	public void move(int direction) {
-		if(direction == MovePattern.RIGHT && getX()+getWidth()/2+velocity < 1024) {
+		if(direction == MovePattern.RIGHT && getX()+getWidth()/2+velocity < GraphicsMain.WIDTH) {
 			this.x += velocity;
 		}
 		if(direction == MovePattern.LEFT && getX()-velocity > 0) {

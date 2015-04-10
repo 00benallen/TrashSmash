@@ -20,9 +20,12 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package javazoom.jlgui.basicplayer;
+
 
 import java.util.Map;
+
+import javazoom.jlgui.basicplayer.BasicController;
+import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 
 /**
  * This interface defines callbacks methods that will be notified

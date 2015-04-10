@@ -20,10 +20,13 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package javazoom.jlgui.basicplayer;
+
 
 import java.util.Collection;
 import java.util.Iterator;
+
+import javazoom.jlgui.basicplayer.BasicPlayerEvent;
+import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
 /**
  * This class implements a threaded events launcher.

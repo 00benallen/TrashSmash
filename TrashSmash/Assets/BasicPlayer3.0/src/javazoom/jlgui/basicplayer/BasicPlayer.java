@@ -20,7 +20,6 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *----------------------------------------------------------------------
  */
-package javazoom.jlgui.basicplayer;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +31,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -44,11 +44,15 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import javazoom.spi.PropertiesContainer;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.tritonus.share.sampled.TAudioFormat;
+
 import org.tritonus.share.sampled.file.TAudioFileFormat;
+
+import javazoom.jlgui.basicplayer.BasicController;
+import javazoom.jlgui.basicplayer.BasicPlayerEvent;
+import javazoom.jlgui.basicplayer.BasicPlayerEventLauncher;
+import javazoom.jlgui.basicplayer.BasicPlayerException;
+import javazoom.jlgui.basicplayer.BasicPlayerListener;
+import javazoom.spi.PropertiesContainer;
 
 /**
  * BasicPlayer is a threaded simple player class based on JavaSound API.
@@ -71,7 +75,6 @@ public class BasicPlayer implements BasicController, Runnable
     private int m_lineCurrentBufferSize = -1;
     private int lineBufferSize = -1;
     private long threadSleep = -1;
-    private static Log log = LogFactory.getLog(BasicPlayer.class);
     /**
      * These variables are used to distinguish stopped, paused, playing states.
      * We need them to control Thread.
@@ -213,7 +216,6 @@ public class BasicPlayer implements BasicController, Runnable
      */
     public void open(File file) throws BasicPlayerException
     {
-        log.info("open(" + file + ")");
         if (file != null)
         {
             m_dataSource = file;
@@ -226,7 +228,7 @@ public class BasicPlayer implements BasicController, Runnable
      */
     public void open(URL url) throws BasicPlayerException
     {
-        log.info("open(" + url + ")");
+        
         if (url != null)
         {
             m_dataSource = url;
@@ -239,7 +241,7 @@ public class BasicPlayer implements BasicController, Runnable
      */
     public void open(InputStream inputStream) throws BasicPlayerException
     {
-        log.info("open(" + inputStream + ")");
+       
         if (inputStream != null)
         {
             m_dataSource = inputStream;
@@ -291,10 +293,10 @@ public class BasicPlayer implements BasicController, Runnable
             if (audioFormat.getSampleRate() > 0) properties.put("audio.samplerate.hz", new Float(audioFormat.getSampleRate()));
             if (audioFormat.getSampleSizeInBits() > 0) properties.put("audio.samplesize.bits", new Integer(audioFormat.getSampleSizeInBits()));
             if (audioFormat.getChannels() > 0) properties.put("audio.channels", new Integer(audioFormat.getChannels()));
-            if (audioFormat instanceof TAudioFormat)
+            if (audioFormat instanceof AudioFormat)
             {
                 // Tritonus SPI compliant audio format.
-                Map addproperties = ((TAudioFormat) audioFormat).properties();
+                Map addproperties = ((AudioFormat) audioFormat).properties();
                 properties.putAll(addproperties);
             }
             // Add SourceDataLine
@@ -354,7 +356,7 @@ public class BasicPlayer implements BasicController, Runnable
      */
     protected void initLine() throws LineUnavailableException
     {
-        log.info("initLine()");
+    
         if (m_line == null) createLine();
         if (!m_line.isOpen())
         {
@@ -391,17 +393,17 @@ public class BasicPlayer implements BasicController, Runnable
      */
     protected void createLine() throws LineUnavailableException
     {
-        log.info("Create Line");
+       
         if (m_line == null)
         {
             AudioFormat sourceFormat = m_audioInputStream.getFormat();
-            log.info("Create Line : Source format : " + sourceFormat.toString());
+            
             int nSampleSizeInBits = sourceFormat.getSampleSizeInBits();
             if (nSampleSizeInBits <= 0) nSampleSizeInBits = 16;
             if ((sourceFormat.getEncoding() == AudioFormat.Encoding.ULAW) || (sourceFormat.getEncoding() == AudioFormat.Encoding.ALAW)) nSampleSizeInBits = 16;
             if (nSampleSizeInBits != 8) nSampleSizeInBits = 16;
             AudioFormat targetFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, sourceFormat.getSampleRate(), nSampleSizeInBits, sourceFormat.getChannels(), sourceFormat.getChannels() * (nSampleSizeInBits / 8), sourceFormat.getSampleRate(), false);
-            log.info("Create Line : Target format: " + targetFormat);
+           
             // Keep a reference on encoded stream to progress notification.
             m_encodedaudioInputStream = m_audioInputStream;
             try
@@ -411,7 +413,7 @@ public class BasicPlayer implements BasicController, Runnable
             }
             catch (IOException e)
             {
-                log.error("Cannot get m_encodedaudioInputStream.available()", e);
+               
             }
             // Create decoded stream.
             m_audioInputStream = AudioSystem.getAudioInputStream(targetFormat, m_audioInputStream);
@@ -420,7 +422,7 @@ public class BasicPlayer implements BasicController, Runnable
             Mixer mixer = getMixer(m_mixerName);
             if (mixer != null)
             {
-                log.info("Mixer : "+mixer.getMixerInfo().toString());
+               
                 m_line = (SourceDataLine) mixer.getLine(info);
             }
             else 
@@ -428,9 +430,7 @@ public class BasicPlayer implements BasicController, Runnable
                 m_line = (SourceDataLine) AudioSystem.getLine(info);
                 m_mixerName = null;
             }
-            log.info("Line : " + m_line.toString());
-            log.debug("Line Info : " + m_line.getLineInfo().toString());
-            log.debug("Line AudioFormat: " + m_line.getFormat().toString());
+           
         }
     }
 
@@ -446,24 +446,22 @@ public class BasicPlayer implements BasicController, Runnable
             if (buffersize <= 0) buffersize = m_line.getBufferSize();
             m_lineCurrentBufferSize = buffersize;
             m_line.open(audioFormat, buffersize);
-            log.info("Open Line : BufferSize=" + buffersize);
+           
             /*-- Display supported controls --*/
             Control[] c = m_line.getControls();
             for (int p = 0; p < c.length; p++)
             {
-                log.debug("Controls : " + c[p].toString());
+               
             }
             /*-- Is Gain Control supported ? --*/
             if (m_line.isControlSupported(FloatControl.Type.MASTER_GAIN))
             {
                 m_gainControl = (FloatControl) m_line.getControl(FloatControl.Type.MASTER_GAIN);
-                log.info("Master Gain Control : [" + m_gainControl.getMinimum() + "," + m_gainControl.getMaximum() + "] " + m_gainControl.getPrecision());
             }
             /*-- Is Pan control supported ? --*/
             if (m_line.isControlSupported(FloatControl.Type.PAN))
             {
                 m_panControl = (FloatControl) m_line.getControl(FloatControl.Type.PAN);
-                log.info("Pan Control : [" + m_panControl.getMinimum() + "," + m_panControl.getMaximum() + "] " + m_panControl.getPrecision());
             }
         }
     }
@@ -489,7 +487,6 @@ public class BasicPlayer implements BasicController, Runnable
             {
                 closeStream();
             }
-            log.info("stopPlayback() completed");
         }
     }
 
@@ -507,7 +504,6 @@ public class BasicPlayer implements BasicController, Runnable
                 m_line.flush();
                 m_line.stop();
                 m_status = PAUSED;
-                log.info("pausePlayback() completed");
                 notifyEvent(BasicPlayerEvent.PAUSED, getEncodedStreamPosition(), -1, null);
             }
         }
@@ -526,7 +522,6 @@ public class BasicPlayer implements BasicController, Runnable
             {
                 m_line.start();
                 m_status = PLAYING;
-                log.info("resumePlayback() completed");
                 notifyEvent(BasicPlayerEvent.RESUMED, getEncodedStreamPosition(), -1, null);
             }
         }
@@ -540,10 +535,8 @@ public class BasicPlayer implements BasicController, Runnable
         if (m_status == STOPPED) initAudioInputStream();
         if (m_status == OPENED)
         {
-            log.info("startPlayback called");
             if (!(m_thread == null || !m_thread.isAlive()))
             {
-                log.info("WARNING: old thread still running!!");
                 int cnt = 0;
                 while (m_status != OPENED)
                 {
@@ -551,7 +544,6 @@ public class BasicPlayer implements BasicController, Runnable
                     {
                         if (m_thread != null)
                         {
-                            log.info("Waiting ... " + cnt);
                             cnt++;
                             Thread.sleep(1000);
                             if (cnt > 2)
@@ -575,7 +567,6 @@ public class BasicPlayer implements BasicController, Runnable
             {
                 throw new BasicPlayerException(BasicPlayerException.CANNOTINITLINE, e);
             }
-            log.info("Creating new thread");
             m_thread = new Thread(this, "BasicPlayer");
             m_thread.start();
             if (m_line != null)
@@ -596,7 +587,6 @@ public class BasicPlayer implements BasicController, Runnable
      */
     public void run()
     {
-        log.info("Thread Running");
         int nBytesRead = 1;
         byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
         // Lock stream while playing.
@@ -615,7 +605,7 @@ public class BasicPlayer implements BasicController, Runnable
                         {
                             byte[] pcm = new byte[nBytesRead];
                             System.arraycopy(abData, 0, pcm, 0, nBytesRead);
-                            if (m_line.available() >= m_line.getBufferSize()) log.debug("Underrun : "+m_line.available()+"/"+m_line.getBufferSize());
+                            if (m_line.available() >= m_line.getBufferSize());
                             int nBytesWritten = m_line.write(abData, 0, nBytesRead);
                             // Compute position in bytes in encoded stream.
                             int nEncodedBytes = getEncodedStreamPosition();
@@ -636,7 +626,7 @@ public class BasicPlayer implements BasicController, Runnable
                     }
                     catch (IOException e)
                     {
-                        log.error("Thread cannot run()", e);
+                 
                         m_status = STOPPED;
                         notifyEvent(BasicPlayerEvent.STOPPED, getEncodedStreamPosition(), -1, null);
                     }
@@ -649,7 +639,7 @@ public class BasicPlayer implements BasicController, Runnable
                         }
                         catch (InterruptedException e)
                         {
-                            log.error("Thread cannot sleep(" + threadSleep + ")", e);
+
                         }
                     }
                 }
@@ -662,7 +652,6 @@ public class BasicPlayer implements BasicController, Runnable
                     }
                     catch (InterruptedException e)
                     {
-                        log.error("Thread cannot sleep(1000)", e);
                     }
                 }
             }
@@ -684,7 +673,6 @@ public class BasicPlayer implements BasicController, Runnable
         }
         m_status = STOPPED;
         notifyEvent(BasicPlayerEvent.STOPPED, getEncodedStreamPosition(), -1, null);
-        log.info("Thread completed");
     }
 
     /**
@@ -699,7 +687,6 @@ public class BasicPlayer implements BasicController, Runnable
         long totalSkipped = 0;
         if (m_dataSource instanceof File)
         {
-            log.info("Bytes to skip : " + bytes);
             int previousStatus = m_status;
             m_status = SEEKING;
             long skipped = 0;
@@ -717,7 +704,6 @@ public class BasicPlayer implements BasicController, Runnable
                             skipped = m_audioInputStream.skip(bytes - totalSkipped);
                             if (skipped == 0) break;
                             totalSkipped = totalSkipped + skipped;
-                            log.info("Skipped : " + totalSkipped + "/" + bytes);
                             if (totalSkipped == -1) throw new BasicPlayerException(BasicPlayerException.SKIPNOTSUPPORTED);
                         }
                     }
@@ -778,12 +764,10 @@ public class BasicPlayer implements BasicController, Runnable
             if (m_audioInputStream != null)
             {
                 m_audioInputStream.close();
-                log.info("Stream closed");
             }
         }
         catch (IOException e)
         {
-            log.info("Cannot close stream", e);
         }
     }
 
@@ -958,7 +942,6 @@ public class BasicPlayer implements BasicController, Runnable
     {
         if (hasPanControl())
         {
-            log.debug("Pan : " + fPan);
             m_panControl.setValue((float) fPan);
             notifyEvent(BasicPlayerEvent.PAN, getEncodedStreamPosition(), fPan, null);
         }
@@ -979,7 +962,6 @@ public class BasicPlayer implements BasicController, Runnable
             double ampGainDB = ((10.0f / 20.0f) * getMaximumGain()) - getMinimumGain();
             double cste = Math.log(10.0) / 20;
             double valueDB = minGainDB + (1 / cste) * Math.log(1 + (Math.exp(cste * ampGainDB) - 1) * fGain);
-            log.debug("Gain : " + valueDB);
             m_gainControl.setValue((float) valueDB);
             notifyEvent(BasicPlayerEvent.GAIN, getEncodedStreamPosition(), fGain, null);
         }
