@@ -1,4 +1,6 @@
+package basicplayer;
 /*
+
  * BasicPlayerException.
  * 
  * JavaZOOM : jlgui@javazoom.net

@@ -96,23 +96,9 @@ public class Update implements Runnable {
 	}
 	
 	public void playMusic() {
-		InputStream in = getClass().getResourceAsStream("Music/Battle.mp3");
-		File battle = null;
-		try {
-			OutputStream out = new FileOutputStream(battle);
-			byte[] buffer = new byte[1024];
-			int len = in.read(buffer);
-			while (len != -1) {
-			    out.write(buffer, 0, len);
-			    len = in.read(buffer);
-			}
-			out.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
 		player = new BasicPlayer();
 		try {
-		    player.open(battle);
+		    player.open(getClass().getClassLoader().getResourceAsStream("Music/Battle.mp3"));
 		    player.play();
 		} catch (BasicPlayerException e) {
 		    e.printStackTrace();

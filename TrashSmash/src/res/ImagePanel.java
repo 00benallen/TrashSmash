@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel {
 		setVisible(true);
 
 		try {
-			this.img = ImageIO.read(getClass().getResource(imgLink));
+			this.img = ImageIO.read(getClass().getClassLoader().getResource(imgLink));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

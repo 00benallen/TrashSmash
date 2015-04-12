@@ -1,4 +1,6 @@
+package basicplayer;
 /*
+
  * BasicPlayerListener.
  * 
  * JavaZOOM : jlgui@javazoom.net

@@ -25,7 +25,7 @@ public class Buff implements Drawable{
 		this.setY(y);
 		this.typeCode = typeCode;
 		try {
-			this.image = ImageIO.read(getClass().getResource(this.getFileString()));
+			this.image = ImageIO.read(getClass().getClassLoader().getResource(this.getFileString()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

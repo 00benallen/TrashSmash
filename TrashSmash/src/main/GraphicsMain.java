@@ -41,9 +41,9 @@ public class GraphicsMain {
 	public Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
-	ImageIcon sbutton = new ImageIcon(getClass().getResource("Menu and UI/stbutton.png"));
-	ImageIcon qbutton = new ImageIcon(getClass().getResource("Menu and UI/qbutton.png"));
-	ImageIcon ibutton = new ImageIcon(getClass().getResource("Menu and UI/infoButton.png"));
+	ImageIcon sbutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/stbutton.png"));
+	ImageIcon qbutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/qbutton.png"));
+	ImageIcon ibutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/infoButton.png"));
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -79,22 +79,9 @@ public class GraphicsMain {
 	
 	
 	public void playMusic() {
-		InputStream in = getClass().getResourceAsStream("Music/Menu.mp3");
-		File menu = null;
-		try {
-			OutputStream out = new FileOutputStream(menu);
-			byte[] buffer = new byte[1024];
-			int len;
-			while ((len = in.read(buffer)) != -1) {
-			    out.write(buffer, 0, len);
-			}
-			out.close();
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
 		try {
 			player.stop();
-		    player.open(menu);
+		    player.open(getClass().getClassLoader().getResource("Music/Menu2.mp3"));
 		    player.play();
 		} catch (BasicPlayerException e) {
 		    e.printStackTrace();

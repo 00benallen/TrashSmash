@@ -1,4 +1,6 @@
+package basicplayer;
 /*
+
  * BasicPlayerEventLauncher.
  * 
  * JavaZOOM : jlgui@javazoom.net

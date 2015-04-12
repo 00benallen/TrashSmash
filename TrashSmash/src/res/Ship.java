@@ -26,10 +26,10 @@ public class Ship implements Drawable{
 		this.setGunSet(0);
 		this.setScore(0);
 		try {
-			this.blue = ImageIO.read(getClass().getResource("Ships/Blue.png"));
-			this.green = ImageIO.read(getClass().getResource("Ships/Green.png"));
-			this.red = ImageIO.read(getClass().getResource("Ships/Red.png"));
-			this.invin = ImageIO.read(getClass().getResource("Ships/Invinci.png"));
+			this.blue = ImageIO.read(getClass().getClassLoader().getResource("Ships/Blue.png"));
+			this.green = ImageIO.read(getClass().getClassLoader().getResource("Ships/Green.png"));
+			this.red = ImageIO.read(getClass().getClassLoader().getResource("Ships/Red.png"));
+			this.invin = ImageIO.read(getClass().getClassLoader().getResource("Ships/Invinci.png"));
 		} catch(IOException e) {
 			System.out.println("Cannot find Blue/1.png");
 		}
