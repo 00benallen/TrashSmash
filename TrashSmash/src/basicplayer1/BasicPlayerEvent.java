@@ -1,4 +1,4 @@
-package basicplayer;
+package basicplayer1;
 /*
 
  * BasicPlayerEvent.

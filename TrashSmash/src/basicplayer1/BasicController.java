@@ -1,4 +1,4 @@
-package basicplayer;
+package basicplayer1;
 /*
  * BasicController.
  * 
@@ -25,8 +25,6 @@ package basicplayer;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
-
-import javazoom.jlgui.basicplayer.BasicPlayerException;
 
 /**
  * This interface defines player controls available.  

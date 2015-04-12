@@ -3,15 +3,14 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Assets"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/basicplayer3.0.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/commons-logging-api.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/jl1.0.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/jogg-0.0.7.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/jorbis-0.0.15.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/jspeex0.9.7.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="Assets/BasicPlayer3.0/lib/vorbisspi1.0.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/commons-logging-api.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/jl1.0.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/jspeex0.9.7.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/vorbisspi1.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

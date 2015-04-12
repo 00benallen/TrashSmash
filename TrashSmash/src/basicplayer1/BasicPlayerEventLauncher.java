@@ -1,4 +1,4 @@
-package basicplayer;
+package basicplayer1;
 /*
 
  * BasicPlayerEventLauncher.
@@ -26,9 +26,6 @@ package basicplayer;
 
 import java.util.Collection;
 import java.util.Iterator;
-
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
-import javazoom.jlgui.basicplayer.BasicPlayerListener;
 
 /**
  * This class implements a threaded events launcher.

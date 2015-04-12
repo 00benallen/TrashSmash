@@ -2,7 +2,8 @@ package main;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javazoom.jlgui.basicplayer.BasicPlayerException;
+import basicplayer1.BasicPlayer;
+import basicplayer1.BasicPlayerException;
 import listeners.KeyboardListener;
 
 /**
@@ -82,7 +83,7 @@ public class Main {
 		Update.running = false;
 		try {
 			gMain.player.stop();
-		} catch (BasicPlayerException e) {
+		} catch (basicplayer1.BasicPlayerException e) {
 			e.printStackTrace();
 		}
 		gMain.window.dispose();

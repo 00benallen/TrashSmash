@@ -10,8 +10,8 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javazoom.jlgui.basicplayer.BasicPlayer;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
+import basicplayer1.BasicPlayer;
+import basicplayer1.BasicPlayerException;
 import listeners.KeyboardListener;
 import res.Buff;
 import res.Bullet;
@@ -98,7 +98,8 @@ public class Update implements Runnable {
 	public void playMusic() {
 		player = new BasicPlayer();
 		try {
-		    player.open(getClass().getClassLoader().getResourceAsStream("Music/Battle.mp3"));
+			player.stop();
+		    player.open(getClass().getClassLoader().getResource("Music/Battle.mp3"));
 		    player.play();
 		} catch (BasicPlayerException e) {
 		    e.printStackTrace();

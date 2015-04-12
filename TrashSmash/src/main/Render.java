@@ -79,17 +79,17 @@ public class Render implements Runnable {
 			gunSetIcons[0] = ImageIO.read(getClass().getClassLoader().getResource("Other/GarbageIcon.png"));
 			gunSetIcons[1] = ImageIO.read(getClass().getClassLoader().getResource("Other/RecycleIcon.png"));
 			gunSetIcons[2] = ImageIO.read(getClass().getClassLoader().getResource("Other/CompostIcon.png"));
-			hpBar = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/smallerhpInfoBar.png"));
+			hpBar = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/smallerhpInfoBar.png"));
 			background = ImageIO.read(getClass().getClassLoader().getResource("Other/backGround Game.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			bronze = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/bronzeRank.png"));
-			silv = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/silverRank.png"));
-			gold = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/goldRank.png"));
-			diam = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/diamondRank.png"));
-			mstr = ImageIO.read(getClass().getClassLoader().getResource("Menu and UI/masterRank.png"));
+			bronze = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/bronzeRank.png"));
+			silv = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/silverRank.png"));
+			gold = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/goldRank.png"));
+			diam = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/diamondRank.png"));
+			mstr = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/masterRank.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -103,16 +103,16 @@ public class Render implements Runnable {
 			e.printStackTrace();
 		}
 		try {
-			explosion[0] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/1.png"));
-			explosion[1] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/2.png"));
-			explosion[2] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/3.png"));
-			explosion[3] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/4.png"));
-			explosion[4] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/5.png"));
-			explosion[5] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/6.png"));
-			explosion[6] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/7.png"));
-			explosion[7] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/8.png"));
-			explosion[8] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/9.png"));
-			explosion[9] = ImageIO.read(getClass().getClassLoader().getResource("explosion GIF/final.png"));
+			explosion[0] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/1.png"));
+			explosion[1] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/2.png"));
+			explosion[2] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/3.png"));
+			explosion[3] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/4.png"));
+			explosion[4] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/5.png"));
+			explosion[5] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/6.png"));
+			explosion[6] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/7.png"));
+			explosion[7] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/8.png"));
+			explosion[8] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/9.png"));
+			explosion[9] = ImageIO.read(getClass().getClassLoader().getResource("ExplosionGIF/final.png"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,4 @@
-package basicplayer;
+package basicplayer1;
 /*
  * BasicPlayer.
  *
@@ -46,14 +46,9 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import org.tritonus.share.sampled.file.TAudioFileFormat;
-
-import javazoom.jlgui.basicplayer.BasicController;
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
-import javazoom.jlgui.basicplayer.BasicPlayerEventLauncher;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
-import javazoom.jlgui.basicplayer.BasicPlayerListener;
 import javazoom.spi.PropertiesContainer;
+
+import org.tritonus.share.sampled.file.TAudioFileFormat;
 
 /**
  * BasicPlayer is a threaded simple player class based on JavaSound API.

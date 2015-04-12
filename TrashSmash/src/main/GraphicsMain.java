@@ -20,8 +20,8 @@ import javax.swing.OverlayLayout;
 
 import java.net.URL;
 
-import javazoom.jlgui.basicplayer.BasicPlayer;
-import javazoom.jlgui.basicplayer.BasicPlayerException;
+import basicplayer1.BasicPlayer;
+import basicplayer1.BasicPlayerException;
 import res.ImagePanel;
 import listeners.ButtonListener;
 import listeners.KeyboardListener;
@@ -41,9 +41,9 @@ public class GraphicsMain {
 	public Render render;
 	private ButtonListener l;
 	private KeyboardListener kl;
-	ImageIcon sbutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/stbutton.png"));
-	ImageIcon qbutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/qbutton.png"));
-	ImageIcon ibutton = new ImageIcon(getClass().getClassLoader().getResource("Menu and UI/infoButton.png"));
+	ImageIcon sbutton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/stbutton.png"));
+	ImageIcon qbutton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/qbutton.png"));
+	ImageIcon ibutton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/infoButton.png"));
 	
 	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
 	
@@ -71,7 +71,7 @@ public class GraphicsMain {
 		renderThread.start();
 		try {
 			player.stop();
-		} catch (BasicPlayerException e) {
+		} catch (basicplayer1.BasicPlayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -83,7 +83,7 @@ public class GraphicsMain {
 			player.stop();
 		    player.open(getClass().getClassLoader().getResource("Music/Menu2.mp3"));
 		    player.play();
-		} catch (BasicPlayerException e) {
+		} catch (basicplayer1.BasicPlayerException e) {
 		    e.printStackTrace();
 		}
 	}
@@ -93,7 +93,7 @@ public class GraphicsMain {
 	 */
 	public JPanel createContentPane() {
 		playMusic();
-		ImagePanel imgPanel = new ImagePanel("Menu and UI/MenuMockup.png");
+		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
 		//GridBagLayout grid = new GridBagLayout();
 		JPanel contentPane = new JPanel();

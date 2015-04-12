@@ -1,4 +1,4 @@
-package basicplayer;
+package basicplayer1;
 /*
 
  * BasicPlayerListener.
@@ -25,9 +25,6 @@ package basicplayer;
 
 
 import java.util.Map;
-
-import javazoom.jlgui.basicplayer.BasicController;
-import javazoom.jlgui.basicplayer.BasicPlayerEvent;
 
 /**
  * This interface defines callbacks methods that will be notified
