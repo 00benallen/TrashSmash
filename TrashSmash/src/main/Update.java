@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +31,7 @@ public class Update implements Runnable {
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000, enemiesGenerated = 0;
 	private long lastBuffGenTime = 16000, bulletGenSpeed = 500;
+	private boolean stageOne = false, stageTwo = false, stageThree = false;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
@@ -180,8 +182,33 @@ public class Update implements Runnable {
 			enemies.add(new Enemy(x, -128, type));
 			lck.writeLock().unlock();
 			enemiesGenerated++;
+			System.out.println(enemiesGenerated);
+			if(enemiesGenerated == 12 && stageOne == false){
+				enemyFrequency -= 1200;
+				stageOne = true;
+			}
+			if(enemiesGenerated > 16 && stageOne == true){
+				enemyFrequency += 1200;
+				stageOne = false;
+			}
+			if(enemiesGenerated == 30 && stageTwo == false){
+				enemyFrequency -= 1300;
+				stageTwo = true;
+			}
+			if(enemiesGenerated > 40 && stageTwo == true){
+				enemyFrequency += 1300;
+				stageTwo = false;
+			}
+			if(enemiesGenerated == 65 && stageThree == false){
+				enemyFrequency -= 1400;
+				stageThree = true;
+			}
+			if(enemiesGenerated > 80 && stageThree == true){
+				enemyFrequency += 1400;
+				stageThree = false;
+			}
 			if(enemiesGenerated%20 == 0) {
-				enemyFrequency -= 500;
+				enemyFrequency -= 250;
 			}
 		}
 	}
@@ -189,11 +216,19 @@ public class Update implements Runnable {
 	private void generateBuffs(){
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 15000) {
+		if(milliSecondsElapsed >= 14000) {
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
-			int x = r.nextInt(GraphicsMain.WIDTH-128);
-			int y = r.nextInt(GraphicsMain.HEIGHT-128);
+			int x = 0;
+			int y = 0;
+			Rectangle2D buffTest = new Rectangle2D.Double(x, y, 29, 29);
+			for(int i = 0; i < buffs.size(); i++){
+				if(buffTest.contains(buffs.get(i).getBoundBox())){
+					x = r.nextInt(GraphicsMain.WIDTH-128);
+					y = r.nextInt(GraphicsMain.HEIGHT-128);
+					buffTest = new Rectangle2D.Double(x, y, 29, 29);
+				}				
+			}
 			int type = r.nextInt(4);
 			lck.writeLock().lock();
 			buffs.add(new Buff(x, y, type));
@@ -287,6 +322,7 @@ public class Update implements Runnable {
 						ship.heal(1);
 						for(int j = 0; j < enemies.size(); j++) {
 							enemies.get(j).explode();
+							ship.setScore(ship.getScore() + 500);
 						}
 					}
 					if(buffs.get(i).getTypeCode() == 3){ //Dunno. Make something up.

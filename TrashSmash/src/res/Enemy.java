@@ -15,7 +15,7 @@ import main.Render;
 public class Enemy implements Drawable{
 	
 	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;
-	public final int APPLE_CORE = 0, PEN = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8, PEAR = 9, TP = 10, MILK = 11, TRUCK = 12, CHERRY = 13, JUICE = 14, YOGURT = 15, CHIPCAN = 16, COLA = 17, CHIPBAG = 18, DVD = 19;
+	public final int APPLE_CORE = 0, TRUCK = 1, COFFEE_CUP = 2, BULB = 3, EGG_CARTON = 4, NEWSPAPER = 5, TEABAG = 6, WATER_BOTTLE = 7, WINE_BOTTLE = 8, PEAR = 9, TP = 10, MILK = 11, PEN = 12, CHERRY = 13, JUICE = 14, YOGURT = 15, CHIPCAN = 16, COLA = 17, CHIPBAG = 18, DVD = 19;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
 	public int explosionCounter = 0;
 	private final static int width = 128, height = 128;
