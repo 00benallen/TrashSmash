@@ -8,19 +8,20 @@ import main.Main;
 /**
  * Button listener for main menu, performs actions when buttons are pressed, not part of update or render threads
  * @author Ben Pinhorn
- *
+ * @version 1.0
  */
 public class ButtonListener implements ActionListener {
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		//if more JSwing buttons are needed, add their methods here
 		if(e.getActionCommand().equals("start")) {
 			Main.gameStart();
 		}
 		
 		if(e.getActionCommand().equals("quit")) {
 			Main.exit();
+		}
+		if(e.getActionCommand().equals("info")) {
+			//TODO
 		}
 	}
 }

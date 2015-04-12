@@ -8,7 +8,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * Class defines a JPanel with a custom background image
+ * @author Tristan Monger
+ *
+ */
 public class ImagePanel extends JPanel {
+	private static final long serialVersionUID = 8886187983405191952L;
 	private BufferedImage img;
 
 	public ImagePanel(String imgLink) {
@@ -18,13 +24,10 @@ public class ImagePanel extends JPanel {
 		try {
 			this.img = ImageIO.read(getClass().getClassLoader().getResource(imgLink));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
 		setPreferredSize(size);
-		//setMinimumSize(size);
-		//setMaximumSize(size);
 		setSize(size);
 		setLayout(null);
 	}

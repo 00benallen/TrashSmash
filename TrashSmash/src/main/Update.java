@@ -1,12 +1,6 @@
 package main;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -25,9 +19,7 @@ import res.Ship;
  *
  */
 public class Update implements Runnable {
-	public volatile ReentrantReadWriteLock lck = Main.lck;
-	private Thread updateThread;
-	public volatile static boolean running;
+	//update resources
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000, enemiesGenerated = 0;
 	private long lastBuffGenTime = 16000, bulletGenSpeed = 500;
@@ -35,8 +27,14 @@ public class Update implements Runnable {
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
+	
+	//music resources
 	private static BasicPlayer player;
-	public Graphics2D g;
+	
+	//thread resources
+	public volatile ReentrantReadWriteLock lck = Main.lck;
+	private Thread updateThread;
+	public volatile static boolean running;
 	
 	/**
 	 * Starts update thread
@@ -48,7 +46,9 @@ public class Update implements Runnable {
 		init();
 	}
 	
-	@Override
+	/**
+	 * Run loop for update thread, keeps its own UPS
+	 */
 	public void run() { 
 		long lastTime = System.nanoTime();
 		double nanoPerUpdate = 1000000000D/60D;
@@ -71,19 +71,29 @@ public class Update implements Runnable {
 	}
 	
 	/**
-	 * Closes app
+	 * Terminates update thread
 	 */
-	public synchronized void stop() { //quits app
+	public synchronized void stop() {
 		running  = false;
 	}
 	
-	public void init() {
+	private void init() {
 		playMusic();
+	}
+	
+	private void playMusic() {
+		player = new BasicPlayer();
+		try {
+			player.stop();
+		    player.open(getClass().getClassLoader().getResource("Music/Battle.mp3"));
+		    player.play();
+		} catch (BasicPlayerException e) {
+		    e.printStackTrace();
+		}
 	}
 
 	private void update() {
-		//insert other update methods
-		changeShip();
+		moveShip();
 		generateEnemies();
 		generateBuffs();
 		createBullets();
@@ -97,51 +107,7 @@ public class Update implements Runnable {
 		removeShip();
 	}
 	
-	public void playMusic() {
-		player = new BasicPlayer();
-		try {
-			player.stop();
-		    player.open(getClass().getClassLoader().getResource("Music/Battle.mp3"));
-		    player.play();
-		} catch (BasicPlayerException e) {
-		    e.printStackTrace();
-		}
-	}
-	
-	public void toggleMusic(){
-		if(!KeyboardListener.toggle) return; 
-		else KeyboardListener.toggle = false;
-		lck.writeLock().lock(); //not sure if necessary
-		if(player.getStatus() != BasicPlayer.PAUSED){
-			try {
-				player.pause();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
-		}
-		else{
-			try {
-				player.resume();
-			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		lck.writeLock().unlock();
-	}
-	
-	public void repeatMusic(){
-		if(player.getStatus() == 2){
-			try {
-				player.play();
-			} catch (BasicPlayerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void changeShip() {
+	private void moveShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
 			if(ship.getY() - Ship.getVelocity() > 0) {
@@ -173,17 +139,16 @@ public class Update implements Runnable {
 	private void generateEnemies() {
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastEnemyGenTime;
-		if(milliSecondsElapsed >= enemyFrequency) {
+		if(milliSecondsElapsed >= enemyFrequency) { //generates enemies at a certain frequency
 			lastEnemyGenTime = System.currentTimeMillis();
-			Random r = new Random();
-			int x = r.nextInt(GraphicsMain.WIDTH-128);
+			Random r = new Random(); //randomizes their location
+			int x = r.nextInt(GraphicsMain.WIDTH-256) + 128;
 			int type = r.nextInt(20);
 			lck.writeLock().lock();
 			enemies.add(new Enemy(x, -128, type));
 			lck.writeLock().unlock();
 			enemiesGenerated++;
-			System.out.println(enemiesGenerated);
-			if(enemiesGenerated == 12 && stageOne == false){
+			if(enemiesGenerated == 12 && stageOne == false){ //if statements change the frequency by stage
 				enemyFrequency -= 1200;
 				stageOne = true;
 			}
@@ -207,16 +172,13 @@ public class Update implements Runnable {
 				enemyFrequency += 1400;
 				stageThree = false;
 			}
-			if(enemiesGenerated%20 == 0) {
-				enemyFrequency -= 250;
-			}
 		}
 	}
 	
-	private void generateBuffs(){
+	private void generateBuffs(){ //similar to enemy generation, creates random buffs at a certain frequency with random location
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 14000) {
+		if(milliSecondsElapsed >= 14000) { 
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = 0;
@@ -386,7 +348,38 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
-	private void removeShip() {
+	private void toggleMusic(){ //allows player to mute music
+		if(!KeyboardListener.toggle) return; 
+		else KeyboardListener.toggle = false;
+		lck.writeLock().lock();
+		if(player.getStatus() != BasicPlayer.PAUSED){
+			try {
+				player.pause();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			try {
+				player.resume();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+		lck.writeLock().unlock();
+	}
+	
+	public void repeatMusic(){
+		if(player.getStatus() == 2){
+			try {
+				player.play();
+			} catch (BasicPlayerException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void removeShip() { //remove the ship and sets game back to menu
 		lck.writeLock().lock();
 		
 		if(ship.getHealth() <= 0) {

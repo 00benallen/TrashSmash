@@ -2,8 +2,6 @@ package main;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import basicplayer1.BasicPlayer;
-import basicplayer1.BasicPlayerException;
 import listeners.KeyboardListener;
 
 /**
@@ -12,19 +10,26 @@ import listeners.KeyboardListener;
  *
  */
 public class Main {
+	
+	//game variables should not be stored here, for game logic and updates, go to Update.java
+	
 	//app resources
-	//test
-	public static Update update;
+	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2, INFO_STATE = 3, DEAD_STATE = 4;
 	public static GraphicsMain gMain;
 	public static int appState = 0;
-	public static final int MENU_BUILD_STATE = 0, GAME_STATE = 1, MENU_STATE = 2, INFO_STATE = 3, DEAD_STATE = 4;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
 	private static KeyboardListener kl;
 	private static boolean isNew = true;
 	
-	//game variables should not be stored here, for game logic and updates, go to Update.java
+	//thread resources
+	public static Update update;
 	
-	public static void main(String[] args) throws Exception {
+	/**
+	 * Builds game, can be used to reset game state
+	 * @param args
+	 * @throws Exception
+	 */
+	public static void main(String[] args) {
 		kl = new KeyboardListener();
 		if(appState == GAME_STATE) {
 			update = new Update();
@@ -32,26 +37,20 @@ public class Main {
 			init();
 		}
 		else if(appState == MENU_BUILD_STATE) {
-			if(isNew) {
+			if(isNew) { //stops game from rebuilding entire thing if it is already running
 				gMain = new GraphicsMain(kl);
 				isNew = false;
 			}
-			
 			gMain.createContentPane();
 			appState = MENU_STATE;
 		}
 		else if(appState == INFO_STATE){
-			
-		}
-		else if(appState == DEAD_STATE){
-			
+			//TODO
 		}
 	}
 	
 	private static void init() {
-		gMain.init();
 		gMain.start();
-		//load non graphical resources
 	}
 	
 	/**
@@ -63,11 +62,13 @@ public class Main {
 		try {
 			Main.main(null);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Triggers a change in game state from game to menu
+	 */
 	public static void menuStart() {
 		appState = MENU_BUILD_STATE;
 		Update.running = false;
@@ -79,6 +80,9 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Exits game safely by terminating the threads, stopping the music player, and disposing the window
+	 */
 	public static void exit(){
 		Update.running = false;
 		try {

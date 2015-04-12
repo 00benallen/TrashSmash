@@ -1,5 +1,10 @@
 package res;
 
+/**
+ * Class defines a movement pattern for an enemy, this pattern is run in a cycle
+ * @author Ben Pinhorn
+ *
+ */
 public class MovePattern {
 	private int typeCode;
 	private int[] moveArray;

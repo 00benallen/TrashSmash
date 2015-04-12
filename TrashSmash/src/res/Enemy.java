@@ -12,6 +12,11 @@ import main.GraphicsMain;
 import main.Main;
 import main.Render;
 
+/**
+ * Class defines an enemy object
+ * @author Ben Pinhorn
+ *
+ */
 public class Enemy implements Drawable{
 	
 	private int x, y, health, typeCode, trashType, velocity, moveCnt = 0;

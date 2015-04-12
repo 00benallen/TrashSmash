@@ -9,6 +9,11 @@ import javax.imageio.ImageIO;
 import main.Main;
 import main.Render;
 
+/**
+ * Class defines a bullet object
+ * @author Ben Pinhorn
+ *
+ */
 public class Bullet implements Drawable {
 	private int x, y, typeCode, velocity;
 	public final int GARBAGE = 0, RECYCLING = 1, COMPOST = 2;
@@ -132,7 +137,7 @@ public class Bullet implements Drawable {
 		this.isDead = isDead;
 	}
 
-	public void explode() {
+	public void explode() { //runs the explode animation for a bullet, see Render.java
 		lck = Main.gMain.render.lck;
 		if(!isExplode) {
 			isExplode = true;

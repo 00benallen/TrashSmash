@@ -4,10 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class defines a buff object
+ * @author Bryan Chen
+ */
 public class Buff implements Drawable{
 	
 	private int x, y, typeCode;
@@ -15,9 +18,6 @@ public class Buff implements Drawable{
 	private final static int HP = 0, SPD = 1, SHK = 2, HLP = 3;
 	private BufferedImage image;
 	private Rectangle2D boundBox;
-	private long aniChange = 0, frameLength = 300;
-	private int frame = 0;
-	private ReentrantReadWriteLock lck;
 	private boolean isDead = false;
 	
 	public Buff(int x, int y, int typeCode) {

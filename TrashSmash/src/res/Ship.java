@@ -9,6 +9,11 @@ import javax.imageio.ImageIO;
 
 import main.GraphicsMain;
 
+/**
+ * Class defines a ship object, controlled by the player
+ * @author Ben Pinhorn
+ *
+ */
 public class Ship implements Drawable{
 	private int x, y, health, gunSet, score;
 	private static final int width = 128, height = 128, velocity = 3;
@@ -16,7 +21,6 @@ public class Ship implements Drawable{
 	private BufferedImage blue;
 	private BufferedImage red;
 	private BufferedImage green;
-	private BufferedImage invin;
 	private Rectangle2D boundBox;
 	
 	public Ship(int x, int y) {
@@ -29,7 +33,6 @@ public class Ship implements Drawable{
 			this.blue = ImageIO.read(getClass().getClassLoader().getResource("Ships/Blue.png"));
 			this.green = ImageIO.read(getClass().getClassLoader().getResource("Ships/Green.png"));
 			this.red = ImageIO.read(getClass().getClassLoader().getResource("Ships/Red.png"));
-			this.invin = ImageIO.read(getClass().getClassLoader().getResource("Ships/Invinci.png"));
 		} catch(IOException e) {
 			System.out.println("Cannot find Blue/1.png");
 		}

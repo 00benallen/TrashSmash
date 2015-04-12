@@ -4,9 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+
 import java.io.IOException;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -23,8 +24,8 @@ import res.Ship;
  * @author Ben Pinhorn
  */
 public class Render implements Runnable {
+	//graphics resources
 	private Graphics2D g;
-	public volatile ReentrantReadWriteLock lck = Main.lck;
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage hpBar;
 	private BufferedImage bronze, silv, gold, diam, mstr;
@@ -37,23 +38,29 @@ public class Render implements Runnable {
 	public static BufferedImage[] greenBulletExplosion = new BufferedImage[6];
 	private Queue<BufferedImage> dblBuffer = new LinkedList<BufferedImage>();
 	
+	//thread resources
+	public volatile ReentrantReadWriteLock lck = Main.lck;
+	
+	/**
+	 * Constructs the render object
+	 * @param g
+	 */
 	public Render(Graphics2D g) {
 		this.g = g;
 	}
 
 	/**
-	 * Run method for render thread, triggers the draw list, waits until notified by update thread
+	 * Run method for render thread, triggers the draw list, keeps its own fps
 	 */
 	@Override
 	public void run() {
 		init();
 		long lastTime = System.nanoTime();
-		double nanoPerUpdate = 1000000000D/60D;
+		double nanoPerUpdate = 1000000000D/50D;
 		double delta = 0D;
 		
 		if(Main.appState == Main.GAME_STATE) {
 			while(Update.running) {
-				
 				long now = System.nanoTime();
 				delta += (now - lastTime) / nanoPerUpdate;
 				lastTime = now;
@@ -70,7 +77,7 @@ public class Render implements Runnable {
 		}
 	}
 	
-	private void init() {
+	private void init() { //loads all non object images
 		gunSetIcons = new BufferedImage[3];
 		try {
 			gunSetIcons[0] = ImageIO.read(getClass().getClassLoader().getResource("Other/GarbageIcon.png"));
@@ -153,8 +160,7 @@ public class Render implements Runnable {
 		}
 	}
 	
-	private void draw() {
-		//add methods for drawing screen
+	private void draw() { //triggers draw methods, double buffers the screen
 		BufferedImage screen = new BufferedImage(GraphicsMain.WIDTH, GraphicsMain.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) screen.getGraphics();
 		drawBackground(g);
@@ -207,12 +213,10 @@ public class Render implements Runnable {
 		lck.readLock().unlock();	
 	}
 	
-	private void drawHealth(Graphics2D g) {
+	private void drawHealth(Graphics2D g) { //draws health bar 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		lck.readLock().lock();
-		//Draws the HP Bar image
 		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
-		//g.drawImage(bronze, 954, 78, 40, 32, null);
 		g.setColor(Color.CYAN);
 		g.setFont(new Font("OCR A Extended", Font.BOLD, 16));
 		g.drawString("" + Main.update.ship.getScore(), 865, 102);
@@ -227,7 +231,6 @@ public class Render implements Runnable {
 		else
 			g.drawImage(mstr, 954, 72, 40, 40, null);
 		
-		//Fills in healthbar info as necessary
 		if(Main.update.ship.getHealth() >= 1) {
 			g.drawImage(rHP, GraphicsMain.WIDTH-135, 33, 20, 20, null);
 			if(Main.update.ship.getHealth() >= 2) {
@@ -242,7 +245,7 @@ public class Render implements Runnable {
 		lck.readLock().unlock();
 	}
 	
-	private void drawGunSet(Graphics2D g) {
+	private void drawGunSet(Graphics2D g) { //draws the icon for the current gun setting
 		lck.readLock().lock();
 		g.drawImage(gunSetIcons[Main.update.ship.getGunSet()], 16, GraphicsMain.HEIGHT - 80, 64, 64, null);
 		lck.readLock().unlock();
@@ -258,7 +261,7 @@ public class Render implements Runnable {
 		lck.readLock().unlock();	
 	}
 	
-	private void runExplosions() {
+	private void runExplosions() { //triggers the animation methods inside of the dying objects, running the explosion
 		lck.readLock().lock();
 		LinkedList<Enemy> enemies = Main.update.enemies;
 		LinkedList<Bullet> bullets = Main.update.bullets;
