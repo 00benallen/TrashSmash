@@ -27,11 +27,8 @@ public class Render implements Runnable {
 	public volatile ReentrantReadWriteLock lck = Main.lck;
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage hpBar;
-	private BufferedImage bronze;
-	private BufferedImage silv;
-	private BufferedImage gold;
-	private BufferedImage diam;
-	private BufferedImage mstr;
+	private BufferedImage bronze, silv, gold, diam, mstr;
+	private BufferedImage gHP, oHP, rHP;
 	private BufferedImage background;
 	private BufferedImage[] buffIcons;
 	public static BufferedImage[] explosion = new BufferedImage[10];
@@ -146,6 +143,14 @@ public class Render implements Runnable {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			gHP = ImageIO.read(getClass().getClassLoader().getResource("Other/greenHp.png"));
+			oHP = ImageIO.read(getClass().getClassLoader().getResource("Other/orangeHP.png"));
+			rHP = ImageIO.read(getClass().getClassLoader().getResource("Other/redHp.png"));
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void draw() {
@@ -204,9 +209,6 @@ public class Render implements Runnable {
 	
 	private void drawHealth(Graphics2D g) {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		Ellipse2D.Double healthBar1 = new Ellipse2D.Double(GraphicsMain.WIDTH -135, 33, 20, 20);
-		Ellipse2D.Double healthBar2 = new Ellipse2D.Double(GraphicsMain.WIDTH -110, 33, 20, 20);
-		Ellipse2D.Double healthBar3 = new Ellipse2D.Double(GraphicsMain.WIDTH -85, 33, 20, 20);
 		lck.readLock().lock();
 		//Draws the HP Bar image
 		g.drawImage(hpBar, GraphicsMain.WIDTH - 197, 25, 197, 99, null);
@@ -227,14 +229,12 @@ public class Render implements Runnable {
 		
 		//Fills in healthbar info as necessary
 		if(Main.update.ship.getHealth() >= 1) {
-			g.setColor(Color.red);
-			g.fill(healthBar1);
+			g.drawImage(rHP, GraphicsMain.WIDTH-135, 33, 20, 20, null);
 			if(Main.update.ship.getHealth() >= 2) {
-				g.setColor(Color.orange);
-				g.fill(healthBar2);
+				g.drawImage(oHP, GraphicsMain.WIDTH-110, 33, 20, 20, null);
 				if(Main.update.ship.getHealth() == 3) {
 					g.setColor(Color.green);
-					g.fill(healthBar3);
+					g.drawImage(gHP, GraphicsMain.WIDTH -85, 33, 20, 20, null);
 				}
 			}
 			
