@@ -31,6 +31,7 @@ public class Render implements Runnable {
 	private BufferedImage bronze, silv, gold, diam, mstr;
 	private BufferedImage gHP, oHP, rHP;
 	private BufferedImage background;
+	private BufferedImage EMP;
 	private BufferedImage[] buffIcons;
 	public static BufferedImage[] explosion = new BufferedImage[10];
 	public static BufferedImage[] redBulletExplosion = new BufferedImage[6];
@@ -154,7 +155,7 @@ public class Render implements Runnable {
 			gHP = ImageIO.read(getClass().getClassLoader().getResource("Other/greenHp.png"));
 			oHP = ImageIO.read(getClass().getClassLoader().getResource("Other/orangeHP.png"));
 			rHP = ImageIO.read(getClass().getClassLoader().getResource("Other/redHp.png"));
-			
+			EMP = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/EMP.png"));			
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -241,6 +242,12 @@ public class Render implements Runnable {
 				}
 			}
 			
+		}
+		if(Main.update.ship.getShockwave() >= 1){
+			g.drawImage(EMP, GraphicsMain.WIDTH - 193, 73, 20, 20, null);
+			if(Main.update.ship.getShockwave() >= 2){
+				g.drawImage(EMP, GraphicsMain.WIDTH - 193, 93, 20, 20, null);
+			}
 		}
 		lck.readLock().unlock();
 	}

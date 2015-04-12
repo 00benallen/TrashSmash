@@ -22,6 +22,7 @@ public class Ship implements Drawable{
 	private BufferedImage red;
 	private BufferedImage green;
 	private Rectangle2D boundBox;
+	private int shockWave = 0;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
@@ -29,6 +30,7 @@ public class Ship implements Drawable{
 		this.setHealth(3);
 		this.setGunSet(0);
 		this.setScore(0);
+		this.setShockwave(1);
 		try {
 			this.blue = ImageIO.read(getClass().getClassLoader().getResource("Ships/Blue.png"));
 			this.green = ImageIO.read(getClass().getClassLoader().getResource("Ships/Green.png"));
@@ -150,6 +152,17 @@ public class Ship implements Drawable{
 	public void heal(int i){
 		if(health + i <= 3)
 			this.health += i;
+	}
+	
+	public int getShockwave(){
+		return this.shockWave;
+	}
+	
+	public void setShockwave(int shockWave){
+		this.shockWave = shockWave;
+		if(this.shockWave > 2){
+			this.shockWave = 2;
+		}
 	}
 	
 	public boolean checkCollision(Bullet bullet) {

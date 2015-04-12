@@ -133,6 +133,16 @@ public class Update implements Runnable {
 			KeyboardListener.E = false;
 			ship.setGunSet(ship.getGunSet() + 1);
 		}
+		if(KeyboardListener.R){
+			KeyboardListener.R = false;
+			if(ship.getShockwave() >= 1){
+				for(int j = 0; j < enemies.size(); j++) {
+					enemies.get(j).explode();
+					ship.setScore(ship.getScore() + 500);
+				}
+				ship.setShockwave(ship.getShockwave() - 1);
+			}
+		}
 		lck.writeLock().unlock();
 	}
 	
@@ -178,7 +188,7 @@ public class Update implements Runnable {
 	private void generateBuffs(){ //similar to enemy generation, creates random buffs at a certain frequency with random location
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 14000) { 
+		if(milliSecondsElapsed >= 2000) { 
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = 0;
@@ -282,10 +292,7 @@ public class Update implements Runnable {
 					}
 					if(buffs.get(i).getTypeCode() == 2){ //Shockwave
 						ship.heal(1);
-						for(int j = 0; j < enemies.size(); j++) {
-							enemies.get(j).explode();
-							ship.setScore(ship.getScore() + 500);
-						}
+						ship.setShockwave(ship.getShockwave() + 1);
 					}
 					if(buffs.get(i).getTypeCode() == 3){ //Dunno. Make something up.
 						ship.heal(1);
