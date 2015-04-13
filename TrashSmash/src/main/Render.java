@@ -155,7 +155,7 @@ public class Render implements Runnable {
 			gHP = ImageIO.read(getClass().getClassLoader().getResource("Other/greenHp.png"));
 			oHP = ImageIO.read(getClass().getClassLoader().getResource("Other/orangeHP.png"));
 			rHP = ImageIO.read(getClass().getClassLoader().getResource("Other/redHp.png"));
-			EMP = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/EMP.png"));			
+			//EMP = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/EMP.png"));			
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

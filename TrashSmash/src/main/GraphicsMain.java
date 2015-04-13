@@ -98,6 +98,7 @@ public class GraphicsMain {
 	 */
 	public JPanel createContentPane() {
 		playMusic();
+		window.setVisible(false);
 		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
 		JPanel contentPane = new JPanel();
@@ -153,6 +154,8 @@ public class GraphicsMain {
 		buttonsPane.setOpaque(false);
 		
 		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
+		
+		
 		contentPane.add(buttonsPane);
 		contentPane.add(animatePane);
 		contentPane.add(imgPanel);
