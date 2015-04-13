@@ -1,9 +1,14 @@
 package main;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.imageio.ImageIO;
 
 import basicplayer1.BasicPlayer;
 import basicplayer1.BasicPlayerException;
@@ -28,6 +33,7 @@ public class Update implements Runnable {
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
+	public BufferedImage infoScreen;
 	
 	//music resources
 	private static BasicPlayer player;
@@ -100,18 +106,30 @@ public class Update implements Runnable {
 	 * Executes all game actions
 	 */
 	private void update() {
-		moveShip();
-		generateEnemies();
-		generateBuffs();
-		createBullets();
-		moveEnemies();
-		removeEnemies();
-		moveBullets();
-		removeBullets();
-		checkCollisions();
-		toggleMusic();
-		repeatMusic();
-		removeShip();
+		if(!ship.basics)
+			showBasics();
+		else{
+			moveShip();
+			generateEnemies();
+			generateBuffs();
+			createBullets();
+			moveEnemies();
+			removeEnemies();
+			moveBullets();
+			removeBullets();
+			checkCollisions();
+			toggleMusic();
+			repeatMusic();
+			removeShip();
+		}
+	}
+	
+	private void showBasics(){
+		System.out.println("Showing basics");
+		if(KeyboardListener.shoot){
+			ship.basics = true;
+			System.out.println("Done basics");
+		}
 	}
 	
 	private void moveShip() {

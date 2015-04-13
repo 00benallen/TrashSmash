@@ -24,6 +24,7 @@ public class Ship implements Drawable{
 	private Rectangle2D boundBox;
 	private int shockWave = 0;
 	private int breach;
+	public boolean basics = false;
 	
 	public Ship(int x, int y) {
 		this.setX(x);

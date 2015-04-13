@@ -30,10 +30,9 @@ public class Render implements Runnable {
 	private BufferedImage hpBar;
 	private BufferedImage bronze, silv, gold, diam, mstr;
 	private BufferedImage gHP, oHP, rHP;
-	private BufferedImage background, background2;
+	private BufferedImage background, background2, infoScreen;
 	private BufferedImage EMP;
 	private BufferedImage[] buffIcons;
-	public boolean breach = false;
 	public static BufferedImage[] explosion = new BufferedImage[10];
 	public static BufferedImage[] redBulletExplosion = new BufferedImage[6];
 	public static BufferedImage[] blueBulletExplosion = new BufferedImage[6];
@@ -88,6 +87,7 @@ public class Render implements Runnable {
 			hpBar = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/smallerhpInfoBar.png"));
 			background = ImageIO.read(getClass().getClassLoader().getResource("Other/backGround Game.png"));
 			background2 = ImageIO.read(getClass().getClassLoader().getResource("Other/background.png"));
+			infoScreen = ImageIO.read(getClass().getClassLoader().getResource("InfoScreen/INFOMove.png"));	
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -166,21 +166,29 @@ public class Render implements Runnable {
 	private void draw() { //triggers draw methods, double buffers the screen
 		BufferedImage screen = new BufferedImage(GraphicsMain.WIDTH, GraphicsMain.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) screen.getGraphics();
-		drawBackground(g);
-		drawShip(g);
-		drawEnemies(g);
-		drawGunSet(g);
-		drawBullets(g);
-		drawBuffs(g);
-		drawHealth(g);
-		checkBreach(g);
-		runExplosions();
+		if(!Main.update.ship.basics)
+			showBasics(g);
+		else{
+			drawBackground(g);
+			drawShip(g);
+			drawEnemies(g);
+			drawGunSet(g);
+			drawBullets(g);
+			drawBuffs(g);
+			drawHealth(g);
+			checkBreach(g);
+			runExplosions();
+		}
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
 			this.g.drawImage(dblBuffer.poll(), 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 		}
 	}
-
+	
+	private void showBasics(Graphics2D g){
+		g.drawImage(infoScreen, 0, 0, 1024, 768, null);
+	}
+	
 	private void drawBackground(Graphics2D g) {
 		lck.readLock().lock();
 		if(Main.update.enemiesGenerated < 60)
@@ -280,7 +288,7 @@ public class Render implements Runnable {
 		if(Main.update.ship.getBreach() > 0){
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("OCR A Extended", Font.BOLD, 34));
-			g.drawString("BREACH!", GraphicsMain.WIDTH/2 - 100, GraphicsMain.HEIGHT/2 - 50);
+			g.drawString("BREACH!", GraphicsMain.WIDTH/2 - 60, GraphicsMain.HEIGHT/2 - 30);
 			Main.update.ship.setBreach(Main.update.ship.getBreach() - 1);
 		}
 	}
