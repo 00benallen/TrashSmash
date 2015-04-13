@@ -99,6 +99,7 @@ public class GraphicsMain {
 	public JPanel createContentPane() {
 		playMusic();
 		window.setVisible(false);
+		window.getContentPane().removeAll();
 		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
 		JPanel contentPane = new JPanel();
