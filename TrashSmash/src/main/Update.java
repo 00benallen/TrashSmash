@@ -81,6 +81,9 @@ public class Update implements Runnable {
 		playMusic();
 	}
 	
+	/**
+	 * Opens new music stream and begins playing it
+	 */
 	private void playMusic() {
 		player = new BasicPlayer();
 		try {
@@ -92,6 +95,9 @@ public class Update implements Runnable {
 		}
 	}
 
+	/**
+	 * Executes all game actions
+	 */
 	private void update() {
 		moveShip();
 		generateEnemies();
@@ -110,7 +116,7 @@ public class Update implements Runnable {
 	private void moveShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
-			if(ship.getY() - Ship.getVelocity() > 0) {
+			if(ship.getY() > 16) { //accounts for height of window's border
 				ship.setY(ship.getY() - Ship.getVelocity());
 			}	
 		}
