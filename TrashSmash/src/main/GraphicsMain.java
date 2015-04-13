@@ -66,7 +66,6 @@ public class GraphicsMain {
 	private void init() {
 		sButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/stbutton.png"));
 		qButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/qbutton.png"));
-		iButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/infoButton.png"));
 	}
 	
 
@@ -114,19 +113,12 @@ public class GraphicsMain {
 		JLabel label = new JLabel(imageIcon);
 		
 		JButton startButton = new JButton();
-		JButton quitButton = new JButton();
-		JButton infoButton = new JButton();
-		
+		JButton quitButton = new JButton();		
 		
 		startButton.setIcon(sButton);
 		startButton.setBorder(null);
 		startButton.addActionListener(l);
 		startButton.setActionCommand("start");
-		
-		infoButton.setIcon(iButton);
-		infoButton.setBorder(null);
-		infoButton.addActionListener(l);
-		infoButton.setActionCommand("info");
 		
 		quitButton.setIcon(qButton);
 		quitButton.setBorder(null);		
@@ -139,9 +131,6 @@ public class GraphicsMain {
 		
 		controlPane.add(Box.createRigidArea(new Dimension(20, 170)));
 		controlPane.add(startButton);
-		
-		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
-		controlPane.add(infoButton);
 		
 		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
 		controlPane.add(quitButton);

@@ -125,10 +125,8 @@ public class Update implements Runnable {
 	}
 	
 	private void showBasics(){
-		System.out.println("Showing basics");
 		if(KeyboardListener.shoot){
 			ship.basics = true;
-			System.out.println("Done basics");
 		}
 	}
 	
