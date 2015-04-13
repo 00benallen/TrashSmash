@@ -21,7 +21,8 @@ import res.Ship;
 public class Update implements Runnable {
 	//update resources
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
-	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000, enemiesGenerated = 0;
+	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000;
+	public long enemiesGenerated = 0;
 	private long lastBuffGenTime = 16000, bulletGenSpeed = 500;
 	private boolean stageOne = false, stageTwo = false, stageThree = false;
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
@@ -194,7 +195,7 @@ public class Update implements Runnable {
 	private void generateBuffs(){ //similar to enemy generation, creates random buffs at a certain frequency with random location
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;
-		if(milliSecondsElapsed >= 2000) { 
+		if(milliSecondsElapsed >= 12000) { 
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
 			int x = 0;

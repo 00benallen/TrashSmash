@@ -30,7 +30,7 @@ public class Render implements Runnable {
 	private BufferedImage hpBar;
 	private BufferedImage bronze, silv, gold, diam, mstr;
 	private BufferedImage gHP, oHP, rHP;
-	private BufferedImage background;
+	private BufferedImage background, background2;
 	private BufferedImage EMP;
 	private BufferedImage[] buffIcons;
 	public static BufferedImage[] explosion = new BufferedImage[10];
@@ -86,6 +86,7 @@ public class Render implements Runnable {
 			gunSetIcons[2] = ImageIO.read(getClass().getClassLoader().getResource("Other/CompostIcon.png"));
 			hpBar = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/smallerhpInfoBar.png"));
 			background = ImageIO.read(getClass().getClassLoader().getResource("Other/backGround Game.png"));
+			background2 = ImageIO.read(getClass().getClassLoader().getResource("Other/background.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -179,7 +180,12 @@ public class Render implements Runnable {
 	}
 
 	private void drawBackground(Graphics2D g) {
-		g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
+		lck.readLock().lock();
+		if(Main.update.enemiesGenerated < 60)
+			g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
+		else
+			g.drawImage(background2, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
+		lck.readLock().unlock();
 	}
 	
 	private void drawShip(Graphics2D g) {
