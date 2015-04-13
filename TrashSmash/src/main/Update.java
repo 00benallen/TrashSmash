@@ -232,6 +232,9 @@ public class Update implements Runnable {
 			Enemy e = enemies.get(i);
 			if(e.getY() > GraphicsMain.HEIGHT) {
 				enemies.remove(i);
+				ship.damage();
+				ship.setScore(ship.getScore() - 1000);
+				ship.setBreach(60);
 			}
 			if(e.isDead()) {
 				enemies.remove(i);

@@ -33,6 +33,7 @@ public class Render implements Runnable {
 	private BufferedImage background, background2;
 	private BufferedImage EMP;
 	private BufferedImage[] buffIcons;
+	public boolean breach = false;
 	public static BufferedImage[] explosion = new BufferedImage[10];
 	public static BufferedImage[] redBulletExplosion = new BufferedImage[6];
 	public static BufferedImage[] blueBulletExplosion = new BufferedImage[6];
@@ -172,6 +173,7 @@ public class Render implements Runnable {
 		drawBullets(g);
 		drawBuffs(g);
 		drawHealth(g);
+		checkBreach(g);
 		runExplosions();
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
@@ -272,6 +274,15 @@ public class Render implements Runnable {
 			g.drawImage(b.getImage(), b.getX(), b.getY(), b.getWidth(), b.getHeight(), null);
 		}
 		lck.readLock().unlock();	
+	}
+	
+	private void checkBreach(Graphics2D g) {
+		if(Main.update.ship.getBreach() > 0){
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("OCR A Extended", Font.BOLD, 34));
+			g.drawString("BREACH!", GraphicsMain.WIDTH/2 - 100, GraphicsMain.HEIGHT/2 - 50);
+			Main.update.ship.setBreach(Main.update.ship.getBreach() - 1);
+		}
 	}
 	
 	private void runExplosions() { //triggers the animation methods inside of the dying objects, running the explosion

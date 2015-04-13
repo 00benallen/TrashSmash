@@ -23,6 +23,7 @@ public class Ship implements Drawable{
 	private BufferedImage green;
 	private Rectangle2D boundBox;
 	private int shockWave = 0;
+	private int breach;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
@@ -163,6 +164,14 @@ public class Ship implements Drawable{
 		if(this.shockWave > 2){
 			this.shockWave = 2;
 		}
+	}
+	
+	public int getBreach(){
+		return this.breach;
+	}
+	
+	public void setBreach(int breach){
+		this.breach = breach;
 	}
 	
 	public boolean checkCollision(Bullet bullet) {
