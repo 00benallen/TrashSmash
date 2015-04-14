@@ -235,8 +235,8 @@ public class Update implements Runnable {
 		if(milliSecondsElapsed >= 12000) { 
 			lastBuffGenTime = System.currentTimeMillis();
 			Random r = new Random();
-			int x = 0;
-			int y = 0;
+			int x = 500;
+			int y = 400;
 			Rectangle2D buffTest = new Rectangle2D.Double(x, y, 29, 29);
 			for(int i = 0; i < buffs.size(); i++){ //Tries to encourage buffs to not spawn on the same place
 				if(buffTest.contains(buffs.get(i).getBoundBox())){
