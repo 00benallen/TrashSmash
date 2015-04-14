@@ -181,6 +181,7 @@ public class Render implements Runnable {
 			drawBuffs(g);
 			drawHealth(g);
 			checkBreach(g);
+			checkStage(g);
 			runExplosions();
 		}
 		else if(Main.appState == Main.DEAD_STATE) {
@@ -198,10 +199,12 @@ public class Render implements Runnable {
 	
 	private void drawBackground(Graphics2D g) {
 		lck.readLock().lock();
-		if(Main.update.enemiesGenerated < 60)
+		if(Main.update.ship.getStage() == 1){
 			g.drawImage(background, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
-		else
+		}
+		else{
 			g.drawImage(background2, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
+		}
 		lck.readLock().unlock();
 	}
 	
@@ -297,6 +300,15 @@ public class Render implements Runnable {
 			g.setFont(new Font("OCR A Extended", Font.BOLD, 34));
 			g.drawString("BREACH!", GraphicsMain.WIDTH/2 - 60, GraphicsMain.HEIGHT/2 - 30);
 			Main.update.ship.setBreach(Main.update.ship.getBreach() - 1);
+		}
+	}
+	
+	private void checkStage(Graphics2D g) {
+		if(Main.update.ship.getnStage() > 0){
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("OCR A Extended", Font.BOLD, 34));
+			g.drawString("NEW STAGE DISCOVERED!", 245, 100);
+			Main.update.ship.setnStage(Main.update.ship.getnStage() - 1);
 		}
 	}
 	
