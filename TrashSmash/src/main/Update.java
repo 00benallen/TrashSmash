@@ -130,6 +130,9 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Interprets input from keyboard listener and moves ship accordingly.
+	 */
 	private void moveShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
@@ -169,6 +172,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Spawns new enemy ships, increasing in difficulty with time.
+	 */
 	private void generateEnemies() {
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastEnemyGenTime;
@@ -208,6 +214,9 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Creates power-ups and distributes them randomly in space.
+	 */
 	private void generateBuffs(){ //similar to enemy generation, creates random buffs at a certain frequency with random location
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastBuffGenTime;

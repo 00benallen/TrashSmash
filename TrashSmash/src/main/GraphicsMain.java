@@ -25,8 +25,6 @@ import listeners.KeyboardListener;
  */
 public class GraphicsMain {
 	
-	//graphics objects should not be stored here, for drawing game stuff, go to Render.java
-	
 	//window variables
 	public JFrame window = new JFrame("Trash Smash");
 	public JPanel infoPane;
@@ -63,12 +61,14 @@ public class GraphicsMain {
 		init();
 	}
 	
+	/**
+	 * Loads images for use in menus.
+	 */
 	private void init() {
 		sButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/stbutton.png"));
 		qButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/qbutton.png"));
 	}
 	
-
 	/**
 	 * Starts render thread 
 	 */
@@ -82,7 +82,9 @@ public class GraphicsMain {
 		}
 	}
 	
-	
+	/**
+	 * Stops any previous music and starts the menu theme music.
+	 */
 	private void playMusic() {
 		try {
 			player.stop();
@@ -94,7 +96,7 @@ public class GraphicsMain {
 	}
 	
 	/**
-	 * Generates the main menu
+	 * Generates the main menu (and clears any other display)
 	 */
 	public JPanel createContentPane() {
 		playMusic();
@@ -160,11 +162,6 @@ public class GraphicsMain {
 
 	}
 	
-	public void createInfoPane(){
-		ImagePanel info = new ImagePanel("InfoScreen/INFOMove.png");
-		infoPane.setLayout(new OverlayLayout(infoPane));
-		
-	}
 	/**
 	 * Changes the contentPane of the window to the game pane, repacks the window
 	 */
