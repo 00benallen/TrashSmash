@@ -100,6 +100,9 @@ public class GraphicsMain {
 		playMusic();
 		window.setVisible(false);
 		window.getContentPane().removeAll();
+		window.revalidate();
+		window.repaint();
+		
 		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
 		JPanel contentPane = new JPanel();
@@ -177,6 +180,6 @@ public class GraphicsMain {
 	 * Removes the game pane
 	 */
 	public void menuStart() {
-		window.remove(window.getContentPane());
+		window.getGraphics().dispose();
 	}
 }
