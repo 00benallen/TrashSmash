@@ -33,6 +33,8 @@ public class Update implements Runnable {
 	public volatile LinkedList<Enemy> enemies = new LinkedList<Enemy>(); 
 	public volatile LinkedList<Bullet> bullets = new LinkedList<Bullet>();
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
+	public boolean musicSet = false;
+	public boolean musicSet2 = false;
 	public BufferedImage infoScreen;
 	
 	//music resources
@@ -95,7 +97,7 @@ public class Update implements Runnable {
 		player = new BasicPlayer();
 		try {
 			player.stop();
-		    player.open(getClass().getClassLoader().getResource("Music/Battle.mp3"));
+			player.open(getClass().getClassLoader().getResource("Music/Battle.mp3"));
 		    player.play();
 		} catch (BasicPlayerException e) {
 		    e.printStackTrace();
@@ -120,6 +122,7 @@ public class Update implements Runnable {
 			checkCollisions();
 			toggleMusic();
 			repeatMusic();
+			setMusic();
 			removeShip();
 			deadTrigger();
 		}
@@ -205,6 +208,8 @@ public class Update implements Runnable {
 				stageTwo = false;
 			}
 			if(enemiesGenerated == 65 && stageThree == false){
+				ship.setnStage(200);
+				ship.setStage(2);
 				enemyFrequency -= 1400;
 				stageThree = true;
 			}
@@ -422,6 +427,30 @@ public class Update implements Runnable {
 		}
 	}
 	
+	public void setMusic(){
+		lck.writeLock().lock();
+		if(Main.update.ship.getStage() == 2 && !musicSet){
+			try {
+				player.stop();
+				player.open(getClass().getClassLoader().getResource("Music/Battle2.mp3"));
+			    player.play();
+			    musicSet = true;
+			} catch (BasicPlayerException e) {
+			    e.printStackTrace();
+			}
+		}
+		else if(Main.update.ship.getStage() == 0 && !musicSet2){
+			try {
+				player.stop();
+				player.open(getClass().getClassLoader().getResource("Music/Death.mp3"));
+			    player.play();
+			    musicSet2 = true;
+			} catch (BasicPlayerException e) {
+			    e.printStackTrace();
+			}
+		}
+		lck.writeLock().unlock();
+	}
 	private void removeShip() { //remove the ship and sets game back to menu
 		lck.writeLock().lock();
 		

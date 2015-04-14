@@ -24,6 +24,8 @@ public class Ship implements Drawable{
 	private Rectangle2D boundBox;
 	private int shockWave = 0;
 	private int breach;
+	private int newStage = 0;
+	private int stage;
 	public boolean basics = false;
 	
 	public Ship(int x, int y) {
@@ -33,6 +35,7 @@ public class Ship implements Drawable{
 		this.setGunSet(0);
 		this.setScore(0);
 		this.setShockwave(1);
+		this.setStage(1);
 		try {
 			this.blue = ImageIO.read(getClass().getClassLoader().getResource("Ships/Blue.png"));
 			this.green = ImageIO.read(getClass().getClassLoader().getResource("Ships/Green.png"));
@@ -82,6 +85,13 @@ public class Ship implements Drawable{
 		return gunSet;
 	}
 
+	public int getStage(){
+		return this.stage;
+	}
+	
+	public void setStage(int stage){
+		this.stage = stage;
+	}
 	public void setGunSet(int gunSet) {
 		if(gunSet < 0) gunSet = 2;
 		gunSet %= 3;
@@ -122,6 +132,9 @@ public class Ship implements Drawable{
 		if(health < 0) {
 			health = 0;
 		}
+		if(this.health <= 0){
+			this.stage = 0;
+		}
 	}
 	
 	public void cycleGun() {
@@ -139,6 +152,13 @@ public class Ship implements Drawable{
 		return height;
 	}
 	
+	public int getnStage(){
+		return this.newStage;
+	}
+	
+	public void setnStage(int newStage){
+		this.newStage = newStage;
+	}
 	@Override
 	public BufferedImage getImage() {
 		return image;
