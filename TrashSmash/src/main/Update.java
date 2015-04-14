@@ -269,7 +269,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
-	
+	/**
+	 * Generates new bullet objects if the ship is firing.
+	 */
 	private void createBullets() {
 		if(KeyboardListener.shoot) {
 			if(System.currentTimeMillis() - lastBulletGenTime >= bulletGenSpeed) {

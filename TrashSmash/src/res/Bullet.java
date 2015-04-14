@@ -25,6 +25,13 @@ public class Bullet implements Drawable {
 	private int frame = 0;
 	private BufferedImage[] animation;
 	
+	/**
+	 * Constructor. Creates a bullet.
+	 * @param x x-position
+	 * @param y y-position
+	 * @param type waste category
+	 * @param isShip true if fired by player character
+	 */
 	public Bullet(int x, int y, int type, boolean isShip){
 		setVelocity(6);
 		setType(type);

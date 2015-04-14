@@ -32,6 +32,12 @@ public class Enemy implements Drawable{
 	private ReentrantReadWriteLock lck;
 	private boolean isExplode = false, isDead = false;;
 	
+	/**
+	 * Constructor. Defines position and waste-type.
+	 * @param x x-position
+	 * @param y y-position
+	 * @param typeCode waste category
+	 */
 	public Enemy(int x, int y, int typeCode) {
 		this.setX(x);
 		this.setY(y);
@@ -47,6 +53,10 @@ public class Enemy implements Drawable{
 		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
+	/**
+	 * Translates typeCode into waste type.
+	 * @return
+	 */
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
@@ -204,6 +214,11 @@ public class Enemy implements Drawable{
 		return boundBox;
 	}
 	
+	/**
+	 * 
+	 * @param bullet
+	 * @return
+	 */
 	public boolean checkCollision(Bullet bullet) {
 		if(this.x >= bullet.getX() && this.x <= bullet.getX() + bullet.getWidth()/2) {
 			if(this.y >= bullet.getY() && this.y <= bullet.getY() + bullet.getHeight()/2) {
@@ -232,6 +247,9 @@ public class Enemy implements Drawable{
 		}
 	}
 
+	/**
+	 * Deletes enemy and triggers explosion animation.
+	 */
 	public void explode() {
 		lck = Main.gMain.render.lck;
 		if(!isExplode) {

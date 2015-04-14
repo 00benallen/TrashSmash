@@ -20,8 +20,9 @@ public class ButtonListener implements ActionListener {
 		if(e.getActionCommand().equals("quit")) {
 			Main.exit();
 		}
+		
+		//deprecated
 		if(e.getActionCommand().equals("info")) {
-			//TODO
 		}
 	}
 }

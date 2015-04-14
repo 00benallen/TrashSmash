@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Class defines a buff object
+ * Class defines a buff object (power-up)
  * @author Bryan Chen
  */
 public class Buff implements Drawable{
@@ -20,6 +20,13 @@ public class Buff implements Drawable{
 	private Rectangle2D boundBox;
 	private boolean isDead = false;
 	
+	/**
+	 * Constructor. Builds a power-up of given type.
+	 * 
+	 * @param x x-location
+	 * @param y y-location
+	 * @param typeCode the type of power-up
+	 */
 	public Buff(int x, int y, int typeCode) {
 		this.setX(x);
 		this.setY(y);
@@ -32,6 +39,10 @@ public class Buff implements Drawable{
 		this.boundBox = new Rectangle2D.Double(this.x, this.y, Bullet.width, Bullet.height);
 	}
 
+	/**
+	 * Interprets typeCode and loads corresponding image.
+	 * @return
+	 */
 	private String getFileString() {
 		String fileString = "";
 		switch(typeCode) {
@@ -94,6 +105,11 @@ public class Buff implements Drawable{
 		return boundBox;
 	}	
 	
+	/**
+	 * Checks collision between the the power-up and player's ship.
+	 * @param ship
+	 * @return
+	 */
 	public boolean checkCollision(Ship ship) {
 		if(this.x + this.getWidth()/2 >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
 			if(this.y + this.getHeight()/2 >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {

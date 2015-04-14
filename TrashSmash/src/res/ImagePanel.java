@@ -17,6 +17,10 @@ public class ImagePanel extends JPanel {
 	private static final long serialVersionUID = 8886187983405191952L;
 	private BufferedImage img;
 
+	/**
+	 * Constructor. Loads image and creates ImagePanel out of it.
+	 * @param imgLink the image location
+	 */
 	public ImagePanel(String imgLink) {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setVisible(true);
