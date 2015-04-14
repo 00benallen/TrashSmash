@@ -29,7 +29,7 @@ public class GraphicsMain {
 	
 	//window variables
 	public JFrame window = new JFrame("Trash Smash");
-	public JPanel infoPane;
+	public JPanel infoPane, deadPane;
 	public final static int WIDTH = 1024;
 	public final static int HEIGHT = 768;
 	
@@ -162,7 +162,7 @@ public class GraphicsMain {
 	
 	public void createInfoPane(){
 		ImagePanel info = new ImagePanel("InfoScreen/INFOMove.png");
-		infoPane.setLayout(new OverlayLayout(infoPane));
+		infoPane.setLayout(new OverlayLayout(info));
 		
 	}
 	/**

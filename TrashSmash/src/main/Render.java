@@ -30,7 +30,7 @@ public class Render implements Runnable {
 	private BufferedImage hpBar;
 	private BufferedImage bronze, silv, gold, diam, mstr;
 	private BufferedImage gHP, oHP, rHP;
-	private BufferedImage background, background2, infoScreen;
+	private BufferedImage background, background2, infoScreen, deadScreen;
 	private BufferedImage EMP;
 	private BufferedImage[] buffIcons;
 	public static BufferedImage[] explosion = new BufferedImage[10];
@@ -60,7 +60,7 @@ public class Render implements Runnable {
 		double nanoPerUpdate = 1000000000D/50D;
 		double delta = 0D;
 		
-		if(Main.appState == Main.GAME_STATE) {
+		
 			while(Update.running) {
 				long now = System.nanoTime();
 				delta += (now - lastTime) / nanoPerUpdate;
@@ -71,7 +71,6 @@ public class Render implements Runnable {
 					delta--;
 				}
 			}
-		}
 		
 		if(Update.running = false) {
 			return;
@@ -161,6 +160,11 @@ public class Render implements Runnable {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			deadScreen = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/deadScreen.png"));
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void draw() { //triggers draw methods, double buffers the screen
@@ -168,7 +172,7 @@ public class Render implements Runnable {
 		Graphics2D g = (Graphics2D) screen.getGraphics();
 		if(!Main.update.ship.basics)
 			showBasics(g);
-		else{
+		else if(Main.appState == Main.GAME_STATE){
 			drawBackground(g);
 			drawShip(g);
 			drawEnemies(g);
@@ -178,6 +182,9 @@ public class Render implements Runnable {
 			drawHealth(g);
 			checkBreach(g);
 			runExplosions();
+		}
+		else if(Main.appState == Main.DEAD_STATE) {
+			drawDeadScreen(g);
 		}
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
@@ -310,5 +317,9 @@ public class Render implements Runnable {
 			}
 		}
 		lck.readLock().unlock();
+	}
+	
+	private void drawDeadScreen(Graphics2D g) {
+		g.drawImage(deadScreen, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}
 }

@@ -44,9 +44,6 @@ public class Main {
 			gMain.createContentPane();
 			appState = MENU_STATE;
 		}
-		else if(appState == INFO_STATE){
-			//TODO
-		}
 	}
 	
 	private static void init() {

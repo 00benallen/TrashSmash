@@ -121,6 +121,7 @@ public class Update implements Runnable {
 			toggleMusic();
 			repeatMusic();
 			removeShip();
+			deadTrigger();
 		}
 	}
 	
@@ -416,14 +417,22 @@ public class Update implements Runnable {
 		lck.writeLock().lock();
 		
 		if(ship.getHealth() <= 0) {
-			Main.menuStart();
-			try {
-				player.stop();
-			} catch (BasicPlayerException e) {
-				e.printStackTrace();
-			}
+			Main.appState = Main.DEAD_STATE;
 		}
 		
 		lck.writeLock().unlock();
+	}
+	
+	private void deadTrigger() {
+		if(Main.appState == Main.DEAD_STATE) {
+			if(KeyboardListener.shoot == true) {
+				try {
+					player.stop();
+				} catch(BasicPlayerException e) {
+					e.printStackTrace();
+				}
+				Main.menuStart();
+			}
+		}
 	}
 }
