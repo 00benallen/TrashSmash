@@ -22,10 +22,13 @@ import res.Ship;
 /**
  * Render class for Trash Smash, runs on render thread, contains draw methods
  * @author Ben Pinhorn
+ * @author Brian Chen
+ * @author Tristan Monger
  */
 public class Render implements Runnable {
 	//graphics resources
 	private Graphics2D g;
+	//vast array of Buffered Images used for graphics
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage hpBar;
 	private BufferedImage bronze, silv, gold, diam, mstr;
@@ -76,8 +79,8 @@ public class Render implements Runnable {
 			return;
 		}
 	}
-	
-	private void init() { //loads all non object images
+	//Loads all image objects into game from Assets folder
+	private void init() { 
 		gunSetIcons = new BufferedImage[3];
 		try {
 			gunSetIcons[0] = ImageIO.read(getClass().getClassLoader().getResource("Other/GarbageIcon.png"));
@@ -87,6 +90,7 @@ public class Render implements Runnable {
 			background = ImageIO.read(getClass().getClassLoader().getResource("Other/backGround Game.png"));
 			background2 = ImageIO.read(getClass().getClassLoader().getResource("Other/background.png"));
 			infoScreen = ImageIO.read(getClass().getClassLoader().getResource("InfoScreen/INFOMove.png"));	
+			deadScreen = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/deadScreen.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -160,17 +164,15 @@ public class Render implements Runnable {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			deadScreen = ImageIO.read(getClass().getClassLoader().getResource("MenuandUI/deadScreen.png"));
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
-	private void draw() { //triggers draw methods, double buffers the screen
+	/**
+	 * Main command that calls functions to draw different aspects of the game
+	 */
+	private void draw() { 
 		BufferedImage screen = new BufferedImage(GraphicsMain.WIDTH, GraphicsMain.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) screen.getGraphics();
-		if(!Main.update.ship.basics)
+		if(!Main.update.ship.getBasics())
 			showBasics(g);
 		else if(Main.appState == Main.GAME_STATE){
 			drawBackground(g);
@@ -193,10 +195,18 @@ public class Render implements Runnable {
 		}
 	}
 	
+	/**
+	 * Creates the information screen
+	 * @param g
+	 */
 	private void showBasics(Graphics2D g){
 		g.drawImage(infoScreen, 0, 0, 1024, 768, null);
 	}
 	
+	/**
+	 * Creates the background, changing depending on game stage.
+	 * @param g
+	 */
 	private void drawBackground(Graphics2D g) {
 		lck.readLock().lock();
 		if(Main.update.ship.getStage() == 1){
@@ -240,6 +250,10 @@ public class Render implements Runnable {
 		lck.readLock().unlock();	
 	}
 	
+	/**
+	 * Creates the health bar, including score, rankIcon, EMP charges, and HP orbs.
+	 * @param g
+	 */
 	private void drawHealth(Graphics2D g) { //draws health bar 
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 		lck.readLock().lock();
@@ -278,7 +292,11 @@ public class Render implements Runnable {
 		lck.readLock().unlock();
 	}
 	
-	private void drawGunSet(Graphics2D g) { //draws the icon for the current gun setting
+	/**
+	 * Creates the icon for the current draw setting
+	 * @param g
+	 */
+	private void drawGunSet(Graphics2D g) {
 		lck.readLock().lock();
 		g.drawImage(gunSetIcons[Main.update.ship.getGunSet()], 16, GraphicsMain.HEIGHT - 80, 64, 64, null);
 		lck.readLock().unlock();
@@ -294,6 +312,11 @@ public class Render implements Runnable {
 		lck.readLock().unlock();	
 	}
 	
+	/**
+	 * Checks to see if a breach has occurred, and displays a message if so.
+	 * Artificially times the message duration through an integer in Ship class
+	 * @param g
+	 */
 	private void checkBreach(Graphics2D g) {
 		if(Main.update.ship.getBreach() > 0){
 			g.setColor(Color.WHITE);
@@ -303,6 +326,11 @@ public class Render implements Runnable {
 		}
 	}
 	
+	/**
+	 * Checks to see if a stage has been passed, and displays a message if so.
+	 * Artificially times the message duration through an integer in Ship class
+	 * @param g
+	 */
 	private void checkStage(Graphics2D g) {
 		if(Main.update.ship.getnStage() > 0){
 			g.setColor(Color.WHITE);
@@ -312,7 +340,11 @@ public class Render implements Runnable {
 		}
 	}
 	
-	private void runExplosions() { //triggers the animation methods inside of the dying objects, running the explosion
+	/**
+	 * Triggers the animation methods inside of the dying objects, running the explosion
+	 * @param g
+	 */
+	private void runExplosions() {
 		lck.readLock().lock();
 		LinkedList<Enemy> enemies = Main.update.enemies;
 		LinkedList<Bullet> bullets = Main.update.bullets;
@@ -331,6 +363,10 @@ public class Render implements Runnable {
 		lck.readLock().unlock();
 	}
 	
+	/**
+	 * Draws the Game Over screen, right before resetting to Menu Mode.
+	 * @param g
+	 */
 	private void drawDeadScreen(Graphics2D g) {
 		g.drawImage(deadScreen, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}

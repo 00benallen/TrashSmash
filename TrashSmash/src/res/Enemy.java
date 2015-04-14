@@ -174,6 +174,9 @@ public class Enemy implements Drawable{
 		this.trashType = trashType;
 	}
 	
+	/**
+	 * Utilises the MovePattern class to map a series of moves. Moves according to the MovePattern assigned to it.
+	 */
 	public void move() {
 		if(movePat.getMoveArray()[moveCnt/8] == MovePattern.STRAIGHT) {
 			moveCnt++;
@@ -215,7 +218,7 @@ public class Enemy implements Drawable{
 	}
 	
 	/**
-	 * 
+	 * Checks collision of enemy with a bullet.
 	 * @param bullet
 	 * @return
 	 */
@@ -233,6 +236,11 @@ public class Enemy implements Drawable{
 		}
 	}
 	
+	/**
+	 * Checks collision of enemy with the ship.
+	 * @param ship
+	 * @return
+	 */
 	public boolean checkCollision(Ship ship) {
 		if(this.x + this.getWidth()/2 >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
 			if(this.y + this.getHeight()/2 >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
@@ -250,7 +258,7 @@ public class Enemy implements Drawable{
 	/**
 	 * Deletes enemy and triggers explosion animation.
 	 */
-	public void explode() {
+	public void explode() { //Runs the explosion animation. See Render.
 		lck = Main.gMain.render.lck;
 		if(!isExplode) {
 			isExplode = true;

@@ -37,6 +37,7 @@ public class Bullet implements Drawable {
 		setType(type);
 		setX(x);
 		setY(y);
+		//Imports important graphics
 		try {
 			if(this.typeCode == GARBAGE) {
 				this.image = ImageIO.read(getClass().getClassLoader().getResource("Other/redBullet.png"));
@@ -57,6 +58,11 @@ public class Bullet implements Drawable {
 		this.isShip = isShip;
 	}
 	
+	/**
+	 * Checks bullet collision with an enemy.
+	 * @param enemy
+	 * @return
+	 */
 	public boolean checkCollision(Enemy enemy) {
 		if(this.x+this.getWidth()/2 >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()/2) {
 			if(this.y+this.getHeight()/2 >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()/2) {
@@ -71,6 +77,11 @@ public class Bullet implements Drawable {
 		}
 	}
 	
+	/**
+	 * Checks bullet collision with a ship.
+	 * @param ship
+	 * @return
+	 */
 	public boolean checkCollision(Ship ship) {
 		if(this.x >= ship.getX() && this.x <= ship.getX() + Ship.getWidth()/2) {
 			if(this.y >= ship.getY() && this.y <= ship.getY() + Ship.getHeight()/2) {
@@ -85,7 +96,7 @@ public class Bullet implements Drawable {
 		}
 	}
 	
-	public int getType(){
+	public int getType(){ //Returns the type of bullet that this is (Recycling, Garbage, Compost)
 		return this.typeCode;
 	}
 	

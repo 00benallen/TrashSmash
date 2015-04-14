@@ -7,7 +7,7 @@ import listeners.KeyboardListener;
 /**
  * Main class for Trash Smash, maintains the game state, initializes game start and game threads, keeps game running in standard time
  * @author Ben Pinhorn
- *
+ * 
  */
 public class Main {
 	

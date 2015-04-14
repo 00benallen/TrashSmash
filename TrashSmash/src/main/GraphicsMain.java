@@ -22,27 +22,29 @@ import listeners.KeyboardListener;
 /**
  * Main graphics class for Trash Smash, generates window, starts render thread, creates main menu
  * @author Ben Pinhorn
+ * @author Brian Chen
+ * @author Tristan Monger
  */
 public class GraphicsMain {
 	
-	//window variables
+	//Window variables
 	public JFrame window = new JFrame("Trash Smash");
 	public JPanel infoPane;
 	public final static int WIDTH = 1024;
 	public final static int HEIGHT = 768;
 	
-	//music variables
+	//Music variables
 	public BasicPlayer player = new BasicPlayer();
 	
-	//thread variables
+	//Thread variables
 	private Thread renderThread;
 	public Render render;
 	
-	//listeners
+	//Listeners
 	private ButtonListener l;
 	private KeyboardListener kl;
 	
-	//button variables
+	//Button variables
 	private ImageIcon sButton, qButton, iButton;
 	
 	/**
@@ -83,7 +85,7 @@ public class GraphicsMain {
 	}
 	
 	/**
-	 * Stops any previous music and starts the menu theme music.
+	 * Stops any previous music and starts the menu theme music (Giant Woman by Steven Universe)
 	 */
 	private void playMusic() {
 		try {
@@ -96,7 +98,7 @@ public class GraphicsMain {
 	}
 	
 	/**
-	 * Generates the main menu (and clears any other display)
+	 * Generates the Main Menu (and clears any other display)
 	 */
 	public JPanel createContentPane() {
 		playMusic();

@@ -22,11 +22,11 @@ public class Ship implements Drawable{
 	private BufferedImage red;
 	private BufferedImage green;
 	private Rectangle2D boundBox;
-	private int shockWave = 0;
+	private int shockWave;
 	private int breach;
-	private int newStage = 0;
+	private int newStage;
 	private int stage;
-	public boolean basics = false;
+	private boolean basics = false;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
@@ -36,6 +36,7 @@ public class Ship implements Drawable{
 		this.setScore(0);
 		this.setShockwave(1);
 		this.setStage(1);
+		this.setnStage(0);
 		try {
 			this.blue = ImageIO.read(getClass().getClassLoader().getResource("Ships/Blue.png"));
 			this.green = ImageIO.read(getClass().getClassLoader().getResource("Ships/Green.png"));
@@ -152,7 +153,7 @@ public class Ship implements Drawable{
 		return height;
 	}
 	
-	public int getnStage(){
+	public int getnStage(){ //Returns the length of time to display message regarding new Stage (nStage)
 		return this.newStage;
 	}
 	
@@ -176,18 +177,18 @@ public class Ship implements Drawable{
 			this.health += i;
 	}
 	
-	public int getShockwave(){
+	public int getShockwave(){ //returns number of shock waves (EMP) remaining
 		return this.shockWave;
 	}
 	
-	public void setShockwave(int shockWave){
+	public void setShockwave(int shockWave){ 
 		this.shockWave = shockWave;
 		if(this.shockWave > 2){
 			this.shockWave = 2;
 		}
 	}
 	
-	public int getBreach(){
+	public int getBreach(){ //Sees if there is a breach message, and how long to display it for
 		return this.breach;
 	}
 	
@@ -195,6 +196,19 @@ public class Ship implements Drawable{
 		this.breach = breach;
 	}
 	
+	public boolean getBasics(){ //Boolean for if InfoScreen has been run in this instance of the game yet.
+		return this.basics;
+	}
+	
+	public void setBasics(boolean basics){
+		this.basics = basics;
+	}
+	
+	/**
+	 * Checks to see if this ship has collided with a bullet.
+	 * @param bullet
+	 * @return
+	 */
 	public boolean checkCollision(Bullet bullet) {
 		if(this.x >= bullet.getX() && this.x <= bullet.getX() + bullet.getWidth()/2) {
 			if(this.y >= bullet.getY() && this.y <= bullet.getY() + bullet.getHeight()/2) {
@@ -209,6 +223,11 @@ public class Ship implements Drawable{
 		}
 	}
 	
+	/**
+	 * Checks to see if the ship has collided with an enemy.
+	 * @param enemy
+	 * @return
+	 */
 	public boolean checkCollision(Enemy enemy) {
 		if(this.x >= enemy.getX() && this.x <= enemy.getX() + enemy.getWidth()/2) {
 			if(this.y >= enemy.getY() && this.y <= enemy.getY() + enemy.getHeight()/2) {

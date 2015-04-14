@@ -24,7 +24,7 @@ import res.Ship;
  *
  */
 public class Update implements Runnable {
-	//update resources
+	//Update resources
 	public volatile Ship ship = new Ship(GraphicsMain.WIDTH/2 - 96, GraphicsMain.HEIGHT - GraphicsMain.HEIGHT/16 - 96);
 	private long lastEnemyGenTime = 2000, lastBulletGenTime = 500, enemyFrequency = 2000;
 	public long enemiesGenerated = 0;
@@ -37,10 +37,10 @@ public class Update implements Runnable {
 	public boolean musicSet2 = false;
 	public BufferedImage infoScreen;
 	
-	//music resources
+	//Music resources
 	private static BasicPlayer player;
 	
-	//thread resources
+	//Thread resources
 	public volatile ReentrantReadWriteLock lck = Main.lck;
 	private Thread updateThread;
 	public volatile static boolean running;
@@ -108,10 +108,11 @@ public class Update implements Runnable {
 	 * Executes all game actions
 	 */
 	private void update() {
-		if(!ship.basics)
+		//If the Info screen has not been shown, shows the Info screen before any gameplay occurs.
+		if(!ship.getBasics())
 			showBasics();
 		else{
-			moveShip();
+			controlShip();
 			generateEnemies();
 			generateBuffs();
 			createBullets();
@@ -128,16 +129,20 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Terminates the showBasics portion if Spacebar is pressed
+	 */
 	private void showBasics(){
 		if(KeyboardListener.shoot){
-			ship.basics = true;
+			ship.setBasics(true);
 		}
 	}
 	
 	/**
-	 * Interprets input from keyboard listener and moves ship accordingly.
+	 * Interprets input from keyboard listener and controls the ship accordingly.
+	 * Includes shooting, moving, and using EMPs.
 	 */
-	private void moveShip() {
+	private void controlShip() {
 		lck.writeLock().lock();
 		if(KeyboardListener.up) {
 			if(ship.getY() > 16) { //accounts for height of window's border
@@ -178,20 +183,21 @@ public class Update implements Runnable {
 	
 	/**
 	 * Spawns new enemy ships, increasing in difficulty with time.
+	 * Also spawns boss waves at certain intervals
 	 */
 	private void generateEnemies() {
 		long currentTime = System.currentTimeMillis();
 		double milliSecondsElapsed = currentTime - lastEnemyGenTime;
 		if(milliSecondsElapsed >= enemyFrequency) { //generates enemies at a certain frequency
 			lastEnemyGenTime = System.currentTimeMillis();
-			Random r = new Random(); //randomizes their location
+			Random r = new Random(); //Randomizes their location
 			int x = r.nextInt(GraphicsMain.WIDTH-256) + 128;
 			int type = r.nextInt(20);
 			lck.writeLock().lock();
 			enemies.add(new Enemy(x, -128, type));
 			lck.writeLock().unlock();
 			enemiesGenerated++;
-			if(enemiesGenerated == 12 && stageOne == false){ //if statements change the frequency by stage
+			if(enemiesGenerated == 12 && stageOne == false){ //If statements change the frequency by stage
 				enemyFrequency -= 1200;
 				stageOne = true;
 			}
@@ -232,7 +238,7 @@ public class Update implements Runnable {
 			int x = 0;
 			int y = 0;
 			Rectangle2D buffTest = new Rectangle2D.Double(x, y, 29, 29);
-			for(int i = 0; i < buffs.size(); i++){
+			for(int i = 0; i < buffs.size(); i++){ //Tries to encourage buffs to not spawn on the same place
 				if(buffTest.contains(buffs.get(i).getBoundBox())){
 					x = r.nextInt(GraphicsMain.WIDTH-128);
 					y = r.nextInt(GraphicsMain.HEIGHT-128);
@@ -246,6 +252,9 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Handles enemy movement - if not dead, they move.
+	 */
 	private void moveEnemies() {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
@@ -257,6 +266,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Checks - if enemy is either out of bounds (decrease health and remove), or dead (explode and remove)
+	 */
 	private void removeEnemies() {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
@@ -288,6 +300,9 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Handles bullet movements
+	 */
 	private void moveBullets() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {
@@ -299,6 +314,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Checks to remove any bullets that have hit objects or is out of bounds
+	 */
 	private void removeBullets() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {
@@ -312,6 +330,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Checks collision of bullets, ship, buffs, and enemies.
+	 */
 	private void checkCollisions() {
 		checkBulletsWithEnemies();
 		checkBulletsWithShip();
@@ -319,6 +340,9 @@ public class Update implements Runnable {
 		checkBuffsWithShip();
 	}
 	
+	/**
+	 * Sees if the ship has encountered a power-up and correctly applies the boon.
+	 */
 	private void checkBuffsWithShip() {
 		lck.writeLock().lock();
 		for(int i = 0; i < buffs.size(); i++) {
@@ -337,8 +361,8 @@ public class Update implements Runnable {
 						ship.heal(1);
 						ship.setShockwave(ship.getShockwave() + 1);
 					}
-					if(buffs.get(i).getTypeCode() == 3){ //Dunno. Make something up.
-						ship.heal(1);
+					if(buffs.get(i).getTypeCode() == 3){ //Complete Ship Repairs
+						ship.heal(3);
 					}
 				}
 			}
@@ -346,6 +370,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 
+	/**
+	 * Checks to see if enemies have been struck by bullets. Checks to see if types match, then sets enemies and bullets to dead.
+	 */
 	private void checkBulletsWithEnemies() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {
@@ -353,13 +380,13 @@ public class Update implements Runnable {
 				if(bullets.get(i).isShip()) {
 					if(!enemies.get(j).isDead() && !enemies.get(j).isExplode()) {
 						if(bullets.get(i).checkCollision(enemies.get(j))) {
-							if(bullets.get(i).getType() == enemies.get(j).getTrashType()){
+							if(bullets.get(i).getType() == enemies.get(j).getTrashType()){ //Checking for matching type
 								ship.setScore(ship.getScore() + 1000);
 								bullets.get(i).explode();
 								enemies.get(j).explode();
 								break;
 							}
-							else{
+							else{ //Otherwise penalize the player for shooting incorrectly.
 								ship.setScore(ship.getScore() - 20);
 								bullets.get(i).explode();
 							}
@@ -371,6 +398,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Checks to see if any bullets collided with the ship, and decreases health accordingly.
+	 */
 	private void checkBulletsWithShip() {
 		lck.writeLock().lock();
 		for(int i = 0; i < bullets.size(); i++) {
@@ -384,6 +414,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Checks the collision of invading spacecraft with the ship, blowing up invaders but causing score loss and HP loss to the ship in the process.
+	 */
 	private void checkEnemiesWithShip() {
 		lck.writeLock().lock();
 		for(int i = 0; i < enemies.size(); i++) {
@@ -398,7 +431,10 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
-	private void toggleMusic(){ //allows player to mute music
+	/**
+	 * Switching between Muting and Unmuting the music.
+	 */
+	private void toggleMusic(){ 
 		if(!KeyboardListener.toggle) return; 
 		else KeyboardListener.toggle = false;
 		lck.writeLock().lock();
@@ -419,8 +455,11 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * Allows the music player to repeat the music once it has ended.
+	 */
 	public void repeatMusic(){
-		if(player.getStatus() == 2){
+		if(player.getStatus() == 2){ //If Player status is STOPPED
 			try {
 				player.play();
 			} catch (BasicPlayerException e) {
@@ -429,9 +468,12 @@ public class Update implements Runnable {
 		}
 	}
 	
+	/**
+	 * Changes the music depending on what stage it is, and if the player is dead.
+	 */
 	public void setMusic(){
 		lck.writeLock().lock();
-		if(Main.update.ship.getStage() == 2 && !musicSet){
+		if(Main.update.ship.getStage() == 2 && !musicSet){ //2nd stage music
 			try {
 				player.stop();
 				player.open(getClass().getClassLoader().getResource("Music/Battle2.mp3"));
@@ -441,7 +483,7 @@ public class Update implements Runnable {
 			    e.printStackTrace();
 			}
 		}
-		else if(Main.update.ship.getStage() == 0 && !musicSet2){
+		else if(Main.update.ship.getStage() == 0 && !musicSet2){ //Dead music
 			try {
 				player.stop();
 				player.open(getClass().getClassLoader().getResource("Music/Death.mp3"));
@@ -453,6 +495,10 @@ public class Update implements Runnable {
 		}
 		lck.writeLock().unlock();
 	}
+	
+	/**
+	 * Removal of ship after death, and puts it into Death state
+	 */
 	private void removeShip() { //remove the ship and sets game back to menu
 		lck.writeLock().lock();
 		
@@ -463,6 +509,9 @@ public class Update implements Runnable {
 		lck.writeLock().unlock();
 	}
 	
+	/**
+	 * If spacebar is pressed in Death state, the game goes back to Main Menu, stopping all music and running.
+	 */
 	private void deadTrigger() {
 		if(Main.appState == Main.DEAD_STATE) {
 			if(KeyboardListener.shoot == true) {
