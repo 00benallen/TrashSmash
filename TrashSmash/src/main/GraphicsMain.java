@@ -104,8 +104,6 @@ public class GraphicsMain {
 		playMusic();
 		window.setVisible(false);
 		window.getContentPane().removeAll();
-		window.revalidate();
-		window.repaint();
 		
 		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
@@ -153,13 +151,13 @@ public class GraphicsMain {
 		
 		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
 		
-		
 		contentPane.add(buttonsPane);
 		contentPane.add(animatePane);
 		contentPane.add(imgPanel);
 		
 		window.setContentPane(contentPane);
 		window.setVisible(true);
+		window.repaint();
 		return contentPane;
 
 	}
