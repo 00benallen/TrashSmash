@@ -49,6 +49,7 @@ public class GraphicsMain {
 	//Menu variables
 	private ImageIcon sButton, qButton, scButton;
 	public final String MAIN_MENU = "MAINMENU", SCORES_MENU = "SCORESMENU";
+	public String menuPane;
 	
 	/**
 	 * Constructor for graphics main, opens the window
@@ -172,6 +173,7 @@ public class GraphicsMain {
 		contentPane.add(mainMenuPane, MAIN_MENU);
 		
 		JPanel highscoresPanel = new JPanel();
+		highscoresPanel.setLayout(new OverlayLayout(highscoresPanel));
 		ImagePanel highscoresBack = new ImagePanel("MenuandUI/scBackground.png");
 		JPanel scorePanel = new JPanel();
 		
@@ -180,9 +182,10 @@ public class GraphicsMain {
 		scores.setBorder(null);
 		scores.setBackground(null);
 		scores.setText(generateScores());
+		scorePanel.add(scores);
 		
 		highscoresPanel.add(highscoresBack);
-		highscoresPanel.add(scorePanel);
+		//highscoresPanel.add(scorePanel);
 		
 		contentPane.add(highscoresPanel, SCORES_MENU);
 		
