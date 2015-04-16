@@ -26,7 +26,6 @@ public class Ship implements Drawable{
 	private int breach;
 	private int newStage;
 	private int stage;
-	private boolean basics = false;
 	
 	public Ship(int x, int y) {
 		this.setX(x);
@@ -194,14 +193,6 @@ public class Ship implements Drawable{
 	
 	public void setBreach(int breach){
 		this.breach = breach;
-	}
-	
-	public boolean getBasics(){ //Boolean for if InfoScreen has been run in this instance of the game yet.
-		return this.basics;
-	}
-	
-	public void setBasics(boolean basics){
-		this.basics = basics;
 	}
 	
 	/**

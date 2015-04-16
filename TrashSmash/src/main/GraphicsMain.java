@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -10,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.OverlayLayout;
 
 import java.net.URL;
@@ -44,8 +46,9 @@ public class GraphicsMain {
 	private ButtonListener l;
 	private KeyboardListener kl;
 	
-	//Button variables
-	private ImageIcon sButton, qButton, iButton;
+	//Menu variables
+	private ImageIcon sButton, qButton, scButton;
+	public final String MAIN_MENU = "MAINMENU", SCORES_MENU = "SCORESMENU";
 	
 	/**
 	 * Constructor for graphics main, opens the window
@@ -69,6 +72,7 @@ public class GraphicsMain {
 	private void init() {
 		sButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/stbutton.png"));
 		qButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/qbutton.png"));
+		scButton = new ImageIcon(getClass().getClassLoader().getResource("MenuandUI/scButton.png"));
 	}
 	
 	/**
@@ -107,19 +111,20 @@ public class GraphicsMain {
 		
 		ImagePanel imgPanel = new ImagePanel("MenuandUI/MenuMockup.png");
 		
-		JPanel contentPane = new JPanel();
+		JPanel mainMenuPane = new JPanel();
 		JPanel controlPane = new JPanel();
 		JPanel animatePane = new JPanel();
 		JPanel buttonsPane = new JPanel();
 		
-		contentPane.setLayout(new OverlayLayout(contentPane));
+		mainMenuPane.setLayout(new OverlayLayout(mainMenuPane));
 
 		URL url = GraphicsMain.class.getResource("SpinningEarth.gif");
 		ImageIcon imageIcon = new ImageIcon(url);
 		JLabel label = new JLabel(imageIcon);
 		
 		JButton startButton = new JButton();
-		JButton quitButton = new JButton();		
+		JButton quitButton = new JButton();
+		JButton scoresButton = new JButton();
 		
 		startButton.setIcon(sButton);
 		startButton.setBorder(null);
@@ -131,12 +136,20 @@ public class GraphicsMain {
 		quitButton.addActionListener(l);
 		quitButton.setActionCommand("quit");
 		
+		scoresButton.setIcon(scButton);
+		scoresButton.setBorder(null);
+		scoresButton.addActionListener(l);
+		scoresButton.setActionCommand("scores");
+		
 		
 		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
 		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
 		
-		controlPane.add(Box.createRigidArea(new Dimension(20, 170)));
+		controlPane.add(Box.createRigidArea(new Dimension(20, 120)));
 		controlPane.add(startButton);
+		
+		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
+		controlPane.add(scoresButton);
 		
 		controlPane.add(Box.createRigidArea(new Dimension(0, 40)));
 		controlPane.add(quitButton);
@@ -151,15 +164,37 @@ public class GraphicsMain {
 		
 		animatePane.add(Box.createRigidArea(new Dimension(0,800)));
 		
-		contentPane.add(buttonsPane);
-		contentPane.add(animatePane);
-		contentPane.add(imgPanel);
+		mainMenuPane.add(buttonsPane);
+		mainMenuPane.add(animatePane);
+		mainMenuPane.add(imgPanel);
+		
+		JPanel contentPane = new JPanel(new CardLayout());
+		contentPane.add(mainMenuPane, MAIN_MENU);
+		
+		JPanel highscoresPanel = new JPanel();
+		ImagePanel highscoresBack = new ImagePanel("MenuandUI/scBackground.png");
+		JPanel scorePanel = new JPanel();
+		
+		JTextArea scores = new JTextArea();
+		scores.setEditable(false);
+		scores.setBorder(null);
+		scores.setBackground(null);
+		scores.setText(generateScores());
+		
+		highscoresPanel.add(highscoresBack);
+		highscoresPanel.add(scorePanel);
+		
+		contentPane.add(highscoresPanel, SCORES_MENU);
 		
 		window.setContentPane(contentPane);
 		window.setVisible(true);
 		window.repaint();
 		return contentPane;
 
+	}
+	
+	private String generateScores() {
+		return "";
 	}
 	
 	/**

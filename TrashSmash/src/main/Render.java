@@ -172,7 +172,7 @@ public class Render implements Runnable {
 	private void draw() { 
 		BufferedImage screen = new BufferedImage(GraphicsMain.WIDTH, GraphicsMain.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) screen.getGraphics();
-		if(!Main.update.ship.getBasics())
+		if(!Main.basics)
 			showBasics(g);
 		else if(Main.appState == Main.GAME_STATE){
 			drawBackground(g);

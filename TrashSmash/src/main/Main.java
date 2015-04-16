@@ -19,7 +19,7 @@ public class Main {
 	public static int appState = 0;
 	public static final ReentrantReadWriteLock lck = new ReentrantReadWriteLock();
 	private static KeyboardListener kl;
-	private static boolean isNew = true;
+	public static boolean isNew = true, basics = false;
 	
 	//thread resources
 	public static Update update;

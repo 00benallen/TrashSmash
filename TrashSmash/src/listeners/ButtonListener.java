@@ -1,5 +1,6 @@
 package listeners;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,8 +22,9 @@ public class ButtonListener implements ActionListener {
 			Main.exit();
 		}
 		
-		//deprecated
-		if(e.getActionCommand().equals("info")) {
+		if(e.getActionCommand().equals("scores")) {
+			CardLayout layout = (CardLayout) Main.gMain.window.getContentPane().getLayout();
+			layout.show(Main.gMain.window.getContentPane(), Main.gMain.SCORES_MENU);
 		}
 	}
 }

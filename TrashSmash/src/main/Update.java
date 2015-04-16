@@ -1,14 +1,9 @@
 package main;
 
-import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.imageio.ImageIO;
 
 import basicplayer1.BasicPlayer;
 import basicplayer1.BasicPlayerException;
@@ -35,7 +30,6 @@ public class Update implements Runnable {
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
 	public boolean musicSet = false;
 	public boolean musicSet2 = false;
-	public BufferedImage infoScreen;
 	
 	//Music resources
 	private static BasicPlayer player;
@@ -109,7 +103,7 @@ public class Update implements Runnable {
 	 */
 	private void update() {
 		//If the Info screen has not been shown, shows the Info screen before any gameplay occurs.
-		if(!ship.getBasics())
+		if(!Main.basics)
 			showBasics();
 		else{
 			controlShip();
@@ -134,7 +128,7 @@ public class Update implements Runnable {
 	 */
 	private void showBasics(){
 		if(KeyboardListener.shoot){
-			ship.setBasics(true);
+			Main.basics = true;
 		}
 	}
 	
