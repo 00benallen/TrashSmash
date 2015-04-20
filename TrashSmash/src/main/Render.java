@@ -5,14 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-
 import java.io.IOException;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import res.Buff;
 import res.Bullet;
@@ -28,6 +28,7 @@ import res.Ship;
 public class Render implements Runnable {
 	//graphics resources
 	private Graphics2D g;
+	private boolean isDeadScreen = false;
 	//vast array of Buffered Images used for graphics
 	private BufferedImage[] gunSetIcons;
 	private BufferedImage hpBar;
@@ -185,9 +186,6 @@ public class Render implements Runnable {
 			checkBreach(g);
 			checkStage(g);
 			runExplosions();
-		}
-		else if(Main.appState == Main.DEAD_STATE) {
-			drawDeadScreen(g);
 		}
 		dblBuffer.add(screen);
 		if(dblBuffer.size() == 2) {
@@ -361,13 +359,5 @@ public class Render implements Runnable {
 			}
 		}
 		lck.readLock().unlock();
-	}
-	
-	/**
-	 * Draws the Game Over screen, right before resetting to Menu Mode.
-	 * @param g
-	 */
-	private void drawDeadScreen(Graphics2D g) {
-		g.drawImage(deadScreen, 0, 0, GraphicsMain.WIDTH, GraphicsMain.HEIGHT, null);
 	}
 }

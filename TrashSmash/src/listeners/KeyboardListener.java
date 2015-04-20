@@ -4,7 +4,9 @@ import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import basicplayer1.BasicPlayerException;
 import main.Main;
+import main.Update;
 
 /**
  * Key listening class for Trash Smash. Reads key input,sends info to Update thread.
@@ -33,6 +35,18 @@ public class KeyboardListener implements KeyListener {
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			shoot = true;
+			if(Main.appState == Main.DEAD_STATE) {
+				if(KeyboardListener.shoot == true) {
+					try {
+						Update.player.stop();
+					} catch(BasicPlayerException f) {
+						f.printStackTrace();
+					}
+					CardLayout layout = (CardLayout) Main.gMain.window.getContentPane().getLayout();
+					layout.show(Main.gMain.window.getContentPane(), Main.gMain.MAIN_MENU);
+					Main.gMain.menuPane = Main.gMain.MAIN_MENU;
+				}
+			}
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_E){
 			E = true;

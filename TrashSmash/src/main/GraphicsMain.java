@@ -12,12 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
 
 import java.net.URL;
 
 import basicplayer1.BasicPlayer;
 import res.ImagePanel;
+import res.ScoreList;
 import listeners.ButtonListener;
 import listeners.KeyboardListener;
 
@@ -48,8 +50,10 @@ public class GraphicsMain {
 	
 	//Menu variables
 	private ImageIcon sButton, qButton, scButton;
-	public final String MAIN_MENU = "MAINMENU", SCORES_MENU = "SCORESMENU";
+	public final String MAIN_MENU = "MAINMENU", SCORES_MENU = "SCORESMENU", DEAD_MENU = "DEADMENU";
 	public String menuPane;
+	ScoreList scores;
+	JPanel gamePanel;
 	
 	/**
 	 * Constructor for graphics main, opens the window
@@ -142,7 +146,6 @@ public class GraphicsMain {
 		scoresButton.addActionListener(l);
 		scoresButton.setActionCommand("scores");
 		
-		
 		controlPane.setLayout(new BoxLayout(controlPane, BoxLayout.Y_AXIS));
 		buttonsPane.setLayout(new BoxLayout(buttonsPane, BoxLayout.X_AXIS));
 		
@@ -185,9 +188,22 @@ public class GraphicsMain {
 		scorePanel.add(scores);
 		
 		highscoresPanel.add(highscoresBack);
-		//highscoresPanel.add(scorePanel);
+		highscoresPanel.add(scorePanel);
 		
 		contentPane.add(highscoresPanel, SCORES_MENU);
+		
+		JPanel deadPanel = new JPanel();
+		deadPanel.setLayout(new OverlayLayout(deadPanel));
+		ImagePanel deadBack = new ImagePanel("MenuandUI/deadScreen.png");
+		JPanel scoreEnterPanel = new JPanel();
+		
+		JTextField scoreEnter = new JTextField();
+		scoreEnterPanel.add(scoreEnter);
+		
+		//deadPanel.add(scoreEnterPanel);
+		deadPanel.add(deadBack);
+		
+		contentPane.add(deadPanel, DEAD_MENU);
 		
 		window.setContentPane(contentPane);
 		window.setVisible(true);
@@ -197,7 +213,13 @@ public class GraphicsMain {
 	}
 	
 	private String generateScores() {
-		return "";
+		scores = ScoreList.load();
+		String scoreString = "";
+		for(int i = 0; i < scores.size(); i++) {
+			scoreString = scoreString + scores.getScoreObject(i).toString();
+			scoreString = scoreString + "\n";
+		}
+		return scoreString;
 	}
 	
 	/**
@@ -205,10 +227,10 @@ public class GraphicsMain {
 	 */
 	public void gameStart() {
 		window.remove(window.getContentPane());
-		JPanel gamePanel = new JPanel();
+		gamePanel = new JPanel();
 		window.setContentPane(gamePanel);
 		window.pack();
-		render = new Render((Graphics2D) window.getGraphics());
+		render = new Render((Graphics2D) gamePanel.getGraphics());
 	}
 	
 	/**

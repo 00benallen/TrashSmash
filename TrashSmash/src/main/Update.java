@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.CardLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.Random;
@@ -30,9 +31,10 @@ public class Update implements Runnable {
 	public volatile LinkedList<Buff> buffs = new LinkedList<Buff>();
 	public boolean musicSet = false;
 	public boolean musicSet2 = false;
+	public boolean highScore = false;
 	
 	//Music resources
-	private static BasicPlayer player;
+	public static BasicPlayer player;
 	
 	//Thread resources
 	public volatile ReentrantReadWriteLock lck = Main.lck;
@@ -498,6 +500,16 @@ public class Update implements Runnable {
 		
 		if(ship.getHealth() <= 0) {
 			Main.appState = Main.DEAD_STATE;
+			Main.menuStart();
+			CardLayout layout = (CardLayout) Main.gMain.window.getContentPane().getLayout();
+			layout.show(Main.gMain.window.getContentPane(), Main.gMain.DEAD_MENU);
+			Main.gMain.menuPane = Main.gMain.DEAD_MENU;
+		}
+		if(Main.gMain.scores.size() < 10) {
+			highScore = true;
+		}
+		else if(ship.getScore() > Main.gMain.scores.getScore(9)) {
+			highScore = true;
 		}
 		
 		lck.writeLock().unlock();
@@ -514,7 +526,9 @@ public class Update implements Runnable {
 				} catch(BasicPlayerException e) {
 					e.printStackTrace();
 				}
-				Main.menuStart();
+				CardLayout layout = (CardLayout) Main.gMain.window.getContentPane().getLayout();
+				layout.show(Main.gMain.window.getContentPane(), Main.gMain.MAIN_MENU);
+				Main.gMain.menuPane = Main.gMain.MAIN_MENU;
 			}
 		}
 	}

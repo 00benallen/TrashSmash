@@ -11,4 +11,8 @@ public class Highscore implements Serializable {
 		this.name = name;
 		this.score = score;
 	}
+	
+	public String toString() {
+		return this.name + " " + "this.score";
+	}
 }

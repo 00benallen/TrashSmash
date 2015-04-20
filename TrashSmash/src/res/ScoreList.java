@@ -10,7 +10,8 @@ import java.util.ArrayList;
 
 public class ScoreList implements Serializable {
 	private static final long serialVersionUID = 458975151508888023L;
-	ArrayList<Highscore> scores;
+	private ArrayList<Highscore> scores;
+	private int size = 0;
 	
 	public ScoreList() {
 		scores = new ArrayList<Highscore>();
@@ -18,10 +19,19 @@ public class ScoreList implements Serializable {
 	
 	public void addScore(String name, int score) {
 		scores.add(new Highscore(name, score));
+		size++;
 	}
 	
-	public Highscore getScore(int index) {
+	public Highscore getScoreObject(int index) {
 		return scores.get(index);
+	}
+	
+	public int getScore(int index) {
+		return scores.get(index).score;
+	}
+	
+	public void removeScore(int index) {
+		scores.remove(index);
 	}
 	
 	public void save() {
@@ -36,7 +46,6 @@ public class ScoreList implements Serializable {
 		try {
 			out.writeObject(this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -44,8 +53,11 @@ public class ScoreList implements Serializable {
 	public static ScoreList load() {
 		ObjectInputStream in = null;
 		ScoreList list = new ScoreList();
+		if(list.getClass().getClassLoader().getResource("MenuandUI/ScoreList.obj") == null) {
+			list.save();
+		}
 		try {
-			in = new ObjectInputStream(list.getClass().getClassLoader().getResourceAsStream("Assets/MenuandUI/ScoreList.obj"));
+			in = new ObjectInputStream(list.getClass().getClassLoader().getResourceAsStream("MenuandUI/ScoreList.obj"));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -59,6 +71,10 @@ public class ScoreList implements Serializable {
 		
 		return list;
 		
+	}
+
+	public int size() {
+		return size;
 	}
 
 }
