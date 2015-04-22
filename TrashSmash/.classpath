@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="Assets/BasicPlayer/lib/vorbisspi1.0.2.jar"/>
 	<classpathentry kind="lib" path="facebook4j-core-2.2.2.jar"/>
 	<classpathentry kind="lib" path="/Test/twitter4j-core-4.0.3.jar"/>
+	<classpathentry kind="lib" path="twitter4j-core-4.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
