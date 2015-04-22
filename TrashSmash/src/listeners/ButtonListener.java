@@ -23,6 +23,7 @@ public class ButtonListener implements ActionListener {
 		}
 		
 		if(e.getActionCommand().equals("scores")) {
+			Main.openTwitter();
 			CardLayout layout = (CardLayout) Main.gMain.window.getContentPane().getLayout();
 			layout.show(Main.gMain.window.getContentPane(), Main.gMain.SCORES_MENU);
 			Main.gMain.menuPane = Main.gMain.SCORES_MENU;

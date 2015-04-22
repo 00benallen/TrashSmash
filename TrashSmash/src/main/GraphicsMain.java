@@ -55,6 +55,10 @@ public class GraphicsMain {
 	ScoreList scores;
 	JPanel gamePanel;
 	
+	public String accessPin;
+	public JTextField code;
+	
+	
 	/**
 	 * Constructor for graphics main, opens the window
 	 * @param k
@@ -187,8 +191,13 @@ public class GraphicsMain {
 		scores.setText(generateScores());
 		scorePanel.add(scores);
 		
+		code = new JTextField(15);
+		
+		scorePanel.add(code); //cant get this to appear otherwise for some reason
+		
 		highscoresPanel.add(highscoresBack);
 		highscoresPanel.add(scorePanel);
+		//highscoresPanel.add(code);
 		
 		contentPane.add(highscoresPanel, SCORES_MENU);
 		
@@ -210,6 +219,10 @@ public class GraphicsMain {
 		window.repaint();
 		return contentPane;
 
+	}
+	
+	public void drawTextEntry(){
+		
 	}
 	
 	private String generateScores() {
