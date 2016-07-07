@@ -1,2 +1,2 @@
 # TrashSmash
-Galaga style garbage shooter
+Galaga style garbage shooter 
